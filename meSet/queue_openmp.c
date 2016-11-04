@@ -83,17 +83,44 @@ int main(void)
         queue = CreateQueue();
         omp_set_nested(1);
 
-        #pragma omp parallel sections
-        {
-            #pragma omp section
-            {
-                my_excute_draw();
-            }
-            #pragma omp section
-            {
-                my_excute_calculate();
-            }
-        }
+        Compl z, c;
+
+                double temp, lengthsq;
+                int repeats;
+                int i=0, j=0;
+                #pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(dynamic,10)
+                for(i=-10; i<width; i++)
+                {
+                    if (i==-1)
+                    {
+                        my_excute_draw();
+                    }else if (i>=0)
+                    for(j=0; j<height; j++)
+                    {
+                        repeats = 0;
+                        z.real = 0.0;
+                        z.imag = 0.0;
+                        c.real = (double)i/(double)width*4.0 - 2.0; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
+                        c.imag = (double)j/(double)height*4.0 - 2.0; /* So needs to scale the window */
+                        lengthsq = 0.0;
+
+                        while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+                            temp = z.real*z.real - z.imag*z.imag + c.real;
+                            z.imag = 2*z.real*z.imag + c.imag;
+                            z.real = temp;
+                            lengthsq = z.real*z.real + z.imag*z.imag;
+                            repeats++;
+                        }
+                        int added = 0;
+                        while(!added)
+                        {
+                            #pragma omp critical
+                            {
+                                added = AddQ(queue,repeats,i,j);
+                            }
+                        }
+                    }
+                }
 
         
     }
