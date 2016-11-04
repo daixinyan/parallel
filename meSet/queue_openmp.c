@@ -123,6 +123,10 @@ int main(void)
                             }
                         }
                     }
+                    if(IF_PRINT&&(i==with-1))
+                    {
+                        printf("done with calculating.\n");
+                    }
                 }
 
         
@@ -164,10 +168,7 @@ int main(void)
                             }
                         }
                     }
-                    if(IF_PRINT)
-                    {
-                        printf("done with calculating.\n");
-                    }
+
                 }
     }
 
