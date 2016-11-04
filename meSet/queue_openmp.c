@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+
 #define MAXSIZE 640000
+#define IF_PRINT 1
 typedef struct complextype
 {
 	double real, imag;
@@ -94,7 +96,8 @@ int main(void)
                     if (i==-1)
                     {
                         my_excute_draw();
-                    }else if (i>=0)
+                    }
+                    else if (i>=0)
                     for(j=0; j<height; j++)
                     {
                         repeats = 0;
@@ -124,6 +127,7 @@ int main(void)
 
         
     }
+
 
     void my_excute_calculate()
     {
@@ -160,8 +164,13 @@ int main(void)
                             }
                         }
                     }
+                    if(IF_PRINT)
+                    {
+                        printf("done with calculating.\n");
+                    }
                 }
     }
+
     void my_excute_draw()
     {
         int i;
@@ -178,8 +187,9 @@ int main(void)
             XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
             XDrawPoint (display, window, gc, point->x, point->y);
         }
-
     }
+
+
     void my_init_x11()
     {
 
