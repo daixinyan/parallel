@@ -91,12 +91,12 @@ int main(void)
 
 
         #pragma omp parallel for private(i,j,z,c,temp,lengthsq,repeats,point) schedule(dynamic,1)
-        for(i=-1; i<width; i++)
+        for(i=0; i<width; i++)
         {
-            if(i==-1)
+            #pragma omp master
             {
                 my_excute_draw();
-            }else
+            }
             for(j=0; j<height; j++)
             {
                 repeats = 0;
