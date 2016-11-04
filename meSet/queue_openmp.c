@@ -252,5 +252,5 @@ DrawPoint* DeleteQ(Queue* q) {
     q->front++;
     q->front %= MAXSIZE; //0 1 2 3 4 5
     q->size--;
-    return &(q->data[q->front]);
+    return &(q->data[q->rear--]);
 }
