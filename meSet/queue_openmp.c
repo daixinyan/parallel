@@ -123,7 +123,7 @@ int main(void)
                             }
                         }
                     }
-                    if(IF_PRINT&&(i==with-1))
+                    if(IF_PRINT&&(i==width-1))
                     {
                         printf("done with calculating.\n");
                     }
