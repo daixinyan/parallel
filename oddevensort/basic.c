@@ -2,45 +2,90 @@
 #include <stdlib.h>
 #include <mpi.h>
 
-#define PRINT_MESSAGE 1
+#define PRINT_MESSAGE 0
+#define PRINT_TIME 1
 #define TAG_NUMBER_FROM_UP     1
 #define TAG_NUMBER_FROM_DOWN   2
 #define TAG_NOSWAPED_FROM_NODES   3
 #define TAG_NOSWAPED_FROM_CENTER 4
 #define CONTROLL_NODE 0
-int size,rank;
-int actual_size;
-char process_name[MPI_MAX_PROCESSOR_NAME];
-int  name_len;
-int total_int_num;
-char* input_file;
-char* output_file;
 
-int current_process_int_num;
-int current_process_start_index;
-int current_process_end_index;
-int offset;
-int* data;
-int  temp;
+/**start struct meta**/
+    int size,rank;
+    int actual_size;/*when the size=10, only 7 elements to allocate, so actual_size=7*/
+    char process_name[MPI_MAX_PROCESSOR_NAME];
+    int  name_len;
 
+    int total_int_num;/*number of elements*/ 
+    char* input_file; /* input file_name*/
+    char* output_file;/*out_put file_name*/
+
+    int current_process_int_num;    /*number of current process's elements*/
+    int current_process_start_index;/*actually equal to the number of left process elements*/
+    int current_process_end_index;/**/
+    int offset;/*offset in file*/
+    int* data;/*current process data*/
+    int  temp;/*for receive single integer data.*/
+/**end struct**/
+
+
+/**start struct time**/
 double communication_time = .0;
-
 double read_time = .0;
 double write_time = .0;
 double compution_time = .0;
 double total_time = .0;
+/**end struct time**/
 
-
-void my_read();
+/*init the basic data in struct meta*/
+/**calculate allocate integers start index and end index.**/
 void my_init();
-void odd_even_sort(int* a, int head, int tail);
+
+/**seek and read from remote file into (int*)data.**/
+void my_read();
+/**seek and write (int*)data to remote file.**/
 void my_write();
-void printArray(int *a, int start, int length);
-int  my_compare_swap(int* a, int i, int j);
-void my_swap(int* a, int i, int j);
+
+/**local ood-even-sort**/
+void odd_even_sort(int* a, int head, int tail);
+
+/*
+ * start a for loop to start even and odd pass.
+ ** 1. compare and swap local data. 
+ ** 2. determine if there is a need to send a element to the left and left process
+ ** 3. if there is a need to send a element to the left process, send and receive, then compare and keep the bigger one
+ ** 4. if there is a need to send a element to the right process, send and receive, then compare and keep the smaller one
+ ** 5. if current process is not controller: inform the 0th process whether any swap happened in previous steps, 
+ **                                          then according the received message to decide if or not continue the loop
+ ** 6.   if current process is controller: after receiving message from all others,determine if or not continue the loop and  inform others.
+ */
 void my_sort();
+/* 
+ * precondition: rank<actual_size(current process is not the  rightmost process)
+ * send the last element to right(rank+1) process,
+ * at the same time reveice one. 
+ * compare the sended one and received one, keey the smaller one at end of data
+ */
 int  sendToUp();
+
+/* 
+ * precondition: rank>0 (current process is not the leftmost process)
+ * send the first element to left(rank-1) process,
+ * at the same time reveice one. 
+ * compare the sended one and received one, keey the bigger one at start of data
+ */
 int  sendToDown();
+
+
+/**print to console**/
+void printArray(int *a, int start, int length);
+/****/
+int  my_compare_swap(int* a, int i, int j);
+/****/
+void my_swap(int* a, int i, int j);
+
+
+/**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv(
                 const void *sendbuf, int sendcount, MPI_Datatype sendtype,
                 int dest, int sendtag,
@@ -48,9 +93,13 @@ void mySendrecv(
                 int source, int recvtag,
                 MPI_Comm comm, MPI_Status *status
                 );
+
+/**@see MPI_Recv, add comsumption time to (double)communication_time**/
 int myRecv(void *buf, int count, MPI_Datatype type,
                 int source, int tag,
                 MPI_Comm comm, MPI_Status *status );
+
+/**@see MPI_Send, add comsumption time to (double)communication_time**/
 int mySend(const void *buf, int count, MPI_Datatype type,
                 int dest, int tag,
                 MPI_Comm comm, MPI_Status *status );
@@ -59,6 +108,8 @@ int mySend(const void *buf, int count, MPI_Datatype type,
 
 int main(int argc,char *argv[])
 {
+
+    /**record time**/
     double total_start_time;
     double total_end_time;
 
@@ -66,6 +117,7 @@ int main(int argc,char *argv[])
     double end_time;
 
 
+    /**init mpi**/
         MPI_Init(&argc, &argv);
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -74,6 +126,7 @@ int main(int argc,char *argv[])
     total_start_time = MPI_Wtime();
 
 
+    /**init excute parameters.**/
         if(argc<3){
             total_int_num = 4;
             input_file = "testcase/testcase1";
@@ -92,17 +145,17 @@ int main(int argc,char *argv[])
         {
             printf("number: %d, input: %s, output: %s\n", total_int_num, input_file, output_file);
         }
-
         my_init();
 
 
+    /**read**/
     start_time = MPI_Wtime();
         my_read();
     end_time = MPI_Wtime();
     read_time = end_time-start_time;
 
 
-
+    /**sort**/
     if(size>1)
     {
         if(PRINT_MESSAGE)
@@ -111,7 +164,6 @@ int main(int argc,char *argv[])
         }
         my_sort();
     }
-
     else
     {
         if(PRINT_MESSAGE)
@@ -123,7 +175,7 @@ int main(int argc,char *argv[])
 
 
 
-
+    /**write**/
     start_time = MPI_Wtime();
         my_write();
     total_end_time = end_time = MPI_Wtime();
@@ -132,8 +184,11 @@ int main(int argc,char *argv[])
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time - read_time - write_time;
 
-    printf("total_time: %f\n communication_time: %f\n compution_time: %f\n read_time: %f\n write_time: %f\n",total_time, communication_time, compution_time, read_time, write_time );
-
+    if(PRINT_TIME)
+    {
+        printf("total_time: %f\n communication_time: %f\n compution_time: %f\n read_time: %f\n write_time: %f\n",
+            total_time, communication_time, compution_time, read_time, write_time );
+    }
 
     MPI_Finalize();
 }
@@ -181,7 +236,7 @@ void my_read()
 
 }
 
-/**calculate allocate integers start index and end index.**/
+
 void my_init()
 {
     int reminder,quotient;
@@ -221,7 +276,15 @@ void my_sort()
     for(i=1; i<1+total_int_num ; i++)
     {
 
+
         swaped = 0;
+        /*1. compare and swap local data. */
+        for(k=start;k<current_process_int_num-1;k+=2)
+        {
+            swaped = swaped | my_compare_swap(data,k,k+1);
+        }
+
+        /*2. determine if there is a need to send a element to the left and left process **/
         if(
             (
                ( (i&1) && (current_process_start_index&1) ) //0 12 34 56 78 9
@@ -254,10 +317,7 @@ void my_sort()
           }
 
 
-        for(k=start;k<current_process_int_num-1;k+=2)
-        {
-            swaped = swaped | my_compare_swap(data,k,k+1);
-        }
+
         for(k=start?0:1;k<current_process_int_num-1;k+=2)
         {
             swaped = swaped | data[k]>data[k+1];
@@ -267,6 +327,8 @@ void my_sort()
             }
         }
 
+        /*if there is a need to send a element to the left process, send and receive, then compare and keep the bigger one*/
+        /*if there is a need to send a element to the right process, send and receive, then compare and keep the smaller one*/
         if(rank&1)
         {
 
@@ -290,6 +352,8 @@ void my_sort()
             }
         }
 
+        /**if current process is not controller: inform the 0th process whether any swap happened in previous steps,**/
+        /**then according the received message to decide if or not continue the loop**/
         if(rank!=CONTROLL_NODE)
         {
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, send to center.\n",rank, swaped);
@@ -305,20 +369,27 @@ void my_sort()
             {
                 break;
             }
-        }else
+        }
+        /**if current process is controller: after receiving message from all others,determine if or not continue the loop and  inform others**/
+        else
         {
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, received from nodes\n",rank, swaped);
+
             for(j=1;j<actual_size;j++)
             {
                 myRecv(&temp, 1, MPI_INT, j, TAG_NOSWAPED_FROM_NODES,MPI_COMM_WORLD, MPI_STATUS_IGNORE );
                 swaped = swaped | temp;
             }
+
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, send to nodes.\n",rank, swaped);
+            
             for(j=1;j<actual_size;j++)
             {
                 mySend(&swaped, 1, MPI_INT, j, TAG_NOSWAPED_FROM_CENTER,MPI_COMM_WORLD, MPI_STATUS_IGNORE );
             }
+
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, send to nodes,done.\n",rank, swaped);
+            
             if(!swaped)
             {
                 break;
@@ -342,6 +413,8 @@ int sendToUp()
         printf("at node %d  communication with %d\n,get message %d\n",
                rank, rank+1, temp);
     }
+
+    /*keey the smaller one*/
     if(temp<data[current_process_int_num-1])
     {
         data[current_process_int_num-1] = temp;
@@ -364,6 +437,7 @@ int sendToDown()
         printf("at node %d  communication with %d\nget message %d\n",
                rank, rank-1,temp);
     }
+    /*keep the bigger one*/
     if(temp>data[0])
     {
         data[0] = temp;
