@@ -30,6 +30,7 @@ typedef struct Queue
 }Queue;
 Queue* CreateQueue();
 int AddQ(Queue* q, int repeats, int x, int y);
+int f=0,r=0;
 DrawPoint* DeleteQ(Queue* q) ;
 void my_excute_calculate();
 void my_excute_draw();
@@ -69,9 +70,10 @@ int main(void)
 
     my_main_excute();
 
+
 	XFlush(display);
 	clock_t end_clock = clock();
-    time_t  end_time = time(NULL);
+        time_t  end_time = time(NULL);
 	printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
 	printf("TIME:  %ld\n",(end_time-start_time) );
 
@@ -128,7 +130,6 @@ int main(void)
                         printf("done with calculating.\n");
                     }
                 }
-
         
     }
 
@@ -152,7 +153,7 @@ int main(void)
                         c.imag = (double)j/(double)height*4.0 - 2.0; /* So needs to scale the window */
                         lengthsq = 0.0;
 
-                        while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+                        while(repeats < 1000000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
                             temp = z.real*z.real - z.imag*z.imag + c.real;
                             z.imag = 2*z.real*z.imag + c.imag;
                             z.real = temp;
@@ -185,6 +186,7 @@ int main(void)
                     point = DeleteQ(queue);
                 }
             }
+            
             XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
             XDrawPoint (display, window, gc, point->x, point->y);
         }
@@ -244,7 +246,10 @@ int AddQ(Queue* q, int repeats, int x, int y) {
         return 0;
     }
     q->rear++;
-    q->rear %= MAXSIZE;
+    if(q->rear==MAXSIZE)
+    {
+        q->rear = 0;
+    }
     q->size++;
 
     q->data[q->rear].repeats = repeats;
@@ -261,7 +266,10 @@ DrawPoint* DeleteQ(Queue* q) {
         return NULL;
     }
     q->front++;
-    q->front %= MAXSIZE; //0 1 2 3 4 5
+    if(q->front == MAXSIZE)
+    {
+        q->front = 0;
+    }
     q->size--;
     return &(q->data[q->front]);
 }
