@@ -81,7 +81,7 @@ int main(void)
 			c.imag = (double)j/(double)height*4.0 - 2.0; /* So needs to scale the window */
 			lengthsq = 0.0;
 
-			while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+			while(repeats < 1000000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
 				temp = z.real*z.real - z.imag*z.imag + c.real;
 				z.imag = 2*z.real*z.imag + c.imag;
 				z.real = temp;
