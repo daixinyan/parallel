@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-#define MAXSIZE 10000
+#define MAXSIZE 640000
 typedef struct complextype
 {
 	double real, imag;
@@ -252,5 +252,5 @@ DrawPoint* DeleteQ(Queue* q) {
     q->front++;
     q->front %= MAXSIZE; //0 1 2 3 4 5
     q->size--;
-    return &(q->data[q->rear--]);
+    return &(q->data[q->front]);
 }
