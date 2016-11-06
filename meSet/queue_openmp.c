@@ -123,8 +123,9 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
+														#pragma omp critical
                             {
-                                added = AddDeleteQ(queue,repeats,i,j);
+                                added = AddQ(queue,repeats,i,j);
                             }
                         }
                     }
@@ -166,8 +167,9 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
+														#pragma omp critical
                             {
-                                added = AddDeleteQ(queue,repeats,i,j);
+                                added = AddQ(queue,repeats,i,j);
                             }
                         }
                     }
@@ -183,13 +185,11 @@ int main(void)
             DrawPoint* point = NULL;
             while(point==NULL)
             {
-								printf("drwaing.");
-
+								#pragma omp critical
                 {
-                    point = AddDeleteQ(queue, -1, 0, 0);
+                    point = DeleteQ(queue);
                 }
             }
-	    					printf("drawing one.");
 
             XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
             XDrawPoint (display, window, gc, point->x, point->y);
