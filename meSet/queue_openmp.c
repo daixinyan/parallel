@@ -259,7 +259,7 @@ DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 			}else
 			{
 					re =  AddQ(q, repeats, x, y);
-					printf("add deleted: add\n", );
+					printf("add deleted: add\n" );
 					if(re==NULL) printf("null\n" );
 					else printf("is not NULL\n" );
 			}
@@ -271,7 +271,7 @@ DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     if((q->size == MAXSIZE))
     {
-			printf("qsize==MAXSIZE\n", );
+			printf("qsize==MAXSIZE\n" );
         return NULL;
     }
     q->rear++;
