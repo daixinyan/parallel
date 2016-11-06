@@ -34,9 +34,8 @@ typedef struct Queue
     int size;
 }Queue;
 Queue* CreateQueue(int size);
-DrawPoint* AddQ(Queue* q, int repeats, int x, int y);
+int AddQ(Queue* q, int repeats, int x, int y);
 int DeleteQ(Queue* q,Queue* deleteQueue) ;
-DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y);
 
 void my_excute_calculate();
 void my_excute_draw();
@@ -124,9 +123,10 @@ int main(void)
                             lengthsq = z.real*z.real + z.imag*z.imag;
                             repeats++;
                         }
-                        DrawPoint* added = NULL;
+                        int added = 0;
                         while(!added)
                         {
+														#pragma omp critical
                             {
                                 added = AddQ(queue,repeats,i,j);
                             }
@@ -170,7 +170,7 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
-
+														#pragma omp critical
                             {
                                 added = AddQ(queue,repeats,i,j);
                             }
@@ -254,10 +254,10 @@ Queue* CreateQueue(int size) {
 }
 
 
-DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
+int AddQ(Queue* q, int repeats, int x, int y) {
     if((q->size == MAXSIZE))
     {
-        return NULL;
+        return 0;
     }
     q->rear++;
     if(q->rear==MAXSIZE)
@@ -270,7 +270,7 @@ DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     q->data[q->rear].x = x;
     q->data[q->rear].y = y;
 
-    return &(q->data[q->rear]);
+    return 1;
 }
 
 
