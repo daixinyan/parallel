@@ -194,7 +194,7 @@ int main(void)
 								#pragma omp critical
                 {
                     // result = DeleteQ(queue,deleteQueue);
-										result = GetQ(q, &temp);
+										result = GetQ(queue, &temp);
 								}
             }
 						// for (j = 0; j < result; j++)
@@ -289,9 +289,9 @@ int GetQ(Queue* q,DrawPoint* point) {
         q->front = 0;
     }
     q->size--;
-		point->repeats = q->data[q->front]->repeats;
-		point->x = q->data[q->front]->x;
-		point->y = q->data[q->front]->y;
+		point->repeats = q->data[q->front].repeats;
+		point->x = q->data[q->front].x;
+		point->y = q->data[q->front].y;
 		return 1;
 }
 
