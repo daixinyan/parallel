@@ -23,8 +23,8 @@ typedef struct complextype
 
 typedef struct DrawPoint
 {
+		int repeats;
     short x,y;
-    int repeats;
 }DrawPoint;
 typedef struct Queue
 {
