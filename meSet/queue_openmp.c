@@ -36,6 +36,7 @@ typedef struct Queue
 Queue* CreateQueue(int size);
 int AddQ(Queue* q, int repeats, int x, int y);
 int DeleteQ(Queue* q,Queue* deleteQueue) ;
+int GetQ(Queue* q, DrawPoint* point);
 
 void my_excute_calculate();
 void my_excute_draw();
@@ -58,6 +59,7 @@ void my_main_excute();
 
 	Queue* queue;
 	Queue* deleteQueue;
+	DrawPoint temp;
 
 int main(void)
 {
@@ -191,12 +193,14 @@ int main(void)
             {
 								#pragma omp critical
                 {
-                    result = DeleteQ(queue,deleteQueue);
-                }
+                    // result = DeleteQ(queue,deleteQueue);
+										result = GetQ(q, &temp);
+								}
             }
-						for (j = 0; j < result; j++)
+						// for (j = 0; j < result; j++)
 						{
-							point = queue->data+j;
+
+							point = &temp;
 							XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
 							XDrawPoint (display, window, gc, point->x, point->y);
 						}
@@ -274,19 +278,22 @@ int AddQ(Queue* q, int repeats, int x, int y) {
 }
 
 
-// DrawPoint* DeleteQ(Queue* q) {
-//     if(q->size == 0)
-//     {
-//         return NULL;
-//     }
-//     q->front++;
-//     if(q->front == MAXSIZE)
-//     {
-//         q->front = 0;
-//     }
-//     q->size--;
-//     return &(q->data[q->front]);
-// }
+int GetQ(Queue* q,DrawPoint* point) {
+    if(q->size == 0)
+    {
+        return 0;
+    }
+    q->front++;
+    if(q->front == MAXSIZE)
+    {
+        q->front = 0;
+    }
+    q->size--;
+		point->repeats = q->data[q->front]->repeats;
+		point->x = q->data[q->front]->x;
+		point->y = q->data[q->front]->y;
+		return 1;
+}
 
 int DeleteQ(Queue* q, Queue* deleteQueue) {
 
