@@ -167,7 +167,7 @@ int main(void)
                             lengthsq = z.real*z.real + z.imag*z.imag;
                             repeats++;
                         }
-                        DrawPoint* added = NULL;
+                        int added = NULL;
                         while(!added)
                         {
 														#pragma omp critical
