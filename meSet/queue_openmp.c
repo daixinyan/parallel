@@ -8,11 +8,14 @@
 #include <unistd.h>
 #include <time.h>
 
-#define MAXSIZE 6400
-#define ADDGETSIZE 10
+#define MAXSIZE 640000
+#define ADDGETSIZE 40
 #define IF_PRINT 1
 
-int max_loop = 100000;
+#define max(x,y)  ( x>y?x:y )
+#define min(x,y)  ( x>y?y:x )
+
+int max_loop = 1000000;
 
 typedef struct complextype
 {
@@ -298,20 +301,25 @@ int GetQ(Queue* q,DrawPoint* point) {
 
 int DeleteQ(Queue* q, Queue* deleteQueue) {
 
-		int count = ADDGETSIZE > q->size ? q->size:ADDGETSIZE;
-		int i;
-		for ( i = 0; i < count; i++) {
-			q->front++;
-	    if(q->front == MAXSIZE)
-	    {
-	        q->front = 0;
-	    }
-			// memcpy(deleteQueue->data+i, q->data+q->front, sizeof(DrawPoint));
-			deleteQueue->data[i].repeats = q->data[q->front].repeats;
-			deleteQueue->data[i].x = q->data[q->front].x;
-			deleteQueue->data[i].y = q->data[q->front].y;
-		}
+		int count = min ( ADDGETSIZE , q->size );
+		int l = min( count, MAXSIZE-q->front -1);
+		//int i;
+		//for ( i = 0; i < count; i++) {
+		//	q->front++;
+	    	//	if(q->front == MAXSIZE)
+	   	//	{
+	        //		q->front = 0;
+	    	//	}
+		//	memcpy( &(deleteQueue->data[i]), &(q->data[q->front]), sizeof(DrawPoint));
+		//	deleteQueue->data[i].repeats = q->data[q->front].repeats;
+		//	deleteQueue->data[i].x = q->data[q->front].x;
+		//	deleteQueue->data[i].y = q->data[q->front].y;
+		//}
+		memcpy( &(deleteQueue->data[0]), &(q->data[q->front+1]), l*sizeof(DrawPoint));
+		memcpy( &(deleteQueue->data[l]), &(q->data[0]), (count-l)*sizeof(DrawPoint));
 		q->size -= count;
+		q->front += count;
+		if(q->front >= MAXSIZE) q->front -= MAXSIZE;
 		deleteQueue->size = count;
 		return count;
 }
