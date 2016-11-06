@@ -29,7 +29,7 @@ typedef struct Queue
     int size;
 }Queue;
 Queue* CreateQueue();
-int AddQ(Queue* q, int repeats, int x, int y);
+DrawPoint* AddQ(Queue* q, int repeats, int x, int y);
 int max_loop = 100000;
 DrawPoint* DeleteQ(Queue* q) ;
 void my_excute_calculate();
@@ -160,7 +160,7 @@ int main(void)
                             lengthsq = z.real*z.real + z.imag*z.imag;
                             repeats++;
                         }
-                        int added = 0;
+                        DrawPoint* added = NULL;
                         while(!added)
                         {
                             #pragma omp critical
