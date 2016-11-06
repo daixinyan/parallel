@@ -3,6 +3,7 @@
  */
 #include <X11/Xlib.h>
 #include <stdio.h>
+#include<string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
@@ -57,7 +58,7 @@ void my_main_excute();
 	int border_width = 0;
 
 	Queue* queue;
-	queue* deleteQueue;
+	Queue* deleteQueue;
 
 int main(void)
 {
@@ -190,12 +191,12 @@ int main(void)
             {
 								#pragma omp critical
                 {
-                    point = DeleteQ(queue,deleteQueue);
+                    result = DeleteQ(queue,deleteQueue);
                 }
             }
-						for (j = 0; j < count; j++)
+						for (j = 0; j < result; j++)
 						{
-							point = queue->data[j];
+							point = queue->data+j;
 							XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
 							XDrawPoint (display, window, gc, point->x, point->y);
 						}
@@ -250,22 +251,6 @@ Queue* CreateQueue(int size) {
     q->rear = -1;
     q->size = 0;
     return q;
-}
-
-DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
-{
-		DrawPoint* re = NULL;
-		#pragma omp critical
-		{
-			if(repeats<0)
-			{
-					re =  DeleteQ(q);
-			}else
-			{
-					re =  AddQ(q, repeats, x, y);
-			}
-		}
-		return re;
 }
 
 
