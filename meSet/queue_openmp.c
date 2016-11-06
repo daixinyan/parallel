@@ -193,14 +193,14 @@ int main(void)
             {
 								#pragma omp critical
                 {
-                    // result = DeleteQ(queue,deleteQueue);
-										result = GetQ(queue, &temp);
+                    result = DeleteQ(queue,deleteQueue);
+										// result = GetQ(queue, &temp);
 								}
             }
-						// for (j = 0; j < result; j++)
+						for (j = 0; j < result; j++)
 						{
 
-							point = &temp;
+							point = &(deleteQueue->data[j]);
 							XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
 							XDrawPoint (display, window, gc, point->x, point->y);
 						}
