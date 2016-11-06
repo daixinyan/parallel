@@ -99,7 +99,7 @@ int main(void)
                 #pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(dynamic,10)
                 for(i=-10; i<width; i++)
                 {
-                    if (i==-1)
+                    if (i==-10)
                     {
                         my_excute_draw();
                     }
@@ -123,13 +123,10 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
-
-                            printf("add....");
                             {
                                 added = AddDeleteQ(queue,repeats,i,j);
                             }
                         }
-												printf("add one.");
                     }
                     if(IF_PRINT&&(i==width-1))
                     {
@@ -259,9 +256,6 @@ DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 			}else
 			{
 					re =  AddQ(q, repeats, x, y);
-					printf("add deleted: add\n" );
-					if(re==NULL) printf("null\n" );
-					else printf("is not NULL\n" );
 			}
 		}
 		return re;
@@ -271,7 +265,6 @@ DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     if((q->size == MAXSIZE))
     {
-			printf("qsize %d ==MAXSIZE %d \n",q->size, MAXSIZE );
         return NULL;
     }
     q->rear++;
