@@ -116,7 +116,7 @@ int main(void)
                             lengthsq = z.real*z.real + z.imag*z.imag;
                             repeats++;
                         }
-                        int added = 0;
+                        DrawPoint* added = NULL;
                         while(!added)
                         {
                             #pragma omp critical
@@ -257,7 +257,7 @@ DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     q->data[q->rear].x = x;
     q->data[q->rear].y = y;
 
-    return q->data[q->rear];
+    return &(q->data[q->rear]);
 }
 
 
