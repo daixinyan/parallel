@@ -186,7 +186,7 @@ int main(void)
     {
         int i,j,result;
 				DrawPoint* point;
-        for(i=0; i<width*height; i++)
+        for(i=0; i<width*height;)
         {
             result = 0;
             while(result==0)
@@ -205,6 +205,7 @@ int main(void)
 							XDrawPoint (display, window, gc, point->x, point->y);
 						}
 
+						i+=result;
         }
     }
 
