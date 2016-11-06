@@ -8,6 +8,7 @@
 #include <time.h>
 
 #define MAXSIZE 6400
+#define ADDGETSIZE 10
 #define IF_PRINT 1
 
 int max_loop = 100000;
@@ -31,9 +32,9 @@ typedef struct Queue
     int rear;
     int size;
 }Queue;
-Queue* CreateQueue();
+Queue* CreateQueue(int size);
 DrawPoint* AddQ(Queue* q, int repeats, int x, int y);
-DrawPoint* DeleteQ(Queue* q) ;
+int DeleteQ(Queue* q,Queue* deleteQueue) ;
 DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y);
 
 void my_excute_calculate();
@@ -56,6 +57,7 @@ void my_main_excute();
 	int border_width = 0;
 
 	Queue* queue;
+	queue* deleteQueue;
 
 int main(void)
 {
@@ -88,7 +90,8 @@ int main(void)
 
     void my_main_excute()
     {
-        queue = CreateQueue();
+        queue = CreateQueue(MAXSIZE);
+				deleteQueue = CreateQueue(ADDGETSIZE);
         omp_set_nested(1);
 
         Compl z, c;
@@ -123,7 +126,6 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
-														#pragma omp critical
                             {
                                 added = AddQ(queue,repeats,i,j);
                             }
@@ -167,7 +169,7 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
-														#pragma omp critical
+
                             {
                                 added = AddQ(queue,repeats,i,j);
                             }
@@ -179,20 +181,25 @@ int main(void)
 
     void my_excute_draw()
     {
-        int i;
+        int i,j,result;
+				DrawPoint* point;
         for(i=0; i<width*height; i++)
         {
-            DrawPoint* point = NULL;
-            while(point==NULL)
+            result = 0;
+            while(result==0)
             {
 								#pragma omp critical
                 {
-                    point = DeleteQ(queue);
+                    point = DeleteQ(queue,deleteQueue);
                 }
             }
+						for (j = 0; j < count; j++)
+						{
+							point = queue->data[j];
+							XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
+							XDrawPoint (display, window, gc, point->x, point->y);
+						}
 
-            XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
-            XDrawPoint (display, window, gc, point->x, point->y);
         }
     }
 
@@ -232,9 +239,9 @@ int main(void)
     }
 
 
-Queue* CreateQueue() {
+Queue* CreateQueue(int size) {
     Queue* q = (Queue*)malloc(sizeof(Queue));
-		q->data = (DrawPoint*)malloc(sizeof(DrawPoint)*MAXSIZE);
+		q->data = (DrawPoint*)malloc(sizeof(DrawPoint)*size);
 		if ( (!q) || (!q->data) ) {
         printf("no enough space.\n");
         return NULL;
@@ -282,16 +289,33 @@ DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
 }
 
 
-DrawPoint* DeleteQ(Queue* q) {
-    if(q->size == 0)
-    {
-        return NULL;
-    }
-    q->front++;
-    if(q->front == MAXSIZE)
-    {
-        q->front = 0;
-    }
-    q->size--;
-    return &(q->data[q->front]);
+// DrawPoint* DeleteQ(Queue* q) {
+//     if(q->size == 0)
+//     {
+//         return NULL;
+//     }
+//     q->front++;
+//     if(q->front == MAXSIZE)
+//     {
+//         q->front = 0;
+//     }
+//     q->size--;
+//     return &(q->data[q->front]);
+// }
+
+int DeleteQ(Queue* q, Queue* deleteQueue) {
+
+		int count = ADDGETSIZE > q->size ? q->size:ADDGETSIZE;
+		int i;
+		for ( i = 0; i < count; i++) {
+			q->front++;
+	    if(q->front == MAXSIZE)
+	    {
+	        q->front = 0;
+	    }
+			memcpy(deleteQueue->data+i, q->data+q->front, sizeof(DrawPoint));
+		}
+		q->size -= count;
+		deleteQueue->size = count;
+		return count;
 }
