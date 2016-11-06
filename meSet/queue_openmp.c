@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#define MAXSIZE 640
+#define MAXSIZE 6400
 #define IF_PRINT 1
 
 int max_loop = 100000;
@@ -167,11 +167,12 @@ int main(void)
                         DrawPoint* added = NULL;
                         while(!added)
                         {
-                            #pragma omp critical
+                           
                             {
-                                added = AddQ(queue,repeats,i,j);
+                                added = AddDeleteQ(queue,repeats,i,j);
                             }
                         }
+			printf("add one.");
                     }
 
                 }
@@ -185,7 +186,7 @@ int main(void)
             DrawPoint* point = NULL;
             while(point==NULL)
             {
-                #pragma omp critical
+                
                 {
                     point = AddDeleteQ(queue, -1, 0, 0);
                 }
