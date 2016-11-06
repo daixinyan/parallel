@@ -247,16 +247,18 @@ Queue* CreateQueue() {
 
 DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 {
+		DrawPoint* re = NULL;
 		#pragma omp critical
 		{
 			if(repeats<0)
 			{
-					return DeleteQ(q);
+					re =  DeleteQ(q);
 			}else
 			{
-					return AddQ(q, repeats, x, y);
+					re =  AddQ(q, repeats, x, y);
 			}
 		}
+		return re;
 }
 
 
