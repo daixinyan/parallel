@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#define MAXSIZE 640000
+#define MAXSIZE 16000000
 #define IF_PRINT 1
 typedef struct complextype
 {
@@ -30,7 +30,7 @@ typedef struct Queue
 }Queue;
 Queue* CreateQueue();
 int AddQ(Queue* q, int repeats, int x, int y);
-int f=0,r=0;
+int max_loop = 100000;
 DrawPoint* DeleteQ(Queue* q) ;
 void my_excute_calculate();
 void my_excute_draw();
@@ -109,7 +109,7 @@ int main(void)
                         c.imag = (double)j/(double)height*4.0 - 2.0; /* So needs to scale the window */
                         lengthsq = 0.0;
 
-                        while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+                        while(repeats < max_loop && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
                             temp = z.real*z.real - z.imag*z.imag + c.real;
                             z.imag = 2*z.real*z.imag + c.imag;
                             z.real = temp;
