@@ -298,7 +298,10 @@ int DeleteQ(Queue* q, Queue* deleteQueue) {
 	    {
 	        q->front = 0;
 	    }
-			memcpy(deleteQueue->data+i, q->data+q->front, sizeof(DrawPoint));
+			// memcpy(deleteQueue->data+i, q->data+q->front, sizeof(DrawPoint));
+			deleteQueue->data[i].repeats = q->data[q->front].repeats;
+			deleteQueue->data[i].x = q->data[q->front].x;
+			deleteQueue->data[i].y = q->data[q->front].y;
 		}
 		q->size -= count;
 		deleteQueue->size = count;
