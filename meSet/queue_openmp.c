@@ -129,7 +129,7 @@ int main(void)
                                 added = AddDeleteQ(queue,repeats,i,j);
                             }
                         }
-			printf("add one.");
+												printf("add one.");
                     }
                     if(IF_PRINT&&(i==width-1))
                     {
@@ -186,13 +186,13 @@ int main(void)
             DrawPoint* point = NULL;
             while(point==NULL)
             {
-		printf("drwaing.");
-                
+								printf("drwaing.");
+
                 {
                     point = AddDeleteQ(queue, -1, 0, 0);
                 }
             }
-	    printf("drawing one.");
+	    					printf("drawing one.");
 
             XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
             XDrawPoint (display, window, gc, point->x, point->y);
@@ -259,6 +259,9 @@ DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 			}else
 			{
 					re =  AddQ(q, repeats, x, y);
+					printf("add deleted: add\n", );
+					if(re==NULL) printf("null\n" );
+					else printf("is not NULL\n" );
 			}
 		}
 		return re;
@@ -268,6 +271,7 @@ DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
 DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     if((q->size == MAXSIZE))
     {
+			printf("qsize==MAXSIZE\n", );
         return NULL;
     }
     q->rear++;
