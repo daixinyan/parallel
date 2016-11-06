@@ -7,8 +7,11 @@
 #include <unistd.h>
 #include <time.h>
 
-#define MAXSIZE (width*height)
+#define MAXSIZE 640
 #define IF_PRINT 1
+
+int max_loop = 100000;
+
 typedef struct complextype
 {
 	double real, imag;
@@ -30,8 +33,9 @@ typedef struct Queue
 }Queue;
 Queue* CreateQueue();
 DrawPoint* AddQ(Queue* q, int repeats, int x, int y);
-int max_loop = 100000;
 DrawPoint* DeleteQ(Queue* q) ;
+DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y);
+
 void my_excute_calculate();
 void my_excute_draw();
 void my_init_x11();
@@ -121,7 +125,7 @@ int main(void)
                         {
                             #pragma omp critical
                             {
-                                added = AddQ(queue,repeats,i,j);
+                                added = AddDeleteQ(queue,repeats,i,j);
                             }
                         }
                     }
@@ -183,7 +187,7 @@ int main(void)
             {
                 #pragma omp critical
                 {
-                    point = DeleteQ(queue);
+                    point = AddDeleteQ(queue, -1, 0, 0);
                 }
             }
 
@@ -240,6 +244,21 @@ Queue* CreateQueue() {
     q->size = 0;
     return q;
 }
+
+DrawPoint* AddDeleteQ(Queue* q, int repeats, int x, int y)
+{
+		#pragma omp critical
+		{
+			if(repeats<0)
+			{
+					return DeleteQ(q);
+			}else
+			{
+					return AddQ(q, repeats, x, y);
+			}
+		}
+}
+
 
 DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     if((q->size == MAXSIZE))
