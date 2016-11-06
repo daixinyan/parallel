@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#define MAXSIZE 16000000
+#define MAXSIZE (width*height)
 #define IF_PRINT 1
 typedef struct complextype
 {
@@ -23,7 +23,7 @@ typedef struct DrawPoint
 }DrawPoint;
 typedef struct Queue
 {
-    DrawPoint data[MAXSIZE];
+    DrawPoint* data;
     int front;
     int rear;
     int size;
@@ -37,7 +37,7 @@ void my_excute_draw();
 void my_init_x11();
 void my_main_excute();
 
-    Display *display;
+  Display *display;
 	Window window;      /*initialization for a window*/
 	int screen;         /*which screen*/
 	/* create graph */
@@ -130,7 +130,7 @@ int main(void)
                         printf("done with calculating.\n");
                     }
                 }
-        
+
     }
 
 
@@ -186,7 +186,7 @@ int main(void)
                     point = DeleteQ(queue);
                 }
             }
-            
+
             XSetForeground (display, gc,  1024 * 1024 * (point->repeats % 256));
             XDrawPoint (display, window, gc, point->x, point->y);
         }
@@ -230,7 +230,8 @@ int main(void)
 
 Queue* CreateQueue() {
     Queue* q = (Queue*)malloc(sizeof(Queue));
-    if (!q) {
+		q->data = (DrawPoint*)malloc(sizeof(DrawPoint)*MAXSIZE);
+		if ( (!q) || (!q->data) ) {
         printf("no enough space.\n");
         return NULL;
     }
