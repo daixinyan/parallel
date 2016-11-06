@@ -241,10 +241,10 @@ Queue* CreateQueue() {
     return q;
 }
 
-int AddQ(Queue* q, int repeats, int x, int y) {
+DrawPoint* AddQ(Queue* q, int repeats, int x, int y) {
     if((q->size == MAXSIZE))
     {
-        return 0;
+        return NULL;
     }
     q->rear++;
     if(q->rear==MAXSIZE)
@@ -257,7 +257,7 @@ int AddQ(Queue* q, int repeats, int x, int y) {
     q->data[q->rear].x = x;
     q->data[q->rear].y = y;
 
-    return 1;
+    return q->data[q->rear];
 }
 
 
