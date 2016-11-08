@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
+#include <X11/Xlib.h>
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
@@ -16,7 +17,10 @@
   double total_time = .0;
 /**end struct time**/
 
-
+typedef struct complextype
+{
+	double real, imag;
+} Compl;
 
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
