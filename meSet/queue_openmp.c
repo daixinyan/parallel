@@ -132,8 +132,8 @@ int main(int argc,char *argv[])
                         z.real = 0.0;
                         z.imag = 0.0;
 
-			c.real = (double)i / (double)parameters.number_of_points_x*parameters.real_range - parameters.real_range/2; 
-                        c.imag = (double)j / (double)parameters.number_of_points_y*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
+												c.real = (double)i / (double)parameters.number_of_points_x*parameters.real_range - parameters.real_range/2;
+												c.imag = (double)j / (double)parameters.number_of_points_y*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
 
                         lengthsq = 0.0;
 
@@ -149,7 +149,7 @@ int main(int argc,char *argv[])
                         {
 														#pragma omp critical
                             {
-                                added = AddQ(queue,repeats,i,j);
+                                added = AddQ(queue, repeats, i/parameters.number_of_points_x*width, j/parameters.number_of_points_y*height);
                             }
                         }
                     }
@@ -204,18 +204,18 @@ int main(int argc,char *argv[])
 
     void my_excute_draw()
     {
-	int i,j,result;
-	DrawPoint* point;
+				int i,j,result;
+				DrawPoint* point;
         for(i=0; i<parameters.number_of_points_x*parameters.number_of_points_y;)
         {
-        	result = 0;
-            	while(result==0)
-            	{
-		   #pragma omp critical
-                    result = DeleteQ(queue,deleteQueue);
-		  /* result = GetQ(queue, &temp);*/
-		}
-       }
+					result = 0;
+					while(result==0)
+					{
+						#pragma omp critical
+						result = DeleteQ(queue,deleteQueue);
+						/* result = GetQ(queue, &temp);*/
+					}
+				}
 						for (j = 0; j < result; j++)
 						{
 
