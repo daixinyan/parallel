@@ -22,6 +22,11 @@ typedef struct complextype
 	double real, imag;
 } Compl;
 
+typedef struct DrawPoint
+{
+		int repeats;
+    short x,y;
+}DrawPoint;
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status);
