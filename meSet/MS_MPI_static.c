@@ -127,6 +127,12 @@ void my_test()
 	int repeats;
 	double temp, lengthsq;
 	int i, j;
+
+
+  if(rank!=0)
+  {
+    return ;
+  }
 	for(i=0; i<width; i++) {
 		for(j=0; j<height; j++) {
 			z.real = 0.0;
