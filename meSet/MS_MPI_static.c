@@ -129,9 +129,9 @@ void my_test()
 	int i, j;
 
 
-  if(rank!=0)
+  if(rank!=1)
   {
-    return ;
+    return;
   }
 	for(i=0; i<width; i++) {
 		for(j=0; j<height; j++) {
