@@ -65,8 +65,8 @@ int main(int argc,char *argv[])
 
     if(PRINT_TIME)
     {
-        printf("total_time: %f\n communication_time: %f\n compution_time: %f\n read_time: %f\n write_time: %f\n",
-            total_time, communication_time, compution_time, read_time, write_time );
+        printf("total_time: %f\n communication_time: %f\n compution_time: %f\n",
+            total_time, communication_time, compution_time );
     }
 
     MPI_Finalize();
