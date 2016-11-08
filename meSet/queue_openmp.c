@@ -15,7 +15,7 @@
 #define max(x,y)  ( x>y?x:y )
 #define min(x,y)  ( x>y?y:x )
 
-int max_loop = 1000000;
+
 
 typedef struct complextype
 {
@@ -58,6 +58,8 @@ void my_excute_draw();
 void my_init_x11();
 void my_init(int argc,char *argv[]);
 void my_main_excute();
+
+int max_loop = 100000;
 
  Display *display;
  Window window;      /*initialization for a window*/
@@ -293,6 +295,7 @@ int main(int argc,char *argv[])
 				 }
 				 parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
 				 parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
+				 border_width = parameters.number_of_points_x/width;
 	 }
 
 
