@@ -22,7 +22,19 @@ typedef struct complextype
 	double real, imag;
 } Compl;
 
-
+struct
+{
+  int number_of_threads;
+  double left_range_of_real;
+  double right_range_of_real;
+	double real_range;
+  double lower_range_of_imag;
+  double upper_range_of_imag;
+	double imag_range;
+  int number_of_points_x;
+  int number_of_points_y;
+  int is_enable;
+}parameters;
 
 typedef struct DrawPoint
 {
@@ -44,6 +56,7 @@ int GetQ(Queue* q, DrawPoint* point);
 void my_excute_calculate();
 void my_excute_draw();
 void my_init_x11();
+void my_init(int argc,char *argv[]);
 void my_main_excute();
 
   Display *display;
@@ -64,13 +77,14 @@ void my_main_excute();
 	Queue* deleteQueue;
 	DrawPoint temp;
 
-int main(void)
+int main(int argc,char *argv[])
 {
 
     clock_t start_clock = clock();
     time_t  start_time = time(NULL);
 
 
+		my_init(argc,argv);
     my_init_x11();
 
 
@@ -119,6 +133,10 @@ int main(void)
                         z.imag = 0.0;
                         c.real = (double)i/(double)width*4.0 - 2.0; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
                         c.imag = (double)j/(double)height*4.0 - 2.0; /* So needs to scale the window */
+
+												c.real = (double)i/(double)width*parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
+                        c.imag = (double)j/(double)height*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
+
                         lengthsq = 0.0;
 
                         while(repeats < max_loop && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
@@ -185,6 +203,7 @@ int main(void)
                 }
     }
 
+
     void my_excute_draw()
     {
         int i,j,result;
@@ -246,6 +265,36 @@ int main(void)
         XMapWindow(display, window);
         XSync(display, 0);
     }
+
+
+		void my_init(int argc,char *argv[])
+		{
+			/**init excute parameters.**/
+					if(argc<3)
+					{
+						parameters.number_of_threads = 8;
+						parameters.left_range_of_real = -2;
+						parameters.right_range_of_real = 2;
+						parameters.lower_range_of_imag = -2;
+						parameters.upper_range_of_imag = 2;
+						parameters.number_of_points_x = 400;
+						parameters.number_of_points_y = 400;
+						parameters.is_enable = 1;
+					}
+					else
+					{
+						parameters.number_of_threads = atoi(argv[1]);
+						parameters.left_range_of_real = atof(argv[2]);
+						parameters.right_range_of_real = atof(argv[3]);
+						parameters.lower_range_of_imag = atof(argv[4]);
+						parameters.upper_range_of_imag = atof(argv[5]);
+						parameters.number_of_points_x = atoi(argv[6]);
+						parameters.number_of_points_y = atoi(argv[7]);
+						parameters.is_enable = strlen("enable")==strlen(argv[8]);
+					}
+					parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
+					parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
+		}
 
 
 Queue* CreateQueue(int size) {

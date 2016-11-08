@@ -27,6 +27,22 @@ typedef struct DrawPoint
 		int repeats;
     short x,y;
 }DrawPoint;
+
+
+struct
+{
+  int number_of_threads;
+  double left_range_of_real;
+  double right_range_of_real;
+  double real_range;
+  double lower_range_of_imag;
+  double upper_range_of_imag;
+  double imag_range;
+  int number_of_points_x;
+  int number_of_points_y;
+  int is_enable;
+}parameters;
+
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status);
@@ -37,7 +53,8 @@ int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm 
 /**@see MPI_Send, add comsumption time to (double)communication_time**/
 int mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status );
 
-void my_test();
+/**/
+void my_init(int argc,char *argv[]);
 
 int main(int argc,char *argv[])
 {
@@ -58,15 +75,10 @@ int main(int argc,char *argv[])
     total_start_time = MPI_Wtime();
 
 
-    /**init excute parameters.**/
-        if(argc<3)
-        {
-        }
-        else
-        {
-        }
 
-        my_test();
+        my_init();
+
+
 
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
@@ -82,86 +94,35 @@ int main(int argc,char *argv[])
 }
 
 
-void my_test()
+void my_init(int argc,char *argv[])
 {
-  Display *display;
-	Window window;      //initialization for a window
-	int screen;         //which screen
-
-	/* open connection with the server */
-	display = XOpenDisplay(NULL);
-	if(display == NULL) {
-		fprintf(stderr, "cannot open display\n");
-		return 0;
-	}
-
-	screen = DefaultScreen(display);
-
-	/* set window size */
-	int width = 800;
-	int height = 800;
-
-	/* set window position */
-	int x = 0;
-	int y = 0;
-
-	/* border width in pixels */
-	int border_width = 0;
-
-	/* create window */
-	window = XCreateSimpleWindow(display, RootWindow(display, screen), x, y, width, height, border_width,
-					BlackPixel(display, screen), WhitePixel(display, screen));
-
-	/* create graph */
-	GC gc;
-	XGCValues values;
-	long valuemask = 0;
-
-	gc = XCreateGC(display, window, valuemask, &values);
-	//XSetBackground (display, gc, WhitePixel (display, screen));
-	XSetForeground (display, gc, BlackPixel (display, screen));
-	XSetBackground(display, gc, 0X0000FF00);
-	XSetLineAttributes (display, gc, 1, LineSolid, CapRound, JoinRound);
-
-	/* map(show) the window */
-	XMapWindow(display, window);
-	XSync(display, 0);
-
-	/* draw points */
-	Compl z, c;
-	int repeats;
-	double temp, lengthsq;
-	int i, j;
-
-
-  if(rank!=1)
-  {
-    return;
-  }
-	for(i=0; i<width; i++) {
-		for(j=0; j<height; j++) {
-			z.real = 0.0;
-			z.imag = 0.0;
-			c.real = ((double)i - 400.0)/200.0; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
-			c.imag = ((double)j - 400.0)/200.0; /* So needs to scale the window */
-			repeats = 0;
-			lengthsq = 0.0;
-
-			while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
-				temp = z.real*z.real - z.imag*z.imag + c.real;
-				z.imag = 2*z.real*z.imag + c.imag;
-				z.real = temp;
-				lengthsq = z.real*z.real + z.imag*z.imag;
-				repeats++;
-			}
-
-			XSetForeground (display, gc,  1024 * 1024 * (repeats % 256));
-			XDrawPoint (display, window, gc, i, j);
-		}
-	}
-	XFlush(display);
-	sleep(5);
+  /**init excute parameters.**/
+      if(argc<3)
+      {
+        parameters.number_of_threads = 8;
+        parameters.left_range_of_real = -2;
+        parameters.right_range_of_real = 2;
+        parameters.lower_range_of_imag = -2;
+        parameters.upper_range_of_imag = 2;
+        parameters.number_of_points_x = 400;
+        parameters.number_of_points_y = 400;
+        parameters.is_enable = 1;
+      }
+      else
+      {
+        parameters.number_of_threads = atoi(argv[1]);
+        parameters.left_range_of_real = atof(argv[2]);
+        parameters.right_range_of_real = atof(argv[3]);
+        parameters.lower_range_of_imag = atof(argv[4]);
+        parameters.upper_range_of_imag = atof(argv[5]);
+        parameters.number_of_points_x = atoi(argv[6]);
+        parameters.number_of_points_y = atoi(argv[7]);
+        parameters.is_enable = strlen("enable")==strlen(argv[8]);
+      }
+      parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
+      parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
 }
+
 
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status)
