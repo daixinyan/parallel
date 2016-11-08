@@ -150,7 +150,7 @@ int main(int argc,char *argv[])
 											 {
 													 #pragma omp critical
 													 {
-															 added = AddQ(queue,repeats,i,j);
+															 added = AddQ(queue,repeats,i*width/parameters.number_of_points_x,j*height/parameters.number_of_points_y);
 													 }
 											 }
 									 }
