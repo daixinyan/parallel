@@ -15,7 +15,7 @@
 #define max(x,y)  ( x>y?x:y )
 #define min(x,y)  ( x>y?y:x )
 
-int max_loop = 1000000;
+int max_loop = 100000;
 
 typedef struct complextype
 {
@@ -132,9 +132,8 @@ int main(int argc,char *argv[])
                         z.real = 0.0;
                         z.imag = 0.0;
 
-
-												c.real = (double)i/(double)width*parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
-                        c.imag = (double)j/(double)height*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
+			c.real = (double)i / (double)parameters.number_of_points_x*parameters.real_range - parameters.real_range/2; 
+                        c.imag = (double)j / (double)parameters.number_of_points_y*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
 
                         lengthsq = 0.0;
 
@@ -182,7 +181,7 @@ int main(int argc,char *argv[])
                         c.imag = (double)j/(double)height*4.0 - 2.0; /* So needs to scale the window */
                         lengthsq = 0.0;
 
-                        while(repeats < 1000000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+                        while(repeats < max_loop && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
                             temp = z.real*z.real - z.imag*z.imag + c.real;
                             z.imag = 2*z.real*z.imag + c.imag;
                             z.real = temp;
@@ -205,19 +204,18 @@ int main(int argc,char *argv[])
 
     void my_excute_draw()
     {
-        int i,j,result;
-				DrawPoint* point;
-        for(i=0; i<width*height;)
+	int i,j,result;
+	DrawPoint* point;
+        for(i=0; i<parameters.number_of_points_x*parameters.number_of_points_y;)
         {
-            result = 0;
-            while(result==0)
-            {
-								#pragma omp critical
-                {
+        	result = 0;
+            	while(result==0)
+            	{
+		   #pragma omp critical
                     result = DeleteQ(queue,deleteQueue);
-										// result = GetQ(queue, &temp);
-								}
-            }
+		  /* result = GetQ(queue, &temp);*/
+		}
+       }
 						for (j = 0; j < result; j++)
 						{
 
