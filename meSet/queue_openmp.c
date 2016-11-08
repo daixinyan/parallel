@@ -207,7 +207,7 @@ int main(int argc,char *argv[])
 	 {
 			 int i,j,result;
 			 DrawPoint* point;
-			 for(i=0; i<width*height;)
+			 for(i=0; i<parameters.number_of_points_x*parameters.number_of_points_y;)
 			 {
 					 result = 0;
 					 while(result==0)
