@@ -51,7 +51,7 @@ typedef struct DrawPoint
 
 
 /**start struct meta**/
-    int size rank, actual_size;
+    int size, rank, actual_size;
 /**end struct**/
 
     Task* processes_task;
