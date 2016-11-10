@@ -5,20 +5,18 @@
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
-#define CENTER_NODE 0
-#define TAG_TASK    0
+
+
 
 typedef struct complextype
 {
 	double real, imag;
 } Compl;
 
-
 typedef struct Task{
   int process_handle_start_x;
   int process_handle_count_x;
 }Task;
-
 
 typedef struct DrawPoint
 {
@@ -42,32 +40,24 @@ struct
 }parameters;
 
 
-typedef struct DrawPoint
-{
-	 int repeats;
-	 short x,y;
-}DrawPoint;
-
-
+/* set window size */
+int width = 800;
+int height = 800;
+/* set window position */
 
 /**start struct meta**/
-    int size rank, actual_size;
+    int size, rank, actual_size;
 /**end struct**/
 
-    Task* processes_task;
-    DrawPoint* processes_points;
-
 /**start struct time**/
-    double communication_time = .0;
-    double compution_time = .0;
-    double total_time = .0;
+  double communication_time = .0;
+  double compution_time = .0;
+  double total_time = .0;
 /**end struct time**/
 
 
-
-
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
-void mySendrecv( const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
+void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status);
 
 /**@see MPI_Recv, add comsumption time to (double)communication_time**/
@@ -78,12 +68,6 @@ int mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_C
 
 /**/
 void my_init(int argc,char *argv[]);
-
-/**/
-void my_excute();
-
-/**/
-void my_summatize();
 
 int main(int argc,char *argv[])
 {
@@ -106,7 +90,6 @@ int main(int argc,char *argv[])
 
 
         my_init();
-        my_excute();
 
 
 
@@ -121,85 +104,6 @@ int main(int argc,char *argv[])
     }
 
     MPI_Finalize();
-}
-
-
-void my_excute()
-{
-  /* draw points */
-	Compl z, c;
-	int repeats;
-	double temp, lengthsq;
-	int i, j, k;
-	for( k=0; k<processes_task.process_handle_count_x; k++)
-  {
-
-    i = k + processes_task.process_handle_start_x;
-		for(j=0; j<parameters.number_of_points_y; j++) {
-			z.real = 0.0;
-			z.imag = 0.0;
-      c.real = (double)i / (double)width * parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
-      c.imag = (double)j / (double)height * parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
-			repeats = 0;
-			lengthsq = 0.0;
-
-			while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
-				temp = z.real*z.real - z.imag*z.imag + c.real;
-				z.imag = 2*z.real*z.imag + c.imag;
-				z.real = temp;
-				lengthsq = z.real*z.real + z.imag*z.imag;
-				repeats++;
-			}
-
-      processes_points[k*j].x = i;
-      processes_points[k*j].y = j;
-      processes_points[k*j].repeats = repeats;
-
-		}
-	}
-}
-
-
-void my_summatize()
-{
-  int i,j,k;
-  const int nitems=3;
-  MPI_Datatype types[3] = {MPI_INT, MPI_SHORT, MPI_SHORT};
-  MPI_Datatype mpi_point_type;
-  MPI_Aint     offsets[3];
-  int          blocklengths[3] = {1,1,1};
-  offsets[0] = offsetof(DrawPoint, repeats);
-  offsets[1] = offsetof(DrawPoint, x);
-  offsets[2] = offsetof(DrawPoint, y);
-
-  MPI_Type_create_struct(nitems, blocklengths, offsets, types, &mpi_point_type);
-  MPI_Type_commit(&mpi_point_type);
-  if (rank==0)
-  {
-    for ( i = 1; i < actual_size; i++)
-    {
-      myRecv(
-        &processes_points[ processes_task[i].process_handle_start_x * parameters.number_of_points_y ],
-        processes_task[i].process_handle_count_x * parameters.number_of_points_y,
-        mpi_point_type,
-        CENTER_NODE,
-        TAG_TASK,
-        MPI_COMM_WORLD,
-        MPI_STATUS_IGNORE
-      );
-    }
-  }
-  else if(actual_size>rank)
-  {
-    mySend( processes_points,
-            processes_task[rank].process_handle_count_x * parameters.number_of_points_y,
-            mpi_point_type,
-            CENTER_NODE,
-            TAG_TASK,
-            MPI_COMM_WORLD,
-            MPI_STATUS_IGNORE
-          );
-  }
 }
 
 
@@ -230,38 +134,6 @@ void my_init(int argc,char *argv[])
       }
       parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
       parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
-
-      int reminder,quotient,index;
-      reminder = parameters.number_of_points_x % size;
-      quotient = parameters.number_of_points_x / size;
-      actual_size = quotient==0?reminder:size;
-      processes_task = (Task*) malloc( sizeof(Task) * size )
-      for ( index = 0; index <size; index++)
-      {
-        if (index>=reminder)
-        {
-          processes_task[index].process_handle_start_x = quotient * index + reminder;
-          processes_task[index].process_handle_count_x = quotient;
-        }else
-        {
-          processes_task[index].process_handle_start_x = ( quotient + 1 ) * index;
-          processes_task[index].process_handle_count_x = quotient + 1 ;
-        }
-      }
-
-
-      if (rank == 0)
-      {
-        processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
-              parameters.number_of_points_x * parameters.number_of_points_y );
-      }
-      else
-      {
-        processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
-              processes_task[rank].process_handle_count_x * parameters.number_of_points_y );
-      }
-
-
 }
 
 
