@@ -16,7 +16,7 @@
     char process_name[MPI_MAX_PROCESSOR_NAME];
     int  name_len;
 
-    int total_int_num;/*number of elements*/ 
+    int total_int_num;/*number of elements*/
     char* input_file; /* input file_name*/
     char* output_file;/*out_put file_name*/
 
@@ -51,27 +51,27 @@ void odd_even_sort(int* a, int head, int tail);
 
 /*
  * start a for loop to start even and odd pass.
- ** 1. compare and swap local data. 
+ ** 1. compare and swap local data.
  ** 2. determine if there is a need to send a element to the left and left process
  ** 3. if there is a need to send a element to the left process, send and receive, then compare and keep the bigger one
  ** 4. if there is a need to send a element to the right process, send and receive, then compare and keep the smaller one
- ** 5. if current process is not controller: inform the 0th process whether any swap happened in previous steps, 
+ ** 5. if current process is not controller: inform the 0th process whether any swap happened in previous steps,
  **                                          then according the received message to decide if or not continue the loop
  ** 6.   if current process is controller: after receiving message from all others,determine if or not continue the loop and  inform others.
  */
 void my_sort();
-/* 
+/*
  * precondition: rank<actual_size(current process is not the  rightmost process)
  * send the last element to right(rank+1) process,
- * at the same time reveice one. 
+ * at the same time reveice one.
  * compare the sended one and received one, keey the smaller one at end of data
  */
 int  sendToUp();
 
-/* 
+/*
  * precondition: rank>0 (current process is not the leftmost process)
  * send the first element to left(rank-1) process,
- * at the same time reveice one. 
+ * at the same time reveice one.
  * compare the sended one and received one, keey the bigger one at start of data
  */
 int  sendToDown();
@@ -95,12 +95,12 @@ void mySendrecv(
                 );
 
 /**@see MPI_Recv, add comsumption time to (double)communication_time**/
-int myRecv(void *buf, int count, MPI_Datatype type,
+void myRecv(void *buf, int count, MPI_Datatype type,
                 int source, int tag,
                 MPI_Comm comm, MPI_Status *status );
 
 /**@see MPI_Send, add comsumption time to (double)communication_time**/
-int mySend(const void *buf, int count, MPI_Datatype type,
+void mySend(const void *buf, int count, MPI_Datatype type,
                 int dest, int tag,
                 MPI_Comm comm, MPI_Status *status );
 
@@ -382,14 +382,14 @@ void my_sort()
             }
 
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, send to nodes.\n",rank, swaped);
-            
+
             for(j=1;j<actual_size;j++)
             {
                 mySend(&swaped, 1, MPI_INT, j, TAG_NOSWAPED_FROM_CENTER,MPI_COMM_WORLD, MPI_STATUS_IGNORE );
             }
 
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, send to nodes,done.\n",rank, swaped);
-            
+
             if(!swaped)
             {
                 break;
@@ -463,7 +463,7 @@ void mySendrecv(
                     end_time = MPI_Wtime();
                     communication_time += end_time-start_time;
                 }
-int myRecv(void *buf, int count, MPI_Datatype type,
+void myRecv(void *buf, int count, MPI_Datatype type,
                 int source, int tag,
                 MPI_Comm comm, MPI_Status *status )
 {
@@ -473,7 +473,7 @@ int myRecv(void *buf, int count, MPI_Datatype type,
     MPI_Recv(buf,count,type,source,tag,comm,status);
     communication_time += end_time-start_time;
 }
-int mySend(const void *buf, int count, MPI_Datatype type,
+void mySend(const void *buf, int count, MPI_Datatype type,
                 int dest, int tag,
                 MPI_Comm comm, MPI_Status *status )
 {
@@ -554,4 +554,3 @@ void my_swap(int* a, int i, int j)
     a[i] = a[j];
     a[j] = temp;
 }
-

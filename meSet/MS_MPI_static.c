@@ -20,11 +20,11 @@ typedef struct Task{
 }Task;
 
 
-typedef struct DrawPoint
-{
-		int repeats;
-    short x,y;
-}DrawPoint;
+
+
+
+
+
 
 
 struct
@@ -42,7 +42,7 @@ struct
 }parameters;
 
 
-typedef struct DrawPoint
+typedef struct RecordDrawPoint
 {
 	 int repeats;
 	 short x,y;
@@ -53,6 +53,9 @@ typedef struct DrawPoint
 /**start struct meta**/
     int size, rank, actual_size;
 /**end struct**/
+/* set window size */
+		int width = 800;
+		int height = 800;
 
     Task* processes_task;
     DrawPoint* processes_points;
@@ -71,10 +74,10 @@ void mySendrecv( const void *sendbuf, int sendcount, MPI_Datatype sendtype,int d
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status);
 
 /**@see MPI_Recv, add comsumption time to (double)communication_time**/
-int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status );
+void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status );
 
 /**@see MPI_Send, add comsumption time to (double)communication_time**/
-int mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status );
+void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status );
 
 /**/
 void my_init(int argc,char *argv[]);
@@ -105,7 +108,7 @@ int main(int argc,char *argv[])
 
 
 
-        my_init();
+        my_init(argc, argv);
         my_excute();
 
 
@@ -131,10 +134,10 @@ void my_excute()
 	int repeats;
 	double temp, lengthsq;
 	int i, j, k;
-	for( k=0; k<processes_task.process_handle_count_x; k++)
+	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
   {
 
-    i = k + processes_task.process_handle_start_x;
+    i = k + processes_task[rank].process_handle_start_x;
 		for(j=0; j<parameters.number_of_points_y; j++) {
 			z.real = 0.0;
 			z.imag = 0.0;
@@ -162,7 +165,7 @@ void my_excute()
 
 void my_summatize()
 {
-  int i,j,k;
+  int i;
   const int nitems=3;
   MPI_Datatype types[3] = {MPI_INT, MPI_SHORT, MPI_SHORT};
   MPI_Datatype mpi_point_type;
@@ -235,7 +238,7 @@ void my_init(int argc,char *argv[])
       reminder = parameters.number_of_points_x % size;
       quotient = parameters.number_of_points_x / size;
       actual_size = quotient==0?reminder:size;
-      processes_task = (Task*) malloc( sizeof(Task) * size )
+      processes_task = (Task*) malloc( sizeof(Task) * size );
       for ( index = 0; index <size; index++)
       {
         if (index>=reminder)
@@ -279,7 +282,7 @@ void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int de
 
 
 
-int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status )
+void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
     double end_time;
@@ -292,7 +295,7 @@ int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm 
 
 
 
-int mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status )
+void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
     double end_time;

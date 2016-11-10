@@ -61,10 +61,10 @@ void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int de
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status);
 
 /**@see MPI_Recv, add comsumption time to (double)communication_time**/
-int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status );
+void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status );
 
 /**@see MPI_Send, add comsumption time to (double)communication_time**/
-int mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status );
+void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status );
 
 /**/
 void my_init(int argc,char *argv[]);
@@ -151,7 +151,7 @@ void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int de
 
 
 
-int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status )
+void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
     double end_time;
@@ -164,7 +164,7 @@ int myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm 
 
 
 
-int mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status )
+void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
     double end_time;

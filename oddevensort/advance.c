@@ -66,10 +66,10 @@ void mySendrecv(
                 int source, int recvtag,
                 MPI_Comm comm, MPI_Status *status
                 );
-int myRecv(void *buf, int count, MPI_Datatype type,
+void myRecv(void *buf, int count, MPI_Datatype type,
                 int source, int tag,
                 MPI_Comm comm, MPI_Status *status );
-int mySend(const void *buf, int count, MPI_Datatype type,
+void mySend(const void *buf, int count, MPI_Datatype type,
                 int dest, int tag,
                 MPI_Comm comm, MPI_Status *status );
 
@@ -454,7 +454,7 @@ void mySendrecv(
                     end_time = MPI_Wtime();
                     communication_time += end_time-start_time;
                 }
-int myRecv(void *buf, int count, MPI_Datatype type,
+void myRecv(void *buf, int count, MPI_Datatype type,
                 int source, int tag,
                 MPI_Comm comm, MPI_Status *status )
 {
@@ -464,7 +464,7 @@ int myRecv(void *buf, int count, MPI_Datatype type,
     MPI_Recv(buf,count,type,source,tag,comm,status);
     communication_time += end_time-start_time;
 }
-int mySend(const void *buf, int count, MPI_Datatype type,
+void mySend(const void *buf, int count, MPI_Datatype type,
                 int dest, int tag,
                 MPI_Comm comm, MPI_Status *status )
 {
@@ -536,6 +536,3 @@ int partition( int a[], int l, int r) {
    t = a[l]; a[l] = a[j]; a[j] = t;
    return j;
 }
-
-
-
