@@ -59,8 +59,6 @@ void my_init_x11();
 void my_init(int argc,char *argv[]);
 void my_main_excute();
 
-int max_loop = 100000;
-
  Display *display;
  Window window;      /*initialization for a window*/
  int screen;         /*which screen*/
@@ -69,6 +67,9 @@ int max_loop = 100000;
  /* set window size */
  int width = 800;
  int height = 800;
+
+ int max_loop = 100000;
+ 
  /* set window position */
  int x = 0;
  int y = 0;
@@ -98,15 +99,15 @@ int main(int argc,char *argv[])
 	 my_main_excute();
 
 
- XFlush(display);
- clock_t end_clock = clock();
-			 time_t  end_time = time(NULL);
- printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
- printf("TIME:  %ld\n",(end_time-start_time) );
+   XFlush(display);
+   clock_t end_clock = clock();
+  			 time_t  end_time = time(NULL);
+   printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
+   printf("TIME:  %ld\n",(end_time-start_time) );
 
 
- sleep(5);
- return 0;
+   sleep(5);
+   return 0;
 }
 
 	 void my_main_excute()

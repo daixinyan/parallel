@@ -3,10 +3,11 @@
 #include <mpi.h>
 #include <X11/Xlib.h>
 
-#define PRINT_TIME 1
-#define IF_PRINT   1
+#define PRINT_TIME  1
+#define IF_PRINT    1
 #define CENTER_NODE 0
 #define TAG_TASK    0
+#define TAG_POINT   1
 
 typedef struct complextype
 {
@@ -18,13 +19,6 @@ typedef struct Task{
   int process_handle_start_x;
   int process_handle_count_x;
 }Task;
-
-
-
-
-
-
-
 
 
 struct
@@ -56,6 +50,11 @@ typedef struct RecordDrawPoint
 /* set window size */
 		int width = 800;
 		int height = 800;
+		int max_loop = 100000;
+
+		int x_location =0 ;
+		int y_location =0 ;
+
 
     Task* processes_task;
     DrawPoint* processes_points;
@@ -146,7 +145,7 @@ void my_excute()
 			repeats = 0;
 			lengthsq = 0.0;
 
-			while(repeats < 100000 && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+			while(repeats < max_loop && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
 				temp = z.real*z.real - z.imag*z.imag + c.real;
 				z.imag = 2*z.real*z.imag + c.imag;
 				z.real = temp;
@@ -186,7 +185,7 @@ void my_summatize()
         processes_task[i].process_handle_count_x * parameters.number_of_points_y,
         mpi_point_type,
         CENTER_NODE,
-        TAG_TASK,
+        TAG_POINT,
         MPI_COMM_WORLD,
         MPI_STATUS_IGNORE
       );
@@ -198,7 +197,7 @@ void my_summatize()
             processes_task[rank].process_handle_count_x * parameters.number_of_points_y,
             mpi_point_type,
             CENTER_NODE,
-            TAG_TASK,
+            TAG_POINT,
             MPI_COMM_WORLD,
             MPI_STATUS_IGNORE
           );
