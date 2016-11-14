@@ -94,9 +94,6 @@ int main(int argc,char *argv[])
     double total_start_time;
     double total_end_time;
 
-    double start_time;
-    double end_time;
-
 
     /**init mpi**/
         MPI_Init(&argc, &argv);
@@ -228,7 +225,7 @@ void my_init(int argc,char *argv[])
         parameters.upper_range_of_imag = atof(argv[5]);
         parameters.number_of_points_x = atoi(argv[6]);
         parameters.number_of_points_y = atoi(argv[7]);
-        parameters.is_enable = strlen("enable")==strlen(argv[8]);
+        parameters.is_enable = 6==strlen(argv[8]);
       }
       parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
       parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
