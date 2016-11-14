@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <mpi.h>
 #include <X11/Xlib.h>
+#include <string.h>
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
