@@ -53,12 +53,6 @@ typedef struct RecordDrawPoint
     int size, rank, actual_size;
 /**end struct**/
 /* set window size */
-		int width = 800;
-		int height = 800;
-		int max_loop = 100000;
-
-		int x_location =0 ;
-		int y_location =0 ;
 
 
     Task* processes_task;
@@ -125,6 +119,7 @@ int main(int argc,char *argv[])
         printf("total_time: %f\n communication_time: %f\n compution_time: %f\n",
             total_time, communication_time, compution_time );
     }
+			my_draw();
 
     MPI_Finalize();
 }
@@ -208,6 +203,71 @@ void my_summatize()
   }
 }
 
+void my_draw()
+{
+	if(rank==0 && parameters.is_enable)
+	{
+		Display *display;
+		Window window;      //initialization for a window
+		int screen;         //which screen
+
+		/* open connection with the server */
+		display = XOpenDisplay(NULL);
+		if(display == NULL) {
+			fprintf(stderr, "cannot open display\n");
+			return 0;
+		}
+
+		screen = DefaultScreen(display);
+
+		/* set window size */
+		int width ;
+		int height ;
+
+		width = parameters.number_of_points_x;
+		height = parameters.number_of_points_y;
+
+		/* set window position */
+		int x = 0;
+		int y = 0;
+
+		/* border width in pixels */
+		int border_width = 0;
+
+		/* create window */
+		window = XCreateSimpleWindow(display, RootWindow(display, screen), x, y, width, height, border_width,
+						BlackPixel(display, screen), WhitePixel(display, screen));
+
+		/* create graph */
+		GC gc;
+		XGCValues values;
+		long valuemask = 0;
+
+		gc = XCreateGC(display, window, valuemask, &values);
+		//XSetBackground (display, gc, WhitePixel (display, screen));
+		XSetForeground (display, gc, BlackPixel (display, screen));
+		XSetBackground(display, gc, 0X0000FF00);
+		XSetLineAttributes (display, gc, 1, LineSolid, CapRound, JoinRound);
+
+		/* map(show) the window */
+		XMapWindow(display, window);
+		XSync(display, 0);
+
+		int i;
+		DrawPoint* temp ;
+		for(i=0; i<parameters.number_of_points_x * parameters.number_of_points_y; i++)
+		{
+			temp = &processes_points[i];
+			XSetForeground (display, gc,  1024 * 1024 * (temp->repeats % 256));
+			XDrawPoint (display, window, gc, temp->x, temp->y);
+		}
+
+		XFlush(display);
+		sleep(5);
+
+	}
+}
+
 
 void my_init(int argc,char *argv[])
 {
@@ -219,8 +279,8 @@ void my_init(int argc,char *argv[])
         parameters.right_range_of_real = 2;
         parameters.lower_range_of_imag = -2;
         parameters.upper_range_of_imag = 2;
-        parameters.number_of_points_x = 400;
-        parameters.number_of_points_y = 400;
+        parameters.number_of_points_x = 800;
+        parameters.number_of_points_y = 800;
         parameters.is_enable = 1;
       }
       else
@@ -234,6 +294,7 @@ void my_init(int argc,char *argv[])
         parameters.number_of_points_y = atoi(argv[7]);
         parameters.is_enable = strlen("enable")==strlen(argv[8]);
       }
+
       parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
       parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
 
