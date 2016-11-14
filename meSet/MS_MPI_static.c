@@ -218,7 +218,7 @@ void my_draw()
 		display = XOpenDisplay(NULL);
 		if(display == NULL) {
 			fprintf(stderr, "cannot open display\n");
-			return 0;
+			return;
 		}
 
 		screen = DefaultScreen(display);
