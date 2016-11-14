@@ -86,6 +86,9 @@ void my_init(int argc,char *argv[]);
 /**/
 void my_excute();
 
+
+void my_draw();
+
 /**/
 void my_summatize();
 
