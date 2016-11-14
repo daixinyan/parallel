@@ -3,6 +3,7 @@
 #include <mpi.h>
 #include <X11/Xlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define PRINT_TIME  1
 #define IF_PRINT    1
