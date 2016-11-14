@@ -67,7 +67,7 @@ int main(int argc,char *argv[])
 
 
       /* create window */
-      window = XCreateSimpleWindow(display, RootWindow(display, screen), x, y, width, height, border_width,
+      window = XCreateSimpleWindow(display, RootWindow(display, screen), x_location, y_location, width, height, border_width,
               BlackPixel(display, screen), WhitePixel(display, screen));
 
       /* create graph */
