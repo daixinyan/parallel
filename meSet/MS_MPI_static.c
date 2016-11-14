@@ -95,6 +95,7 @@ int main(int argc,char *argv[])
     double total_end_time;
 
 
+
     /**init mpi**/
         MPI_Init(&argc, &argv);
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -225,7 +226,7 @@ void my_init(int argc,char *argv[])
         parameters.upper_range_of_imag = atof(argv[5]);
         parameters.number_of_points_x = atoi(argv[6]);
         parameters.number_of_points_y = atoi(argv[7]);
-        parameters.is_enable = 6==strlen(argv[8]);
+        parameters.is_enable = (strcmp("enable", argv[8]) == 0);
       }
       parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
       parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
