@@ -61,6 +61,8 @@ int max_loop = 10000;
     Task* processes_task;
     DrawPoint* processes_points;
 
+		MPI_Datatype mpi_point_type;
+
 /**start struct time**/
     double communication_time = .0;
     double compution_time = .0;
@@ -91,6 +93,10 @@ void my_draw();
 
 /**/
 void my_summatize();
+
+/**/
+void my_create_type();
+
 
 int main(int argc,char *argv[])
 {
@@ -170,17 +176,7 @@ void my_excute()
 void my_summatize()
 {
   int i;
-  const int nitems=3;
-  MPI_Datatype types[3] = {MPI_INT, MPI_SHORT, MPI_SHORT};
-  MPI_Datatype mpi_point_type;
-  MPI_Aint     offsets[3];
-  int          blocklengths[3] = {1,1,1};
-  offsets[0] = offsetof(DrawPoint, repeats);
-  offsets[1] = offsetof(DrawPoint, x);
-  offsets[2] = offsetof(DrawPoint, y);
 
-  MPI_Type_create_struct(nitems, blocklengths, offsets, types, &mpi_point_type);
-  MPI_Type_commit(&mpi_point_type);
   if (rank==0)
   {
     for ( i = 1; i < actual_size; i++)
@@ -189,7 +185,7 @@ void my_summatize()
         &processes_points[ processes_task[i].process_handle_start_x * parameters.number_of_points_y ],
         processes_task[i].process_handle_count_x * parameters.number_of_points_y,
         mpi_point_type,
-        CENTER_NODE,
+        i,
         TAG_POINT,
         MPI_COMM_WORLD,
         MPI_STATUS_IGNORE
@@ -271,6 +267,19 @@ void my_draw()
 	}
 }
 
+void my_create_type()
+{
+	const int nitems=3;
+  MPI_Datatype types[3] = {MPI_INT, MPI_SHORT, MPI_SHORT};
+  MPI_Aint     offsets[3];
+  int          blocklengths[3] = {1,1,1};
+  offsets[0] = offsetof(DrawPoint, repeats);
+  offsets[1] = offsetof(DrawPoint, x);
+  offsets[2] = offsetof(DrawPoint, y);
+
+  MPI_Type_create_struct(nitems, blocklengths, offsets, types, &mpi_point_type);
+  MPI_Type_commit(&mpi_point_type);
+}
 
 void my_init(int argc,char *argv[])
 {
@@ -333,6 +342,8 @@ void my_init(int argc,char *argv[])
         processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
               processes_task[rank].process_handle_count_x * parameters.number_of_points_y );
       }
+
+			my_create_type();
 
 
 }
