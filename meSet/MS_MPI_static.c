@@ -252,7 +252,7 @@ void my_draw()
 		XMapWindow(display, window);
 		XSync(display, 0);
 
-		int i;
+		int i=0,j=0;
 		DrawPoint* temp ;
 		for(i=0; i<parameters.number_of_points_x * parameters.number_of_points_y; i++)
 		{
@@ -261,7 +261,7 @@ void my_draw()
 			XDrawPoint (display, window, gc, temp->x, temp->y);
 			if(temp->x==0 && temp->y==0 && temp->repeats==0)
 			{
-				printf("right \n");
+				printf("right %d\n",j++);
 			}
 		}
 
