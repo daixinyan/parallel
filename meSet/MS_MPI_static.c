@@ -143,7 +143,7 @@ void my_excute()
 	Compl z, c;
 	int repeats;
 	double temp, lengthsq;
-	int i, j, k;
+	int i, j, k, count_point=0;
 	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
   {
 
@@ -164,9 +164,9 @@ void my_excute()
 				repeats++;
 			}
 
-      processes_points[k*j].x = i;
-      processes_points[k*j].y = j;
-      processes_points[k*j].repeats = repeats;
+      processes_points[count_point].x = i;
+      processes_points[count_point].y = j;
+      processes_points[count_point++].repeats = repeats;
 
 		}
 	}
