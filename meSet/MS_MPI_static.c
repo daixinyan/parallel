@@ -53,7 +53,10 @@ typedef struct RecordDrawPoint
     int size, rank, actual_size;
 /**end struct**/
 /* set window size */
-
+/* set window size */
+int width ;
+int height ;
+int max_loop = 10000;
 
     Task* processes_task;
     DrawPoint* processes_points;
@@ -220,13 +223,6 @@ void my_draw()
 
 		screen = DefaultScreen(display);
 
-		/* set window size */
-		int width ;
-		int height ;
-
-		width = parameters.number_of_points_x;
-		height = parameters.number_of_points_y;
-
 		/* set window position */
 		int x = 0;
 		int y = 0;
@@ -297,6 +293,9 @@ void my_init(int argc,char *argv[])
 
       parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
       parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
+
+			width = parameters.number_of_points_x;
+			height = parameters.number_of_points_y;
 
       int reminder,quotient,index;
       reminder = parameters.number_of_points_x % size;
