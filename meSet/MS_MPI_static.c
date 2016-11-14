@@ -10,6 +10,9 @@
 #define TAG_TASK    0
 #define TAG_POINT   1
 
+#define max(x,y)  ( x>y?x:y )
+#define min(x,y)  ( x>y?y:x )
+
 typedef struct complextype
 {
 	double real, imag;

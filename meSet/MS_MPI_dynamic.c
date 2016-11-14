@@ -10,6 +10,9 @@
 #define TAG_TASK    0
 #define TAG_POINT   1
 
+#define max(x,y)  ( x>y?x:y )
+#define min(x,y)  ( x>y?y:x )
+
 typedef struct complextype
 {
 	double real, imag;
@@ -88,9 +91,11 @@ void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_
 /**/
 void my_init(int argc,char *argv[]);
 void my_excute();
-void getTask();
+int getTask();
 void handleTask();
 void dispatchTask();
+
+void my_create_type();
 
 int main(int argc,char *argv[])
 {
@@ -99,8 +104,8 @@ int main(int argc,char *argv[])
     double total_start_time;
     double total_end_time;
 
-    double start_time;
-    double end_time;
+
+
 
 
     /**init mpi**/
@@ -112,7 +117,7 @@ int main(int argc,char *argv[])
 
 
 
-        my_init();
+        my_init(argc, argv);
 				my_excute();
 
 
@@ -158,10 +163,10 @@ void handleTask()
 	int i, j, k;
 
   #pragma omp parallel for private(j,z,c,temp,lengthsq,repeats) schedule(static,10)
-	for( k=0; k<task.process_handle_count_x; k++)
+	for( k=0; k<task->process_handle_count_x; k++)
   {
 
-    i = k + task.process_handle_start_x;
+    i = k + task->process_handle_start_x;
 		for(j=0; j<parameters.number_of_points_y; j++) {
 			z.real = 0.0;
 			z.imag = 0.0;
@@ -189,7 +194,7 @@ void handleTask()
 
 
 
-void getTask()
+int getTask()
 {
 	mySendrecv(&ask_for_task_message, 1, MPI_INT, CENTER_NODE, TAG_TASK,
 							task, 1, mpi_task_type, CENTER_NODE, TAG_TASK,MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -200,24 +205,26 @@ void getTask()
 void dispatchTask()
 {
 	MPI_Status status;
+	int i;
 
 
 	while (task_dispacher_pointer<parameters.number_of_points_x) {
 
 		task->process_handle_start_x = task_dispacher_pointer;
-		task->process_handle_count_x = min(parameters.number_of_points_x-task, transfer_size);
-		task_dispacher_pointer = +task->process_handle_count_x;
+		task->process_handle_count_x = min(parameters.number_of_points_x - task_dispacher_pointer, transfer_size);
+		task_dispacher_pointer = task->process_handle_count_x;
 
 
-		myRecv(&ask_for_task_messag, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, status);
-		mySend(task, 1, mpi_task_type, taskstatus.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
+		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 		//merge.
 	}
 
 	task->process_handle_count_x = 0;
-	for ( i=0; i < actual_size; i++) {
-		myRecv(&ask_for_task_messag, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, status);
-		mySend(task, 1, mpi_task_type, taskstatus.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+	for ( i=0; i < actual_size; i++)
+	{
+		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
+		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 	}
 }
 
@@ -260,7 +267,7 @@ void my_init(int argc,char *argv[])
       else
       {
         processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
-              processes_task[rank].process_handle_count_x * parameters.number_of_points_y );
+              parameters.number_of_points_x * parameters.number_of_points_y );
       }
 
 }
@@ -268,8 +275,8 @@ void my_init(int argc,char *argv[])
 
 void my_create_type()
 {
-	const points_nitems = 3;
-	const task_nitems = 2;
+	const int points_nitems = 3;
+	const int task_nitems = 2;
 	MPI_Datatype points_types[3] = {MPI_INT, MPI_SHORT, MPI_SHORT};
   MPI_Aint     points_offsets[3];
   int          points_blocklengths[3] = {1,1,1};
