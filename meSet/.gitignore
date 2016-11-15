@@ -1,4 +1,6 @@
 *.sh
+*.e*
+*.o*
 Makefile
 sample
 MS_Hybrid_static
