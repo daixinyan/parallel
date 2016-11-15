@@ -114,7 +114,7 @@ int main(int argc,char *argv[])
 
    void my_draw()
    {
-   	if(rank==0 && parameters.is_enable)
+   	if( parameters.is_enable)
    	{
    		Display *display;
    		Window window;      //initialization for a window
@@ -199,7 +199,7 @@ int main(int argc,char *argv[])
 				 }
 				 parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
 				 parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
-				 
+
          processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
                parameters.number_of_points_x * parameters.number_of_points_y );
 	 }
