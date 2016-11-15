@@ -3,6 +3,7 @@
  */
 #include <X11/Xlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 typedef struct complextype
 {
