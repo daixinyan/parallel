@@ -75,8 +75,6 @@ int main(int argc,char *argv[])
 
 	 void my_excute()
 	 {
-			 queue = CreateQueue(MAXSIZE);
-			 deleteQueue = CreateQueue(ADDGETSIZE);
 
 			 Compl z, c;
 
