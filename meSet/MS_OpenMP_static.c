@@ -199,7 +199,7 @@ int main(int argc,char *argv[])
 				 }
 				 parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
 				 parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
-				 border_width = parameters.number_of_points_x/width;
+				 
          processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
                parameters.number_of_points_x * parameters.number_of_points_y );
 	 }
