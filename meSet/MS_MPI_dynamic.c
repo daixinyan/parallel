@@ -352,8 +352,8 @@ void my_init(int argc,char *argv[])
         parameters.right_range_of_real = 2;
         parameters.lower_range_of_imag = -2;
         parameters.upper_range_of_imag = 2;
-        parameters.number_of_points_x = 400;
-        parameters.number_of_points_y = 400;
+        parameters.number_of_points_x = 800;
+        parameters.number_of_points_y = 800;
         parameters.is_enable = 1;
       }
       else
@@ -369,6 +369,9 @@ void my_init(int argc,char *argv[])
       }
       parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
       parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
+
+			width = parameters.number_of_points_x;
+			height = parameters.number_of_points_y;
 
 			my_create_type();
 			task = (Task*)malloc(sizeof(Task));
