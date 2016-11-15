@@ -4,6 +4,7 @@
 #include <X11/Xlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <syslib.h>
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
@@ -73,6 +74,8 @@ int transfer_size = 10;
 
 Task *task;
 int task_dispacher_pointer = 0;
+int task_complete_pointer = 0;
+int *number_of_task_per_thread ;
 DrawPoint* processes_points;
 MPI_Datatype mpi_point_type;
 MPI_Datatype mpi_task_type;
@@ -92,10 +95,15 @@ void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_
 /**/
 void my_init(int argc,char *argv[]);
 void my_excute();
+void my_summatize();
+void my_excute_as_single_node();
+
+void my_draw();
+
+
 int getTask();
 void handleTask();
 void dispatchTask();
-
 void my_create_type();
 
 int main(int argc,char *argv[])
@@ -104,10 +112,6 @@ int main(int argc,char *argv[])
     /**record time**/
     double total_start_time;
     double total_end_time;
-
-
-
-
 
     /**init mpi**/
         MPI_Init(&argc, &argv);
@@ -119,7 +123,15 @@ int main(int argc,char *argv[])
 
 
         my_init(argc, argv);
-				my_excute();
+		if(actual_size>0)
+		{
+			my_excute();
+			my_summatize();
+		}
+		else
+		{
+			my_excute_as_single_node();
+		}
 
 
 
@@ -129,14 +141,14 @@ int main(int argc,char *argv[])
 
     if(PRINT_TIME)
     {
-        printf("total_time: %f\n communication_time: %f\n compution_time: %f\n",
-            total_time, communication_time, compution_time );
+        printf( "total_time: %f\n communication_time: %f\n compution_time: %f\n",
+            										total_time, communication_time, compution_time );
     }
+
+		my_draw();
 
     MPI_Finalize();
 }
-
-
 
 
 
@@ -155,6 +167,14 @@ void my_excute()
 	}
 }
 
+
+void my_excute_as_single_node()
+{
+	task->process_handle_count_x = parameters.number_of_points_x;
+	task->process_handle_start_x = 0;
+	handleTask();
+}
+
 void handleTask()
 {
 	/* draw points */
@@ -163,7 +183,6 @@ void handleTask()
 	double temp, lengthsq;
 	int i, j, k;
 
-  #pragma omp parallel for private(j,z,c,temp,lengthsq,repeats) schedule(static,10)
 	for( k=0; k<task->process_handle_count_x; k++)
   {
 
@@ -184,16 +203,46 @@ void handleTask()
 				repeats++;
 			}
 
-      processes_points[k*j].x = i;
-      processes_points[k*j].y = j;
-      processes_points[k*j].repeats = repeats;
+      processes_points[task_complete_pointer].x = i;
+      processes_points[task_complete_pointer].y = j;
+      processes_points[task_complete_pointer++].repeats = repeats;
 
 		}
 	}
 }
 
 
+void my_summatize()
+{
+	int i;
 
+  if (rank==0)
+  {
+    for ( i = 1; i < actual_size; i++)
+    {
+      myRecv(
+        &processes_points[ processes_task[i].process_handle_start_x * parameters.number_of_points_y ],
+        processes_task[i].process_handle_count_x * parameters.number_of_points_y,
+        mpi_point_type,
+        i,
+        TAG_POINT,
+        MPI_COMM_WORLD,
+        MPI_STATUS_IGNORE
+      );
+    }
+  }
+  else if(actual_size>rank)
+  {
+    mySend( processes_points,
+            processes_task[rank].process_handle_count_x * parameters.number_of_points_y,
+            mpi_point_type,
+            CENTER_NODE,
+            TAG_POINT,
+            MPI_COMM_WORLD,
+            MPI_STATUS_IGNORE
+          );
+  }
+}
 
 int getTask()
 {
@@ -218,6 +267,9 @@ void dispatchTask()
 
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
 		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+
+
+		number_of_task_per_thread[status.MPI_SOURCE] += task->process_handle_count_x;
 		//merge.
 	}
 
@@ -229,6 +281,64 @@ void dispatchTask()
 	}
 }
 
+
+void my_draw()
+{
+	if(rank==0 && parameters.is_enable)
+	{
+		Display *display;
+		Window window;      //initialization for a window
+		int screen;         //which screen
+
+		/* open connection with the server */
+		display = XOpenDisplay(NULL);
+		if(display == NULL) {
+			fprintf(stderr, "cannot open display\n");
+			return;
+		}
+
+		screen = DefaultScreen(display);
+
+		/* set window position */
+		int x = 0;
+		int y = 0;
+
+		/* border width in pixels */
+		int border_width = 0;
+
+		/* create window */
+		window = XCreateSimpleWindow(display, RootWindow(display, screen), x, y, width, height, border_width,
+						BlackPixel(display, screen), WhitePixel(display, screen));
+
+		/* create graph */
+		GC gc;
+		XGCValues values;
+		long valuemask = 0;
+
+		gc = XCreateGC(display, window, valuemask, &values);
+		//XSetBackground (display, gc, WhitePixel (display, screen));
+		XSetForeground (display, gc, BlackPixel (display, screen));
+		XSetBackground(display, gc, 0X0000FF00);
+		XSetLineAttributes (display, gc, 1, LineSolid, CapRound, JoinRound);
+
+		/* map(show) the window */
+		XMapWindow(display, window);
+		XSync(display, 0);
+
+		int i=0,j=0;
+		DrawPoint* temp ;
+		for(i=0; i<parameters.number_of_points_x * parameters.number_of_points_y; i++)
+		{
+			temp = &processes_points[i];
+			XSetForeground (display, gc,  1024 * 1024 * (temp->repeats % 256));
+			XDrawPoint (display, window, gc, temp->x, temp->y);
+		}
+
+		XFlush(display);
+		sleep(5);
+
+	}
+}
 
 void my_init(int argc,char *argv[])
 {
@@ -262,6 +372,9 @@ void my_init(int argc,char *argv[])
 			task = (Task*)malloc(sizeof(Task));
 			if (rank == 0)
       {
+				number_of_task_per_thread = (int*)malloc( sizeof(int)*size );
+				memset(number_of_task_per_thread, 0, size*sizeof(int));
+
         processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
               parameters.number_of_points_x * parameters.number_of_points_y );
       }

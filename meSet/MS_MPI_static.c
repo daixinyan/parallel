@@ -256,10 +256,7 @@ void my_draw()
 			temp = &processes_points[i];
 			XSetForeground (display, gc,  1024 * 1024 * (temp->repeats % 256));
 			XDrawPoint (display, window, gc, temp->x, temp->y);
-			if(temp->x==0 && temp->y==0 && temp->repeats==0)
-			{
-				printf("right %d\n",j++);
-			}
+			
 		}
 
 		XFlush(display);
