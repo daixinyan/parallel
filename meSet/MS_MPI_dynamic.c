@@ -4,7 +4,6 @@
 #include <X11/Xlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <syslib.h>
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
@@ -343,6 +342,8 @@ void my_draw()
 void my_init(int argc,char *argv[])
 {
   /**init excute parameters.**/
+
+	int index;
       if(argc<3)
       {
         parameters.number_of_threads = 8;
@@ -373,7 +374,9 @@ void my_init(int argc,char *argv[])
 			if (rank == 0)
       {
 				number_of_task_per_thread = (int*)malloc( sizeof(int)*size );
-				memset(number_of_task_per_thread, 0, size*sizeof(int));
+				for ( index = 0; index < size; index++) {
+					number_of_task_per_thread[index] = 0;
+				}
 
         processes_points = (DrawPoint*) malloc( sizeof(DrawPoint) *
               parameters.number_of_points_x * parameters.number_of_points_y );
