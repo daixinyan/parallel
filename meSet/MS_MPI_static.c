@@ -144,7 +144,7 @@ void my_excute()
 	Compl z, c;
 	int repeats;
 	double temp, lengthsq;
-	int i, j, k, count_point=0;
+	int i, j, k;
 	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
   {
 
@@ -165,9 +165,9 @@ void my_excute()
 				repeats++;
 			}
 
-      processes_points[count_point].x = i;
-      processes_points[count_point].y = j;
-      processes_points[count_point++].repeats = repeats;
+			processes_points[k*parameters.number_of_points_y+j].x = i;
+      processes_points[k*parameters.number_of_points_y+j].y = j;
+      processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
 
 		}
 	}
@@ -256,7 +256,7 @@ void my_draw()
 			temp = &processes_points[i];
 			XSetForeground (display, gc,  1024 * 1024 * (temp->repeats % 256));
 			XDrawPoint (display, window, gc, temp->x, temp->y);
-			
+
 		}
 
 		XFlush(display);

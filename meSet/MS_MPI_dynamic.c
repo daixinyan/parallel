@@ -202,12 +202,13 @@ void handleTask()
 				repeats++;
 			}
 
-      processes_points[task_complete_pointer].x = i;
-      processes_points[task_complete_pointer].y = j;
-      processes_points[task_complete_pointer++].repeats = repeats;
-
+			processes_points[k*parameters.number_of_points_y+j].x = i;
+      processes_points[k*parameters.number_of_points_y+j].y = j;
+      processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
 		}
 	}
+	task_complete_pointer += task->process_handle_count_x * parameters.number_of_points_y;
+
 }
 
 
