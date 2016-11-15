@@ -217,11 +217,12 @@ void my_summatize()
 
   if (rank==0)
   {
+		task_complete_pointer = 0;
     for ( i = 1; i < actual_size; i++)
     {
       myRecv(
-        &processes_points[ processes_task[i].process_handle_start_x * parameters.number_of_points_y ],
-        processes_task[i].process_handle_count_x * parameters.number_of_points_y,
+        &processes_points[ task_complete_pointer ],
+        number_of_task_per_thread[i],
         mpi_point_type,
         i,
         TAG_POINT,
@@ -233,7 +234,7 @@ void my_summatize()
   else if(actual_size>rank)
   {
     mySend( processes_points,
-            processes_task[rank].process_handle_count_x * parameters.number_of_points_y,
+            task_complete_pointer,
             mpi_point_type,
             CENTER_NODE,
             TAG_POINT,
