@@ -251,7 +251,7 @@ void my_draw()
 		XMapWindow(display, window);
 		XSync(display, 0);
 
-		int i=0,j=0;
+		int i=0;
 		DrawPoint* temp ;
 		for(i=0; i<parameters.number_of_points_x * parameters.number_of_points_y; i++)
 		{
