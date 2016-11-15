@@ -206,8 +206,8 @@ int main(int argc,char *argv[])
 					 parameters.right_range_of_real = 2;
 					 parameters.lower_range_of_imag = -2;
 					 parameters.upper_range_of_imag = 2;
-					 parameters.number_of_points_x = 400;
-					 parameters.number_of_points_y = 400;
+					 parameters.number_of_points_x = 800;
+					 parameters.number_of_points_y = 800;
 					 parameters.is_enable = 1;
 				 }
 				 else

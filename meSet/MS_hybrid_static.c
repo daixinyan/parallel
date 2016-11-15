@@ -1,0 +1,227 @@
+/*
+	openmp Mandelbort sort
+*/
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include<string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+
+#define MAXSIZE 640000
+#define ADDGETSIZE 40
+#define IF_PRINT 1
+
+#define max(x,y)  ( x>y?x:y )
+#define min(x,y)  ( x>y?y:x )
+
+
+
+typedef struct complextype
+{
+ double real, imag;
+} Compl;
+
+struct
+{
+ int number_of_threads;
+ double left_range_of_real;
+ double right_range_of_real;
+ double real_range;
+ double lower_range_of_imag;
+ double upper_range_of_imag;
+ double imag_range;
+ int number_of_points_x;
+ int number_of_points_y;
+ int is_enable;
+}parameters;
+
+typedef struct DrawPoint
+{
+	 int repeats;
+	 short x,y;
+}DrawPoint;
+typedef struct Queue
+{
+	 DrawPoint* data;
+	 int front;
+	 int rear;
+	 int size;
+}Queue;
+Queue* CreateQueue(int size);
+int AddQ(Queue* q, int repeats, int x, int y);
+int DeleteQ(Queue* q,Queue* deleteQueue) ;
+int GetQ(Queue* q, DrawPoint* point);
+
+void my_excute_calculate();
+void my_excute_draw();
+void my_init_x11();
+void my_init(int argc,char *argv[]);
+void my_main_excute();
+
+
+
+ Display *display;
+ Window window;      /*initialization for a window*/
+ int screen;         /*which screen*/
+ /* create graph */
+ GC gc;
+ /* set window size */
+ int width = 800;
+ int height = 800;
+
+ int max_loop = 100000;
+ /* set window position */
+ int x = 0;
+ int y = 0;
+ /* border width in pixels */
+ int border_width = 0;
+
+ Queue* queue;
+ Queue* deleteQueue;
+ DrawPoint temp;
+
+int main(int argc,char *argv[])
+{
+
+	 clock_t start_clock = clock();
+	 time_t  start_time = time(NULL);
+
+
+	 my_init(argc,argv);
+	 my_init_x11();
+
+
+
+	 if(display == NULL) {
+			 return 0;
+	 }
+
+	 my_main_excute();
+
+
+   XFlush(display);
+   clock_t end_clock = clock();
+  			 time_t  end_time = time(NULL);
+   printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
+   printf("TIME:  %ld\n",(end_time-start_time) );
+
+
+   sleep(5);
+   return 0;
+}
+
+	 void my_main_excute()
+	 {
+			 queue = CreateQueue(MAXSIZE);
+			 deleteQueue = CreateQueue(ADDGETSIZE);
+			 omp_set_nested(1);
+
+			 Compl z, c;
+
+							 double temp, lengthsq;
+							 int repeats;
+							 int i=0, j=0;
+							 #pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(static,10)
+							 for(i=0; i<parameters.number_of_points_x; i++)
+							 {
+									 for(j=0; j<parameters.number_of_points_y; j++)
+									 {
+											 repeats = 0;
+											 z.real = 0.0;
+											 z.imag = 0.0;
+
+
+											 c.real = (double)i/(double)width*parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
+											 c.imag = (double)j/(double)height*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
+
+											 lengthsq = 0.0;
+
+											 while(repeats < max_loop && lengthsq < 4.0) { /* Theorem : If c belongs to M, then |Zn| <= 2. So Zn^2 <= 4 */
+													 temp = z.real*z.real - z.imag*z.imag + c.real;
+													 z.imag = 2*z.real*z.imag + c.imag;
+													 z.real = temp;
+													 lengthsq = z.real*z.real + z.imag*z.imag;
+													 repeats++;
+											 }
+                       #pragma omp critical
+                       {
+                           XSetForeground (display, gc,  1024 * 1024 * (repeats % 256));
+                           XDrawPoint (display, window, gc, ,i*width/parameters.number_of_points_x,j*height/parameters.number_of_points_y);
+                       }
+									 }
+									 if(IF_PRINT&&(i==width-1))
+									 {
+											 printf("done with calculating.\n");
+									 }
+							 }
+
+	 }
+
+
+
+
+	 void my_init_x11()
+	 {
+
+			 /* open connection with the server */
+			 display = XOpenDisplay(NULL);
+			 if(display == NULL) {
+					 fprintf(stderr, "cannot open display\n");
+					 return;
+			 }
+
+			 screen = DefaultScreen(display);
+					 /* create window */
+			 window = XCreateSimpleWindow(
+																 display, RootWindow(display, screen),
+																 x, y, width, height, border_width,
+																 BlackPixel(display, screen),
+																 WhitePixel(display, screen)
+			 );
+
+			 /* create graph */
+			 XGCValues values;
+			 long valuemask = 0;
+
+			 gc = XCreateGC(display, window, valuemask, &values);
+			 /*XSetBackground (display, gc, WhitePixel (display, screen));*/
+			 XSetForeground (display, gc, BlackPixel (display, screen));
+			 XSetBackground(display, gc, 0X0000FF00);
+			 XSetLineAttributes (display, gc, 1, LineSolid, CapRound, JoinRound);
+
+			 /* map(show) the window */
+			 XMapWindow(display, window);
+			 XSync(display, 0);
+	 }
+
+
+	 void my_init(int argc,char *argv[])
+	 {
+		 /**init excute parameters.**/
+				 if(argc<3)
+				 {
+					 parameters.number_of_threads = 8;
+					 parameters.left_range_of_real = -2;
+					 parameters.right_range_of_real = 2;
+					 parameters.lower_range_of_imag = -2;
+					 parameters.upper_range_of_imag = 2;
+					 parameters.number_of_points_x = 800;
+					 parameters.number_of_points_y = 800;
+					 parameters.is_enable = 1;
+				 }
+				 else
+				 {
+					 parameters.number_of_threads = atoi(argv[1]);
+					 parameters.left_range_of_real = atof(argv[2]);
+					 parameters.right_range_of_real = atof(argv[3]);
+					 parameters.lower_range_of_imag = atof(argv[4]);
+					 parameters.upper_range_of_imag = atof(argv[5]);
+					 parameters.number_of_points_x = atoi(argv[6]);
+					 parameters.number_of_points_y = atoi(argv[7]);
+					 parameters.is_enable = strlen("enable")==strlen(argv[8]);
+				 }
+				 parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
+				 parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
+				 border_width = parameters.number_of_points_x/width;
+	 }

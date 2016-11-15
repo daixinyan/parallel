@@ -41,17 +41,7 @@ typedef struct DrawPoint
 	 int repeats;
 	 short x,y;
 }DrawPoint;
-typedef struct Queue
-{
-	 DrawPoint* data;
-	 int front;
-	 int rear;
-	 int size;
-}Queue;
-Queue* CreateQueue(int size);
-int AddQ(Queue* q, int repeats, int x, int y);
-int DeleteQ(Queue* q,Queue* deleteQueue) ;
-int GetQ(Queue* q, DrawPoint* point);
+
 
 void my_excute_calculate();
 void my_excute_draw();
@@ -59,26 +49,11 @@ void my_init_x11();
 void my_init(int argc,char *argv[]);
 void my_main_excute();
 
- Display *display;
- Window window;      /*initialization for a window*/
- int screen;         /*which screen*/
- /* create graph */
- GC gc;
  /* set window size */
  int width = 800;
  int height = 800;
 
  int max_loop = 100000;
- 
- /* set window position */
- int x = 0;
- int y = 0;
- /* border width in pixels */
- int border_width = 0;
-
- Queue* queue;
- Queue* deleteQueue;
- DrawPoint temp;
 
 int main(int argc,char *argv[])
 {
@@ -114,7 +89,6 @@ int main(int argc,char *argv[])
 	 {
 			 queue = CreateQueue(MAXSIZE);
 			 deleteQueue = CreateQueue(ADDGETSIZE);
-			 omp_set_nested(1);
 
 			 Compl z, c;
 
@@ -298,80 +272,3 @@ int main(int argc,char *argv[])
 				 parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
 				 border_width = parameters.number_of_points_x/width;
 	 }
-
-
-Queue* CreateQueue(int size) {
-	 Queue* q = (Queue*)malloc(sizeof(Queue));
-	 q->data = (DrawPoint*)malloc(sizeof(DrawPoint)*size);
-	 if ( (!q) || (!q->data) ) {
-			 printf("no enough space.\n");
-			 return NULL;
-	 }
-	 q->front = -1;
-	 q->rear = -1;
-	 q->size = 0;
-	 return q;
-}
-
-
-int AddQ(Queue* q, int repeats, int x, int y) {
-	 if((q->size == MAXSIZE))
-	 {
-			 return 0;
-	 }
-	 q->rear++;
-	 if(q->rear==MAXSIZE)
-	 {
-			 q->rear = 0;
-	 }
-	 q->size++;
-
-	 q->data[q->rear].repeats = repeats;
-	 q->data[q->rear].x = x;
-	 q->data[q->rear].y = y;
-
-	 return 1;
-}
-
-
-int GetQ(Queue* q,DrawPoint* point) {
-	 if(q->size == 0)
-	 {
-			 return 0;
-	 }
-	 q->front++;
-	 if(q->front == MAXSIZE)
-	 {
-			 q->front = 0;
-	 }
-	 q->size--;
-	 point->repeats = q->data[q->front].repeats;
-	 point->x = q->data[q->front].x;
-	 point->y = q->data[q->front].y;
-	 return 1;
-}
-
-int DeleteQ(Queue* q, Queue* deleteQueue) {
-
-	 int count = min ( ADDGETSIZE , q->size );
-	 int l = min( count, MAXSIZE-q->front -1);
-	 //int i;
-	 //for ( i = 0; i < count; i++) {
-	 //	q->front++;
-			 //	if(q->front == MAXSIZE)
-		 //	{
-				 //		q->front = 0;
-			 //	}
-	 //	memcpy( &(deleteQueue->data[i]), &(q->data[q->front]), sizeof(DrawPoint));
-	 //	deleteQueue->data[i].repeats = q->data[q->front].repeats;
-	 //	deleteQueue->data[i].x = q->data[q->front].x;
-	 //	deleteQueue->data[i].y = q->data[q->front].y;
-	 //}
-	 memcpy( &(deleteQueue->data[0]), &(q->data[q->front+1]), l*sizeof(DrawPoint));
-	 memcpy( &(deleteQueue->data[l]), &(q->data[0]), (count-l)*sizeof(DrawPoint));
-	 q->size -= count;
-	 q->front += count;
-	 if(q->front >= MAXSIZE) q->front -= MAXSIZE;
-	 deleteQueue->size = count;
-	 return count;
-}

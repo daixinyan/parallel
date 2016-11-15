@@ -119,6 +119,7 @@ int main(int argc,char *argv[])
 
         my_init(argc, argv);
         my_excute();
+				my_summatize();
 
 
 
