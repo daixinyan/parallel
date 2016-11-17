@@ -267,7 +267,7 @@ void dispatchTask()
 
 		task->process_handle_start_x = task_dispacher_pointer;
 		task->process_handle_count_x = min(parameters.number_of_points_x - task_dispacher_pointer, transfer_size);
-		task_dispacher_pointer = task->process_handle_count_x;
+		task_dispacher_pointer += task->process_handle_count_x;
 
 
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
