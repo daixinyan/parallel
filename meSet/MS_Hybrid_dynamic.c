@@ -122,7 +122,7 @@ int main(int argc,char *argv[])
 
 
         my_init(argc, argv);
-		if(actual_size>0)
+		if(actual_size>1)
 		{
 			my_excute();
 			my_summatize();
@@ -375,6 +375,7 @@ void my_init(int argc,char *argv[])
 			height = parameters.number_of_points_y;
 
 			my_create_type();
+			actual_size = size;
 			task = (Task*)malloc(sizeof(Task));
 			if (rank == 0)
       {
