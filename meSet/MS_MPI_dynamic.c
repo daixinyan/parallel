@@ -138,10 +138,10 @@ int main(int argc,char *argv[])
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time;
 
-    if(PRINT_TIME)
+		if(PRINT_TIME)
     {
-        printf( "total_time: %f\n communication_time: %f\n compution_time: %f\n",
-            										total_time, communication_time, compution_time );
+        printf( "rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
+            										rank, total_time, communication_time, compution_time );
     }
 
 		my_draw();
