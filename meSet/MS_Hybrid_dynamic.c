@@ -69,7 +69,7 @@ int y_position = 0;
 
 
 int max_loop = 1000000;
-int transfer_size = 50;
+int transfer_size = 80;
 
 Task *task;
 int task_dispacher_pointer = 0;
@@ -138,7 +138,7 @@ int main(int argc,char *argv[])
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time;
 
-    if(PRINT_TIME)
+		if(PRINT_TIME)
     {
         printf( "rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
             										rank, total_time, communication_time, compution_time );
@@ -155,7 +155,7 @@ void my_excute()
 {
 	if(rank==0)
 	{
-		 dispatchTask();
+		dispatchTask();
 	}
 	else
 	{
@@ -182,6 +182,7 @@ void handleTask()
 	double temp, lengthsq;
 	int i, j, k;
 
+	#pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(dynamic,10)
 	for( k=0; k<task->process_handle_count_x; k++)
   {
 
@@ -202,13 +203,13 @@ void handleTask()
 				repeats++;
 			}
 
-      processes_points[k*parameters.number_of_points_y+j].x = i;
-      processes_points[k*parameters.number_of_points_y+j].y = j;
-      processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
-
+			processes_points[k*parameters.number_of_points_y+j+task_complete_pointer].x = i;
+      processes_points[k*parameters.number_of_points_y+j+task_complete_pointer].y = j;
+      processes_points[k*parameters.number_of_points_y+j+task_complete_pointer].repeats = repeats;
 		}
 	}
 	task_complete_pointer += task->process_handle_count_x * parameters.number_of_points_y;
+
 }
 
 
@@ -230,6 +231,7 @@ void my_summatize()
         MPI_COMM_WORLD,
         MPI_STATUS_IGNORE
       );
+			task_complete_pointer += number_of_task_per_thread[i];
     }
   }
   else if(actual_size>rank)
@@ -249,6 +251,10 @@ int getTask()
 {
 	mySendrecv(&ask_for_task_message, 1, MPI_INT, CENTER_NODE, TAG_TASK,
 							task, 1, mpi_task_type, CENTER_NODE, TAG_TASK,MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	if(IF_PRINT)
+	{
+		printf("rank: %d  get task : %d\n", rank, task->process_handle_count_x);
+	}
 	return task->process_handle_count_x;
 }
 
@@ -263,22 +269,34 @@ void dispatchTask()
 
 		task->process_handle_start_x = task_dispacher_pointer;
 		task->process_handle_count_x = min(parameters.number_of_points_x - task_dispacher_pointer, transfer_size);
-		task_dispacher_pointer = task->process_handle_count_x;
+		task_dispacher_pointer += task->process_handle_count_x;
 
 
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
 		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 
+		if(IF_PRINT)
+		{
+			printf("rank: %d  allocate task : %d for rank: %d\n", 0, task->process_handle_count_x, status.MPI_SOURCE);
+		}
 
-		number_of_task_per_thread[status.MPI_SOURCE] += task->process_handle_count_x;
+		number_of_task_per_thread[status.MPI_SOURCE] += task->process_handle_count_x * parameters.number_of_points_y;
 		//merge.
 	}
 
 	task->process_handle_count_x = 0;
-	for ( i=0; i < actual_size; i++)
+	for ( i=1; i < actual_size; i++)
 	{
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
+		if(IF_PRINT)
+		{
+			printf("rank: %d informed end!\n", status.MPI_SOURCE);
+		}
 		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+		if(IF_PRINT)
+		{
+			printf("rank: %d knew end!\n", status.MPI_SOURCE);
+		}
 	}
 }
 
@@ -374,8 +392,8 @@ void my_init(int argc,char *argv[])
 			width = parameters.number_of_points_x;
 			height = parameters.number_of_points_y;
 
-			my_create_type();
 			actual_size = size;
+			my_create_type();
 			task = (Task*)malloc(sizeof(Task));
 			if (rank == 0)
       {
