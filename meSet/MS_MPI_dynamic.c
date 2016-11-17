@@ -283,7 +283,7 @@ void dispatchTask()
 	}
 
 	task->process_handle_count_x = 0;
-	for ( i=0; i < actual_size; i++)
+	for ( i=1; i < actual_size; i++)
 	{
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
 		if(IF_PRINT)
