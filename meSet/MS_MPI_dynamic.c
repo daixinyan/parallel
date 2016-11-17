@@ -279,7 +279,7 @@ void dispatchTask()
 			printf("rank: %d  allocate task : %d for rank: %d\n", 0, task->process_handle_count_x, status.MPI_SOURCE);
 		}
 
-		number_of_task_per_thread[status.MPI_SOURCE] += task->process_handle_count_x;
+		number_of_task_per_thread[status.MPI_SOURCE] += task->process_handle_count_x * parameters.number_of_points_y;
 		//merge.
 	}
 
