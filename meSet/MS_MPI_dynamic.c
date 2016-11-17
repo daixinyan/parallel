@@ -202,9 +202,9 @@ void handleTask()
 				repeats++;
 			}
 
-			processes_points[k*parameters.number_of_points_y+j].x = i;
-      processes_points[k*parameters.number_of_points_y+j].y = j;
-      processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
+			processes_points[k*parameters.number_of_points_y+j+task_complete_pointer].x = i;
+      processes_points[k*parameters.number_of_points_y+j+task_complete_pointer].y = j;
+      processes_points[k*parameters.number_of_points_y+j+task_complete_pointer].repeats = repeats;
 		}
 	}
 	task_complete_pointer += task->process_handle_count_x * parameters.number_of_points_y;
@@ -230,6 +230,7 @@ void my_summatize()
         MPI_COMM_WORLD,
         MPI_STATUS_IGNORE
       );
+			task_complete_pointer += number_of_task_per_thread[i];
     }
   }
   else if(actual_size>rank)
