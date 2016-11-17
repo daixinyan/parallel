@@ -69,7 +69,7 @@ int y_position = 0;
 
 
 int max_loop = 1000000;
-int transfer_size = 20;
+int transfer_size = 50;
 
 Task *task;
 int task_dispacher_pointer = 0;
