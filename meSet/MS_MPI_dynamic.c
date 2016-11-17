@@ -155,7 +155,7 @@ void my_excute()
 {
 	if(rank==0)
 	{
-		 dispatchTask();
+		dispatchTask();
 	}
 	else
 	{
@@ -249,6 +249,10 @@ int getTask()
 {
 	mySendrecv(&ask_for_task_message, 1, MPI_INT, CENTER_NODE, TAG_TASK,
 							task, 1, mpi_task_type, CENTER_NODE, TAG_TASK,MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	if(IF_PRINT)
+	{
+		printf("rank: %d  get task : %d\n", rank, task->process_handle_count_x);
+	}
 	return task->process_handle_count_x;
 }
 
@@ -269,6 +273,10 @@ void dispatchTask()
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
 		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 
+		if(IF_PRINT)
+		{
+			printf("rank: %d  allocate task : %d for rank: %d\n", 0, task->process_handle_count_x, status.MPI_SOURCE);
+		}
 
 		number_of_task_per_thread[status.MPI_SOURCE] += task->process_handle_count_x;
 		//merge.
@@ -278,7 +286,15 @@ void dispatchTask()
 	for ( i=0; i < actual_size; i++)
 	{
 		myRecv(&ask_for_task_message, 1, MPI_INT, MPI_ANY_SOURCE, TAG_TASK, MPI_COMM_WORLD, &status);
+		if(IF_PRINT)
+		{
+			printf("rank: %d informed end!\n", status.MPI_SOURCE);
+		}
 		mySend(task, 1, mpi_task_type, status.MPI_SOURCE, TAG_TASK, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+		if(IF_PRINT)
+		{
+			printf("rank: %d knew end!\n", status.MPI_SOURCE);
+		}
 	}
 }
 
