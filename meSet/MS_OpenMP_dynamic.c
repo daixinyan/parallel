@@ -50,7 +50,7 @@ void my_draw();
  /* set window size */
  int width = 800;
  int height = 800;
- int max_loop = 1000000;
+ int max_loop = 10000000;
 
  DrawPoint* processes_points;
 

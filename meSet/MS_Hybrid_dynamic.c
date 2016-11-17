@@ -68,7 +68,7 @@ int y_position = 0;
 /**end struct time**/
 
 
-int max_loop = 1000000;
+int max_loop = 10000000;
 int transfer_size = 80;
 
 Task *task;
