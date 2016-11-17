@@ -56,7 +56,7 @@ typedef struct RecordDrawPoint
 /* set window size */
 int width ;
 int height ;
-int max_loop = 10000;
+int max_loop = 1000000;
 
     Task* processes_task;
     DrawPoint* processes_points;
