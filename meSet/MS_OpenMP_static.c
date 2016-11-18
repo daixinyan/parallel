@@ -65,8 +65,8 @@ int main(int argc,char *argv[])
 	 my_excute();
    clock_t end_clock = clock();
   			 time_t  end_time = time(NULL);
-   printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
-   printf("TIME:  %ld\n",(end_time-start_time) );
+   printf("CLOCK:  %f\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
+   printf("TIME:  %f\n",difftime(end_time, start_time) );
 
    my_draw();
 
