@@ -6,13 +6,16 @@
 #include <unistd.h>
 
 #define PRINT_TIME 1
-#define IF_PRINT   1
+#define IF_PRINT   0
 #define CENTER_NODE 0
 #define TAG_TASK    0
 #define TAG_POINT   1
 
 #define max(x,y)  ( x>y?x:y )
 #define min(x,y)  ( x>y?y:x )
+
+int max_loop = 100000;
+int transfer_size = 20;
 
 typedef struct complextype
 {
@@ -68,8 +71,6 @@ int y_position = 0;
 /**end struct time**/
 
 
-int max_loop = 10000000;
-int transfer_size = 80;
 
 Task *task;
 int task_dispacher_pointer = 0;

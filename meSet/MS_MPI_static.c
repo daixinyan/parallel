@@ -14,6 +14,8 @@
 #define max(x,y)  ( x>y?x:y )
 #define min(x,y)  ( x>y?y:x )
 
+int max_loop = 100000;
+
 typedef struct complextype
 {
 	double real, imag;
@@ -56,7 +58,6 @@ typedef struct RecordDrawPoint
 /* set window size */
 int width ;
 int height ;
-int max_loop = 10000000;
 
     Task* processes_task;
     DrawPoint* processes_points;
