@@ -197,6 +197,9 @@ int main(int argc,char *argv[])
 					 parameters.number_of_points_y = atoi(argv[7]);
 					 parameters.is_enable = strlen("enable")==strlen(argv[8]);
 				 }
+         width = parameters.number_of_points_x;
+         height = parameters.number_of_points_y;
+
 				 parameters.real_range = parameters.right_range_of_real - parameters.left_range_of_real;
 				 parameters.imag_range = parameters.upper_range_of_imag - parameters.lower_range_of_imag;
 
