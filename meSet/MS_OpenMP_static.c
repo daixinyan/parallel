@@ -59,6 +59,8 @@ int main(int argc,char *argv[])
 
 	 clock_t start_clock = clock();
 	 time_t  start_time = time(NULL);
+   struct timeval start,end;
+   gettimeofday(&start, NULL );
 
 
 	 my_init(argc,argv);
@@ -67,6 +69,9 @@ int main(int argc,char *argv[])
   			 time_t  end_time = time(NULL);
    printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
    printf("TIME:  %f\n",difftime(end_time, start_time) );
+   gettimeofday(&end, NULL );
+   long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
+   printf("time=%f\n",timeuse /1000000.0);
 
    my_draw();
 
