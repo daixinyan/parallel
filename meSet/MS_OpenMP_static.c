@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 
 #define MAXSIZE 640000
 #define ADDGETSIZE 40
@@ -66,7 +67,7 @@ int main(int argc,char *argv[])
 	 my_init(argc,argv);
 	 my_excute();
    clock_t end_clock = clock();
-  			 time_t  end_time = time(NULL);
+   time_t  end_time = time(NULL);
    printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
    printf("TIME:  %f\n",difftime(end_time, start_time) );
    gettimeofday(&end, NULL );

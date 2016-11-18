@@ -3,10 +3,11 @@
 */
 #include <X11/Xlib.h>
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 
 #define MAXSIZE 640000
 #define ADDGETSIZE 40
@@ -56,20 +57,25 @@ void my_draw();
 int main(int argc,char *argv[])
 {
 
-	 clock_t start_clock = clock();
-	 time_t  start_time = time(NULL);
+  clock_t start_clock = clock();
+  time_t  start_time = time(NULL);
+  struct timeval start,end;
+  gettimeofday(&start, NULL );
 
 
-	 my_init(argc,argv);
-	 my_excute();
-   clock_t end_clock = clock();
-  			 time_t  end_time = time(NULL);
-   printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
-   printf("TIME:  %ld\n",(end_time-start_time) );
+  my_init(argc,argv);
+  my_excute();
+  clock_t end_clock = clock();
+  time_t  end_time = time(NULL);
+  printf("CLOCK:  %ld\n",(end_clock-start_clock)/CLOCKS_PER_SEC);
+  printf("TIME:  %f\n",difftime(end_time, start_time) );
+  gettimeofday(&end, NULL );
+  long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
+  printf("time=%f\n",timeuse /1000000.0);
 
-   my_draw();
+  my_draw();
 
-   return 0;
+  return 0;
 }
 
 	 void my_excute()
