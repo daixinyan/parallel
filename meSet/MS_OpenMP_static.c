@@ -90,12 +90,13 @@ int main(int argc,char *argv[])
 							 #pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(static,10)
 							 for(i=0; i<parameters.number_of_points_x; i++)
 							 {
+                   int aaa = omp_get_num_threads();
+                   printf("%d\n",aaa );
 									 for(j=0; j<parameters.number_of_points_y; j++)
 									 {
 											 repeats = 0;
 											 z.real = 0.0;
 											 z.imag = 0.0;
-
 
 											 c.real = (double)i/(double)width*parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
 											 c.imag = (double)j/(double)height*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
