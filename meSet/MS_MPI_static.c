@@ -145,11 +145,10 @@ void my_excute()
 	Compl z, c;
 	int repeats;
 	double temp, lengthsq;
-	int i, j, k;
+	int i=0, j=0, k=0;
 	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
   {
-
-    i = k + processes_task[rank].process_handle_start_x;
+		i += actual_size;
 		for(j=0; j<parameters.number_of_points_y; j++) {
 			z.real = 0.0;
 			z.imag = 0.0;
