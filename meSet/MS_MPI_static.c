@@ -145,15 +145,16 @@ void my_excute()
 	Compl z, c;
 	int repeats;
 	double temp, lengthsq;
-	int i=0, j=0, k=0;
+	int i=rank, j=0, k=0;
 	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
-  {
-		i += actual_size;
-		for(j=0; j<parameters.number_of_points_y; j++) {
+  	{
+
+		for(j=0; j<parameters.number_of_points_y; j++) 
+		{
 			z.real = 0.0;
 			z.imag = 0.0;
-      c.real = (double)i / (double)width * parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
-      c.imag = (double)j / (double)height * parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
+      			c.real = (double)i / (double)width * parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
+      			c.imag = (double)j / (double)height * parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
 			repeats = 0;
 			lengthsq = 0.0;
 
@@ -166,10 +167,11 @@ void my_excute()
 			}
 
 			processes_points[k*parameters.number_of_points_y+j].x = i;
-      processes_points[k*parameters.number_of_points_y+j].y = j;
-      processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
+      			processes_points[k*parameters.number_of_points_y+j].y = j;
+      			processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
 
 		}
+		i += actual_size;
 	}
 }
 
