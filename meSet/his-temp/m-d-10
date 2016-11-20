@@ -1,0 +1,40 @@
+rank: 1
+ total_time: 10.353369
+ communication_time: 2.349636
+ compution_time: 8.003732
+rank: 2
+ total_time: 10.355280
+ communication_time: 1.174861
+ compution_time: 9.180418
+rank: 3
+ total_time: 10.356498
+ communication_time: 1.640700
+ compution_time: 8.715798
+rank: 4
+ total_time: 10.357178
+ communication_time: 1.393292
+ compution_time: 8.963886
+rank: 5
+ total_time: 10.358450
+ communication_time: 0.267613
+ compution_time: 10.090837
+rank: 6
+ total_time: 10.359664
+ communication_time: 2.007791
+ compution_time: 8.351873
+rank: 7
+ total_time: 10.360954
+ communication_time: 0.010757
+ compution_time: 10.350197
+rank: 8
+ total_time: 10.361573
+ communication_time: 0.205806
+ compution_time: 10.155766
+rank: 0
+ total_time: 10.363038
+ communication_time: 10.362967
+ compution_time: 0.000071
+rank: 9
+ total_time: 10.363052
+ communication_time: 0.015955
+ compution_time: 10.347097

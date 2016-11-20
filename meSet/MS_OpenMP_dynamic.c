@@ -86,7 +86,7 @@ int main(int argc,char *argv[])
 							 double temp, lengthsq;
 							 int repeats;
 							 int i=0, j=0;
-							 #pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(dynamic,10) num_threads(parameters.number_of_threads)
+							 #pragma omp parallel for  private(i,j,z,c,temp,lengthsq,repeats) schedule(dynamic,20) num_threads(parameters.number_of_threads)
 							 for(i=0; i<parameters.number_of_points_x; i++)
 							 {
 									 for(j=0; j<parameters.number_of_points_y; j++)

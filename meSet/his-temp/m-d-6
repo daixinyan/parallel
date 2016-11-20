@@ -1,0 +1,24 @@
+rank: 1
+ total_time: 18.215445
+ communication_time: 2.259029
+ compution_time: 15.956416
+rank: 2
+ total_time: 18.217754
+ communication_time: 0.600973
+ compution_time: 17.616781
+rank: 3
+ total_time: 18.220510
+ communication_time: 2.285585
+ compution_time: 15.934926
+rank: 4
+ total_time: 18.221853
+ communication_time: 1.752767
+ compution_time: 16.469086
+rank: 0
+ total_time: 18.222849
+ communication_time: 18.222661
+ compution_time: 0.000187
+rank: 5
+ total_time: 18.222852
+ communication_time: 0.009611
+ compution_time: 18.213241
