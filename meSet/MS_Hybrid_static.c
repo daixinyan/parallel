@@ -150,6 +150,7 @@ void my_excute()
 	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
   	{
 
+		i = actual_size*k+rank;
 		for(j=0; j<parameters.number_of_points_y; j++)
 		{
 			z.real = 0.0;
@@ -172,7 +173,6 @@ void my_excute()
       			processes_points[k*parameters.number_of_points_y+j].repeats = repeats;
 
 		}
-		i += actual_size;
 	}
 }
 
