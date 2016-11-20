@@ -149,7 +149,7 @@ void my_excute()
 	for( k=0; k<processes_task[rank].process_handle_count_x; k++)
   	{
 
-		for(j=0; j<parameters.number_of_points_y; j++) 
+		for(j=0; j<parameters.number_of_points_y; j++)
 		{
 			z.real = 0.0;
 			z.imag = 0.0;
