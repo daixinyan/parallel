@@ -11,3 +11,4 @@ MS_OpenMP_dynamic
 MS_OpenMP_static
 MS_seq
 queue_openmp
+his-temp/*
