@@ -1,8 +1,0 @@
-rank: 0
- total_time: 65.163962
- communication_time: 65.163882
- compution_time: 0.000080
-rank: 1
- total_time: 65.163980
- communication_time: 0.005716
- compution_time: 65.158263

@@ -1,7 +1,5 @@
-*.sh
 *.e*
 *.o*
-Makefile
 sample
 MS_Hybrid_static
 MS_Hybrid_dynamic
