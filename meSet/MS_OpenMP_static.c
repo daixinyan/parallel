@@ -96,8 +96,8 @@ int main(int argc,char *argv[])
 											 z.real = 0.0;
 											 z.imag = 0.0;
 
-											 c.real = (double)i/(double)width*parameters.real_range- parameters.real_range/2; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
-											 c.imag = (double)j/(double)height*parameters.imag_range - parameters.imag_range/2; /* So needs to scale the window */
+											 c.real = (double)i/(double)width*parameters.real_range + parameters.left_range_of_real; /* Theorem : If c belongs to M(Mandelbrot set), then |c| <= 2 */
+											 c.imag = (double)j/(double)height*parameters.imag_range + parameters.lower_range_of_imag; /* So needs to scale the window */
 
 											 lengthsq = 0.0;
 
