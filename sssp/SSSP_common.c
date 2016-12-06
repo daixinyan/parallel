@@ -37,6 +37,7 @@ void init_graph()
         for (j = 0; j < vertexes_number; j++)
         {
             graph_weight[i][j] = INT_MAX;
+            printf("%d %d\n",i,j );
         }
     }
 }
@@ -72,6 +73,7 @@ void readGraph()
     }
     fscanf(fp, "%d", &vertexes_number);
     fscanf(fp, "%d", &edges_half_number);
+
     init_graph();
 
     for (i = 0; i < edges_half_number; i++)
