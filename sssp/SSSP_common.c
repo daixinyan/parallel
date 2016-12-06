@@ -53,6 +53,7 @@ void my_finalize()
         printf("rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
                 rank, total_time, communication_time, compution_time );
     }
+    MPI_Finalize();
 
 }
 
@@ -102,6 +103,7 @@ void  my_init(int argc,char *argv[])
     }
     else
     {
+        rintf("init args\n");
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
