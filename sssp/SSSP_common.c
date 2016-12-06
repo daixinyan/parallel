@@ -107,7 +107,8 @@ void  my_init(int argc,char *argv[])
         output_file_name = argv[3];
         source_vertex = atoi(argv[4]);
     }
-    readGraph();
+    // readGraph();
+    printf("line!!%d\n",rank );
 }
 
 
