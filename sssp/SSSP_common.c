@@ -112,7 +112,7 @@ void  my_init(int argc,char *argv[])
 
         source_vertex = argc==3? 0:atoi(argv[4]);
     }
-    if(rank==0)readGraph();
+    readGraph();
 }
 
 
