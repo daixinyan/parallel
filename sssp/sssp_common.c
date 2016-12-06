@@ -18,7 +18,7 @@ double communication_time = .0;
 double compution_time = .0;
 double total_time = .0;
 /**end struct time**/
-
+int size, rank, actual_size;
 void readGraph();
 void init_graph();
 

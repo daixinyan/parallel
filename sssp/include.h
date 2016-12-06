@@ -29,6 +29,7 @@ extern double compution_time;
 extern double total_time0;
 /**end struct time**/
 
+extern int size, rank, actual_size;
 
 /**function for init variables, init MPI.**/
 void my_init(int argc,char *argv[]);
