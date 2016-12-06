@@ -77,6 +77,10 @@ void readGraph()
         fscanf(fp, "%d", &from_index);
         fscanf(fp, "%d", &to_index);
         fscanf(fp, "%d", &distance);
+        if(IF_PRINT && rank==0)
+        {
+          printf("rank: %d, distance:%d, i:%d, j:%d\n",rank,distance,from_index, to_index);
+        }
         graph_weight[to_index][from_index] = distance;
         graph_weight[from_index][to_index] = distance;
     }
