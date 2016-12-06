@@ -60,7 +60,7 @@ void my_finalize()
 void readGraph()
 {
     FILE *fp;
-    int i
+    int i;
     int from_index,to_index,distance;
 
     if((fp = fopen(input_file_name,"r"))==NULL)
@@ -93,7 +93,7 @@ void  my_init(int argc,char *argv[])
 
     if(argc<3)
     {
-        printf("no enough args\n", );
+        printf("no enough args\n");
         exit(1);
     }
     else
@@ -101,7 +101,7 @@ void  my_init(int argc,char *argv[])
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
-        source_vertex = atoi[4];
+        source_vertex = atoi(argv[4]);
     }
     readGraph();
 }
