@@ -37,7 +37,7 @@ void init_graph()
         for (j = 0; j < vertexes_number; j++)
         {
             graph_weight[i][j] = INT_MAX;
-            printf("%d %d\n",i,j );
+            printf("%d %d %d\n",i,j, INT_MAX );
         }
     }
 }
