@@ -107,10 +107,10 @@ void  my_init(int argc,char *argv[])
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
-        source_vertex = atoi(argv[4]);
+
+        source_vertex = argc==3? 0:atoi(argv[4]);
     }
-    // readGraph();
-    printf("line!!%d\n",rank );
+    readGraph();
 }
 
 
