@@ -4,7 +4,7 @@ CXX			:= g++
 MPICC			:= mpicc
 MPICXX			:= mpic++
 
-CCFLAGS			:= -O3 -march=native -Wall -std=gnu11
+CCFLAGS			:= -O3 -march=native -Wall -Werror -std=gnu11
 CXXFLAGS		:= -O3 -march=native -Wall -std=c++0x
 LDFLAGS			:= -lX11 -fopenmp -lm
 all: SSSP_MPI_sync SSSP_MPI_async
