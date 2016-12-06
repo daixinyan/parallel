@@ -37,7 +37,6 @@ void init_graph()
         for (j = 0; j < vertexes_number; j++)
         {
             graph_weight[i][j] = INT_MAX;
-            printf("%d %d %d\n",i,j, INT_MAX );
         }
     }
 }
@@ -85,8 +84,8 @@ void readGraph()
         {
           printf("rank: %d, distance:%d, i:%d, j:%d\n",rank,distance,from_index, to_index);
         }
-        graph_weight[to_index][from_index] = distance;
-        graph_weight[from_index][to_index] = distance;
+        // graph_weight[to_index][from_index] = distance;
+        // graph_weight[from_index][to_index] = distance;
     }
 }
 
