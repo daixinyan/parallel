@@ -103,7 +103,7 @@ void  my_init(int argc,char *argv[])
     }
     else
     {
-        rintf("init args\n");
+        printf("init args\n");
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
