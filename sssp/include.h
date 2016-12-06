@@ -6,7 +6,7 @@
 #include <limits.h>
 
 #define PRINT_TIME 1
-#define IF_PRINT   0
+#define IF_PRINT   1
 #define CENTER_NODE 0
 
 
