@@ -84,10 +84,8 @@ void readGraph()
         {
           printf("rank: %d, distance:%d, i:%d, j:%d\n",rank,distance,from_index, to_index);
         }
-        graph_weight[to_index][from_index] = distance;
-        printf("saved %d %d\n", to_index,from_index );
-        graph_weight[from_index][to_index] = distance;
-        printf("saved %d %d\n",from_index, to_index );
+        graph_weight[to_index-1][from_index-1] = distance;
+        graph_weight[from_index-1][to_index-1] = distance;
     }
 }
 
