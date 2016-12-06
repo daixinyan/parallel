@@ -2,3 +2,5 @@
 *.o*
 In_*
 judge_*
+SSSP_MPI_sync
+SSSP_MPI_async
