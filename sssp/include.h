@@ -31,9 +31,14 @@ extern double total_time0;
 
 extern int size, rank, actual_size;
 
-/**function for init variables, init MPI.**/
+/**function for init variables(@see my_mpi_init, init MPI.**/
+void my_mpi_init(int argc,char *argv[]);
+
+/**function for init variables**/
 void my_init(int argc,char *argv[]);
-void my_finalize();
+
+/**function for finalize mpi**/
+void my_mpi_finalize();
 
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv( const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,

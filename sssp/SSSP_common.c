@@ -41,8 +41,7 @@ void init_graph()
     }
 }
 
-
-void my_finalize()
+void my_mpi_finalize()
 {
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
@@ -89,13 +88,17 @@ void readGraph()
     }
 }
 
+void my_mpi_init(int argc,char *argv[])
+{
+  /**init mpi**/
+  MPI_Init(&argc, &argv);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  my_init(argc, argv);
+}
 
 void  my_init(int argc,char *argv[])
 {
-    /**init mpi**/
-    MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
     total_start_time = MPI_Wtime();
 
     if(argc<3)
