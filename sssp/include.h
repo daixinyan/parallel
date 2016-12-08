@@ -26,6 +26,7 @@ extern double total_end_time;
 /**start struct time**/
 extern double communication_time;
 extern double compution_time;
+extern double barrier_time;
 extern double total_time0;
 /**end struct time**/
 

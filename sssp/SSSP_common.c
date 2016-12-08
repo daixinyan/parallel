@@ -16,6 +16,7 @@ double total_end_time;
 /**start struct time**/
 double communication_time = .0;
 double compution_time = .0;
+double barrier_time = .0;
 double total_time = .0;
 /**end struct time**/
 int size, rank, actual_size;
@@ -81,7 +82,7 @@ void readGraph()
         fscanf(fp, "%d", &distance);
         if(IF_PRINT && rank==0)
         {
-          printf("rank: %d, distance:%d, i:%d, j:%d\n",rank,distance,from_index, to_index);
+          printf("rank: %d, i:%d, j:%d,  distance:%d,\n", rank, from_index, to_index, distance);
         }
         graph_weight[to_index-1][from_index-1] = distance;
         graph_weight[from_index-1][to_index-1] = distance;
@@ -108,7 +109,6 @@ void  my_init(int argc,char *argv[])
     }
     else
     {
-        printf("init args\n");
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
@@ -118,6 +118,15 @@ void  my_init(int argc,char *argv[])
     readGraph();
 }
 
+void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
+{
+  double start_time;
+  double end_time;
+  start_time = MPI_Wtime();
+  MPI_Allreduce(sendbuf, recv_data, count, datatype, op, comm);
+  end_time = MPI_Wtime();
+  barrier_time += end_time-start_time;
+}
 
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status)
