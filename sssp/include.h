@@ -41,6 +41,8 @@ void my_init(int argc,char *argv[]);
 /**function for finalize mpi**/
 void my_mpi_finalize();
 
+/**@see MPI_Allreduce and comsumption time to barrier_time**/
+void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm);
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv( const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
   void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status);
