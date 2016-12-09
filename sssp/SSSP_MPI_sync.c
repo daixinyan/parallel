@@ -114,7 +114,7 @@ void my_collect()
 
   for(i=0; i<vertexes_number; i++)
   {
-    printf("%d %d\n",result_collect[i]);
+    printf("%d %d\n",i,result_collect[i]);
   }
 
   for(i=0; i<vertexes_number; i++)
