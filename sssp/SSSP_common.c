@@ -41,17 +41,17 @@ void init_neibors()
     introverted_number = 0;
     for ( i = 0; i < vertexes_number; i++)
     {
-        if(i!=source_vertex && i!=rank && graph_weight[rank][i])
+        if(i!=source_vertex && i!=rank && graph_weight[rank][i]!=INT_MAX)
         {
             outgoing_vertexes[outgoing_number++] = i;
             printf("rank:%d index:%d vertex: %d \n",rank , outgoing_number-1, i);
         }
-        if(i!=source_vertex && i!=rank && graph_weight[i][rank])
+        if(i!=source_vertex && i!=rank && graph_weight[i][rank]!=INT_MAX)
         {
-            introverted_vertexes[outgoing_number++] = i;
+            introverted_vertexes[introverted_number++] = i;
         }
     }
-    
+
     for(i = 0; i<outgoing_number; i++)
     {
       printf("rank: %d %d %d\n",rank, i, outgoing_vertexes[i]);
