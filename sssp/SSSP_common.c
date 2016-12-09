@@ -9,6 +9,15 @@ char* output_file_name;
 int   source_vertex;
 
 int** graph_weight;
+int*  outgoing_vertexes;
+int   outgoing_number;
+int*  introverted_vertexes;
+int   introverted_number;
+
+MPI_Request *send_request;
+MPI_Request *recv_request;
+MPI_Status  *send_status;
+MPI_Status  *recv_status;
 
 /**record time**/
 double total_start_time;
@@ -21,13 +30,35 @@ double total_time = .0;
 /**end struct time**/
 int size, rank, actual_size;
 void readGraph();
-void init_graph();
+void init_malloc();
 
+void init_neibors()
+{
+  int i,count;
+  if(rank==source_vertex) return;
 
-void init_graph()
+  outgoing_number = 0;
+  introverted_number = 0;
+  for ( i = 0; i < vertexes_number; i++)
+  {
+    if(i!=source_vertex && i!=rank && graph_weight[rank][i])
+    {
+      outgoing_vertexes[outgoing_number++] = i;
+    }
+    if(i!=source_vertex && i!=rank && graph_weight[i][rank])
+    {
+      introverted_vertexes[outgoing_vertexes++] = i;
+    }
+  }
+
+}
+
+void init_malloc()
 {
     int i,j;
     int* temp_onedim_array = (int*)malloc(sizeof(int)*vertexes_number*vertexes_number);
+    outgoing_vertexes = (int*)malloc(sizeof(int)*vertexes_number);
+    introverted_vertexes = (int*)malloc(sizeof(int)*vertexes_number);
     graph_weight = (int**)malloc(sizeof(int*)*vertexes_number);
     for(i=0; i<vertexes_number; i++)
     {
@@ -44,6 +75,11 @@ void init_graph()
 
 void my_mpi_finalize()
 {
+    free(outgoing_vertexes);
+    free(introverted_vertexes);
+    free(graph_weight[0]);
+    free(graph_weight);
+
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time;
@@ -73,7 +109,7 @@ void readGraph()
     fscanf(fp, "%d", &vertexes_number);
     fscanf(fp, "%d", &edges_half_number);
 
-    init_graph();
+    init_malloc();
 
     for (i = 0; i < edges_half_number; i++)
     {
@@ -87,6 +123,8 @@ void readGraph()
         graph_weight[to_index-1][from_index-1] = distance;
         graph_weight[from_index-1][to_index-1] = distance;
     }
+
+    init_neibors();
 }
 
 void my_mpi_init(int argc,char *argv[])
@@ -140,8 +178,6 @@ void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int de
   communication_time += end_time-start_time;
 }
 
-
-
 void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
@@ -152,9 +188,6 @@ void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm
     communication_time += end_time-start_time;
 }
 
-
-
-
 void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
@@ -163,4 +196,44 @@ void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_
     MPI_Send(buf,count,type,dest,tag,comm);
     end_time = MPI_Wtime();
     communication_time += end_time-start_time;
+}
+
+void myWaitall(int count, MPI_Request array_of_requests[], MPI_Status array_of_statuses[])
+{
+  double start_time;
+  double end_time;
+  start_time = MPI_Wtime();
+  MPI_Waitall(buf, count, datatype, dest, tag, comm, request);
+  end_time = MPI_Wtime();
+  communication_time += end_time-start_time;
+}
+
+int myWait(MPI_Request *request,MPI_Status *status)
+{
+  double start_time;
+  double end_time;
+  start_time = MPI_Wtime();
+  MPI_Wait(buf, count, datatype, dest, tag, comm, request);
+  end_time = MPI_Wtime();
+  communication_time += end_time-start_time;
+}
+
+void myIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request)
+{
+  double start_time;
+  double end_time;
+  start_time = MPI_Wtime();
+  MPI_Isend(buf, count, datatype, dest, tag, comm, request);
+  end_time = MPI_Wtime();
+  communication_time += end_time-start_time;
+}
+
+void myIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request)
+{
+  double start_time;
+  double end_time;
+  start_time = MPI_Wtime();
+  MPI_Irecv(buf, count, datatype, source, tag, comm, request);
+  end_time = MPI_Wtime();
+  communication_time += end_time-start_time;
 }

@@ -19,6 +19,10 @@ extern char* output_file_name;
 extern int   source_vertex;
 
 extern int** graph_weight;
+extern int*  outgoing_vertexes;
+extern int outgoing_number;
+extern int*  introverted_vertexes;
+extern int introverted_number;
 
 /**record time**/
 extern double total_start_time;
@@ -29,6 +33,11 @@ extern double compution_time;
 extern double barrier_time;
 extern double total_time0;
 /**end struct time**/
+
+extern MPI_Request *send_request;
+extern MPI_Request *recv_request;
+extern MPI_Status  *send_status;
+extern MPI_Status  *recv_status;
 
 extern int size, rank, actual_size;
 
@@ -52,3 +61,9 @@ void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm
 
 /**@see MPI_Send, add comsumption time to (double)communication_time**/
 void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_Comm comm, MPI_Status *status );
+
+/**@see MPI_Isend, add comsumption time to (double)communication_time**/
+void myIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request);
+
+/**@see MPI_Irecv, add comsumption time to (double)communication_time**/
+void myIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request);
