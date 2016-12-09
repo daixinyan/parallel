@@ -106,6 +106,10 @@ void my_collect()
       }
     }
   }
+  if(IF_PRINT)
+  {
+    printf("rank: %d receive result, done\n",rank);
+  }
 }
 
 
@@ -140,6 +144,10 @@ void my_mpi_execute()
         send_result();
     }
     free_data();
+    if(IF_PRINT)
+    {
+      printf("rank: %d excute, done",rank);
+    }
 }
 
 void malloc_data()
