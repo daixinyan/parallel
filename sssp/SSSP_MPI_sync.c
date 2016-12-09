@@ -39,16 +39,23 @@ void notify_and_recv()
   int i;
   for(i=0; i<outgoing_number; i++)
   {
-    printf("%d\n", outgoing_vertexes[i] );
-    printf("ready send to%d\n",i);
+    if(IF_PRINT)
+    {
+      printf("rank: %d try to send to %d\n", rank, outgoing_vertexes[i]);
+    }
     MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
   }
   for(i=0; i<introverted_number; i++)
   {
+    if(IF_PRINT)
+    {
+      printf("rank: %d try to receive from %d\n", rank, outgoing_vertexes[i]);
+    }
     MPI_Irecv(recv_data[i], MESSAGE_SIZE, MPI_INT, introverted_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &recv_request[i]);
   }
   MPI_Waitall(outgoing_number, send_request, send_status);
   MPI_Waitall(introverted_number, recv_request, recv_status);
+  printf("rank: %d one iteration, done\n", rank);
 }
 
 

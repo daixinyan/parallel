@@ -44,17 +44,11 @@ void init_neibors()
         if(i!=source_vertex && i!=rank && graph_weight[rank][i]!=INT_MAX)
         {
             outgoing_vertexes[outgoing_number++] = i;
-            printf("rank:%d index:%d vertex: %d \n",rank , outgoing_number-1, i);
         }
         if(i!=source_vertex && i!=rank && graph_weight[i][rank]!=INT_MAX)
         {
             introverted_vertexes[introverted_number++] = i;
         }
-    }
-
-    for(i = 0; i<outgoing_number; i++)
-    {
-      printf("rank: %d %d %d\n",rank, i, outgoing_vertexes[i]);
     }
 
 }
@@ -115,10 +109,7 @@ void readGraph()
     FILE *fp;
     int i;
     int from_index,to_index,distance;
-    if(IF_PRINT)
-    {
-        printf("rank: %d  open file ,start\n", rank);
-    }
+
     if((fp = fopen(input_file_name,"r"))==NULL)
     {
         printf("error to open %s!", input_file_name);
@@ -169,10 +160,7 @@ void  my_init(int argc,char *argv[])
         output_file_name = argv[3];
         source_vertex = atoi(argv[4]);
     }
-    if(IF_PRINT)
-    {
-        printf("init args, done\n");
-    }
+
     readGraph();
     int i;
     for(i = 0; i<outgoing_number; i++)
