@@ -127,6 +127,7 @@ void my_mpi_execute()
     {
         wait_end();
         my_collect();
+
     }
     else if(rank>=vertexes_number)
     {
@@ -142,6 +143,10 @@ void my_mpi_execute()
             myAllreduce(message, &loop, 1, MPI_INT, MPI_LAND, MPI_COMM_WORLD);
         }
         send_result();
+    }
+    if(IF_PRINT)
+    {
+      printf("rank: %d done\n",rank);
     }
     free_data();
     if(IF_PRINT)
@@ -171,8 +176,8 @@ void malloc_data()
 
 void free_data()
 {
-  // free(result_collect[0]);
+  free(result_collect[0]);
   free(result_collect);
   free(recv_data[0]);
-  // free(recv_data);
+  free(recv_data);
 }
