@@ -23,19 +23,24 @@ int main(int argc ,char * argv[])
 	if(rank==0){
 		//MPI_Send(&s1,1,MPI_DOUBLE,2,1,MPI_COMM_WORLD);
 		MPI_Isend(&s1,1,MPI_DOUBLE,2,1,MPI_COMM_WORLD,req);
-		MPI_Isend(&s1,1,MPI_DOUBLE,2,1,MPI_COMM_WORLD,sec_req);
+		MPI_Isend(&s1,1,MPI_DOUBLE,2,2,MPI_COMM_WORLD,sec_req);
 		MPI_Wait(req,sta);
 		MPI_Wait(sec_req,sec_sta);
 	}
 
 	if(rank==2){
 		//MPI_Recv(&r1,1,MPI_DOUBLE,0,1,MPI_COMM_WORLD,sta);
-		MPI_Irecv(&r1,1,MPI_DOUBLE,0,1,MPI_COMM_WORLD,&req[1]);
+		MPI_Irecv(&r1,1,MPI_DOUBLE,0,2,MPI_COMM_WORLD,&req[1]);
 		MPI_Wait(&req[1],&sta[1]);
+
+		printf("get 2\n");
 
 		MPI_Irecv(&r1,1,MPI_DOUBLE,0,1,MPI_COMM_WORLD,&sec_req[1]);
 		MPI_Wait(&sec_req[1],&sec_sta[1]);
- 		printf("%d\n",r1);
+
+		printf("get 1\n");
+
+		printf("%d\n",r1);
 	}
 	printf("rank %d process is running\n",rank);
 	MPI_Finalize();
