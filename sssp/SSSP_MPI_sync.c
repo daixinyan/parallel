@@ -159,7 +159,7 @@ void my_mpi_execute()
         {
             notify_and_recv();
             claculate_and_update();
-            myAllreduce(message, &loop, 1, MPI_INT, MPI_LAND, MPI_COMM_WORLD);
+            myAllreduce(message, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
         }
         send_result();
     }
