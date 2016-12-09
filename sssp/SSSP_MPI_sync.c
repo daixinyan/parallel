@@ -122,7 +122,7 @@ void my_collect()
     do{
       printf("%d   ", temp);
       temp = result_collect[temp];
-    }while(temp!=vertexes_number);
+    }while(temp!=source_vertex);
     printf("%d\n", result_collect[i]);
   }
 
