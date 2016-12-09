@@ -34,7 +34,7 @@ void init_malloc();
 
 void init_neibors()
 {
-    int i,count;
+    int i;
     if(rank==source_vertex) return;
 
     outgoing_number = 0;
