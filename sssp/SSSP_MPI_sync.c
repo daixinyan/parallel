@@ -111,21 +111,21 @@ void my_collect()
 
   int temp;
   printf("result:\n");
-
   for(i=0; i<vertexes_number; i++)
   {
     printf("%d %d\n",i,result_collect[i]);
   }
 
-  for(i=0; i<vertexes_number; i++)
-  {
-    temp = i;
-    do{
-      printf("%d   ", temp);
-      temp = result_collect[temp];
-    }while(temp!=vertexes_number);
-    printf("%d\n", result_collect[i]);
-  }
+  // for(i=0; i<vertexes_number; i++)
+  // {
+  //   temp = i;
+  //   do{
+  //     printf("%d   ", temp);
+  //     temp = result_collect[temp];
+  //   }while(temp!=vertexes_number);
+  //   printf("%d\n", result_collect[i]);
+  // }
+
 }
 
 
