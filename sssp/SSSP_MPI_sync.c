@@ -120,9 +120,9 @@ void my_collect()
       temp = i;
       do{
         printf("%d   ", temp);
-        temp = result_collect[i];
+        temp = result_collect[temp][LAST_INDEX];
       }while(temp!=vertexes_number);
-      printf("%d\n", vertexes_number);
+      printf("%d\n", source_vertex);
     }
   }
 }
