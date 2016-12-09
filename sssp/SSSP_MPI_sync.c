@@ -69,7 +69,7 @@ void claculate_and_update()
   {
       if(recv_data[i][STATE])
       {
-        temp_new_length = recv_data[i][LENGTH]+graph_weight[i][rank];
+        temp_new_length = recv_data[i][LENGTH]+graph_weight[introverted_vertexes[i]][rank];
         if( temp_new_length < message[LENGTH])
         {
           printf("%d from rank %d new length: %d old length: %d\n", rank, introverted_vertexes[i], temp_new_length, message[LENGTH]);
