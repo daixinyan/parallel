@@ -34,22 +34,22 @@ void init_malloc();
 
 void init_neibors()
 {
-  int i,count;
-  if(rank==source_vertex) return;
+    int i,count;
+    if(rank==source_vertex) return;
 
-  outgoing_number = 0;
-  introverted_number = 0;
-  for ( i = 0; i < vertexes_number; i++)
-  {
-    if(i!=source_vertex && i!=rank && graph_weight[rank][i])
+    outgoing_number = 0;
+    introverted_number = 0;
+    for ( i = 0; i < vertexes_number; i++)
     {
-      outgoing_vertexes[outgoing_number++] = i;
+        if(i!=source_vertex && i!=rank && graph_weight[rank][i])
+        {
+            outgoing_vertexes[outgoing_number++] = i;
+        }
+        if(i!=source_vertex && i!=rank && graph_weight[i][rank])
+        {
+            introverted_vertexes[outgoing_number++] = i;
+        }
     }
-    if(i!=source_vertex && i!=rank && graph_weight[i][rank])
-    {
-      introverted_vertexes[outgoing_number++] = i;
-    }
-  }
 
 }
 
@@ -87,7 +87,7 @@ void my_mpi_finalize()
     if(PRINT_TIME)
     {
         printf("rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
-                rank, total_time, communication_time, compution_time );
+               rank, total_time, communication_time, compution_time );
     }
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
@@ -118,7 +118,7 @@ void readGraph()
         fscanf(fp, "%d", &distance);
         if(IF_PRINT && rank==0)
         {
-          printf("rank: %d, i:%d, j:%d,  distance:%d,\n", rank, from_index, to_index, distance);
+            printf("rank: %d, i:%d, j:%d,  distance:%d,\n", rank, from_index, to_index, distance);
         }
         graph_weight[to_index-1][from_index-1] = distance;
         graph_weight[from_index-1][to_index-1] = distance;
@@ -129,11 +129,11 @@ void readGraph()
 
 void my_mpi_init(int argc,char *argv[])
 {
-  /**init mpi**/
-  MPI_Init(&argc, &argv);
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  MPI_Comm_size(MPI_COMM_WORLD, &size);
-  my_init(argc, argv);
+    /**init mpi**/
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    my_init(argc, argv);
 }
 
 void  my_init(int argc,char *argv[])
@@ -158,24 +158,24 @@ void  my_init(int argc,char *argv[])
 
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
 {
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
-  MPI_Allreduce(sendbuf, recv_data, count, datatype, op, comm);
-  end_time = MPI_Wtime();
-  barrier_time += end_time-start_time;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Allreduce(sendbuf, recv_data, count, datatype, op, comm);
+    end_time = MPI_Wtime();
+    barrier_time += end_time-start_time;
 }
 
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,
-  void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status)
+                void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status)
 {
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
-  MPI_Sendrecv(sendbuf, sendcount, sendtype,dest, sendtag,
-    recvbuf, recvcount, recvtype,source, recvtag, comm,  status);
-  end_time = MPI_Wtime();
-  communication_time += end_time-start_time;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Sendrecv(sendbuf, sendcount, sendtype,dest, sendtag,
+                 recvbuf, recvcount, recvtype,source, recvtag, comm,  status);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
 }
 
 void myRecv(void *buf, int count, MPI_Datatype type,int source, int tag,MPI_Comm comm, MPI_Status *status )
@@ -200,40 +200,40 @@ void mySend(const void *buf, int count, MPI_Datatype type,int dest, int tag,MPI_
 
 void myWaitall(int count, MPI_Request array_of_requests[], MPI_Status array_of_statuses[])
 {
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
-  MPI_Waitall(count, array_of_requests, array_of_statuses);
-  end_time = MPI_Wtime();
-  communication_time += end_time-start_time;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Waitall(count, array_of_requests, array_of_statuses);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
 }
 
 int myWait(MPI_Request *request,MPI_Status *status)
 {
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
-  MPI_Wait(request, status);
-  end_time = MPI_Wtime();
-  communication_time += end_time-start_time;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Wait(request, status);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
 }
 
-void myIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request)
+void myIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request)
 {
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
-  MPI_Isend(buf, count, datatype, dest, tag, comm, request);
-  end_time = MPI_Wtime();
-  communication_time += end_time-start_time;
+double start_time;
+double end_time;
+start_time = MPI_Wtime();
+MPI_Isend(buf, count, datatype, dest, tag, comm, request);
+end_time = MPI_Wtime();
+communication_time += end_time-start_time;
 }
 
-void myIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request)
+void myIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request)
 {
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
-  MPI_Irecv(buf, count, datatype, source, tag, comm, request);
-  end_time = MPI_Wtime();
-  communication_time += end_time-start_time;
+double start_time;
+double end_time;
+start_time = MPI_Wtime();
+MPI_Irecv(buf, count, datatype, source, tag, comm, request);
+end_time = MPI_Wtime();
+communication_time += end_time-start_time;
 }
