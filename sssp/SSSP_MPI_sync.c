@@ -115,16 +115,16 @@ void my_collect()
     printf("%d %d\n",i,result_collect[i]);
   }
 
-  // int temp;
-  // for(i=0; i<vertexes_number; i++)
-  // {
-  //   temp = i;
-  //   do{
-  //     printf("%d   ", temp);
-  //     temp = result_collect[temp];
-  //   }while(temp!=vertexes_number);
-  //   printf("%d\n", result_collect[i]);
-  // }
+  int temp;
+  for(i=0; i<vertexes_number; i++)
+  {
+    temp = i;
+    do{
+      printf("%d   ", temp);
+      temp = result_collect[temp];
+    }while(temp!=vertexes_number);
+    printf("%d\n", result_collect[i]);
+  }
 
 }
 
