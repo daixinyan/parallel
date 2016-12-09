@@ -47,7 +47,7 @@ void init_neibors()
     }
     if(i!=source_vertex && i!=rank && graph_weight[i][rank])
     {
-      introverted_vertexes[outgoing_vertexes++] = i;
+      introverted_vertexes[outgoing_number++] = i;
     }
   }
 
@@ -203,7 +203,7 @@ void myWaitall(int count, MPI_Request array_of_requests[], MPI_Status array_of_s
   double start_time;
   double end_time;
   start_time = MPI_Wtime();
-  MPI_Waitall(buf, count, datatype, dest, tag, comm, request);
+  MPI_Waitall(count, array_of_requests, array_of_statuses);
   end_time = MPI_Wtime();
   communication_time += end_time-start_time;
 }
@@ -213,7 +213,7 @@ int myWait(MPI_Request *request,MPI_Status *status)
   double start_time;
   double end_time;
   start_time = MPI_Wtime();
-  MPI_Wait(buf, count, datatype, dest, tag, comm, request);
+  MPI_Wait(request, status);
   end_time = MPI_Wtime();
   communication_time += end_time-start_time;
 }
