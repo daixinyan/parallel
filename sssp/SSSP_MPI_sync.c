@@ -67,12 +67,15 @@ void claculate_and_update()
   message[STATE] = 0;
   for(i = 0; i<introverted_number; i++)
   {
-      temp_new_length = recv_data[i][LENGTH]+graph_weight[i][rank];
-      if( temp_new_length < message[LENGTH])
+      if(recv_data[i][STATE])
       {
-        message[STATE] = 1;
-        message[LENGTH] = temp_new_length;
-        message[LAST_INDEX] = introverted_vertexes[i];
+        temp_new_length = recv_data[i][LENGTH]+graph_weight[i][rank];
+        if( temp_new_length < message[LENGTH])
+        {
+          message[STATE] = 1;
+          message[LENGTH] = temp_new_length;
+          message[LAST_INDEX] = introverted_vertexes[i];
+        }
       }
   }
 }
@@ -83,6 +86,10 @@ void send_result()
   result[0] = rank;
   result[1] = message[LAST_INDEX];
   mySend(result, 2, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  if(IF_PRINT)
+  {
+    printf("rank: %d send result\n",rank );
+  }
 }
 
 void my_collect()
@@ -90,7 +97,14 @@ void my_collect()
   int i;
   for(i=0; i<vertexes_number; i++)
   {
-    myRecv(result_collect[i], RESULT_SIZE,MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    if(i!=source_vertex)
+    {
+      myRecv(result_collect[i], RESULT_SIZE,MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      if(IF_PRINT)
+      {
+        printf("rank: %d receive result from rank: %d \n",rank, i);
+      }
+    }
   }
 }
 
@@ -98,12 +112,6 @@ void my_collect()
 void my_mpi_execute()
 {
     int loop;
-
-    int i;
-    for(i = 0; i<outgoing_number; i++)
-    {
-      printf("rank: %d %d %d\n",rank, i, outgoing_vertexes[i]);
-    }
 
     malloc_data();
 
