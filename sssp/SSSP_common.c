@@ -78,17 +78,21 @@ void init_malloc()
     recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
 }
 
+void my_global_free()
+{
+  free(outgoing_vertexes);
+  free(introverted_vertexes);
+  free(graph_weight[0]);
+  free(graph_weight);
+  free(send_request);
+  free(send_status);
+  free(recv_request);
+  free(recv_status);
+}
+
 void my_mpi_finalize()
 {
-    free(outgoing_vertexes);
-    free(introverted_vertexes);
-    free(graph_weight[0]);
-    free(graph_weight);
-    free(send_request);
-    free(send_status);
-    free(recv_request);
-    free(recv_status);
-
+    // my_global_free();
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time;
