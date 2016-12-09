@@ -39,6 +39,7 @@ void notify_and_recv()
   int i;
   for(i=0; i<outgoing_number; i++)
   {
+    printf("%d\n",outgoing_vertexes[i] );
     MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
   }
   for(i=0; i<introverted_number; i++)
