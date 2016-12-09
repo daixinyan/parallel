@@ -115,7 +115,7 @@ void my_collect()
   printf("result\n");
   for(i=0; i<vertexes_number; i++)
   {
-    if(i!=vertexes_number)
+    if(i!=source_vertex)
     {
       temp = i;
       do{
