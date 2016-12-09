@@ -93,9 +93,9 @@ void my_global_free()
 void my_mpi_finalize()
 {
     // my_global_free();
-    total_end_time = MPI_Wtime();
-    total_time = total_end_time - total_start_time;
-    compution_time = total_time - communication_time;
+    // total_end_time = MPI_Wtime();
+    // total_time = total_end_time - total_start_time;
+    // compution_time = total_time - communication_time;
 
     // if(PRINT_TIME)
     // {
