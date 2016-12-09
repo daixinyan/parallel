@@ -8,6 +8,7 @@ char* input_file_name;
 char* output_file_name;
 int   source_vertex;
 
+int*  temp_onedim_array;
 int** graph_weight;
 int*  outgoing_vertexes;
 int   outgoing_number;
@@ -56,7 +57,7 @@ void init_neibors()
 void init_malloc()
 {
     int i,j;
-    int* temp_onedim_array = (int*)malloc(sizeof(int)*vertexes_number*vertexes_number);
+    temp_onedim_array = (int*)malloc(sizeof(int)*vertexes_number*vertexes_number);
     outgoing_vertexes = (int*)malloc(sizeof(int)*vertexes_number);
     introverted_vertexes = (int*)malloc(sizeof(int)*vertexes_number);
     graph_weight = (int**)malloc(sizeof(int*)*vertexes_number);
@@ -82,7 +83,7 @@ void my_global_free()
 {
   free(outgoing_vertexes);
   free(introverted_vertexes);
-  free(graph_weight[0]);
+  free(temp_onedim_array);
   free(graph_weight);
   free(send_request);
   free(send_status);
@@ -92,7 +93,7 @@ void my_global_free()
 
 void my_mpi_finalize()
 {
-    // my_global_free();
+    my_global_free();
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time;
