@@ -1,0 +1,39 @@
+#include<mpi.h>
+#include<stdio.h>
+int main(int argc ,char * argv[])
+{
+
+
+
+	MPI_Request req[2];
+
+	int s1,r1;
+
+  MPI_Status sta[2];
+
+	int nprocs,rank;
+	MPI_Init(&argc,&argv);
+	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
+	s1=5;
+
+	if(rank==0){
+		//MPI_Send(&s1,1,MPI_DOUBLE,2,1,MPI_COMM_WORLD);
+		MPI_Isend(&s1,1,MPI_DOUBLE,2,1,MPI_COMM_WORLD,req);
+		MPI_Wait(req,sta);
+	}
+
+	if(rank==2){
+		//MPI_Recv(&r1,1,MPI_DOUBLE,0,1,MPI_COMM_WORLD,sta);
+		MPI_Irecv(&r1,1,MPI_DOUBLE,0,1,MPI_COMM_WORLD,&req[1]);
+		MPI_Wait(&req[1],&sta[1]);
+ 		printf("%d\n",r1);
+	}
+	printf("rank %d process is running\n",rank);
+	MPI_Finalize();
+
+
+
+
+}
