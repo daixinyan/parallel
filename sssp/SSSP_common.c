@@ -82,7 +82,7 @@ void my_mpi_finalize()
 {
     free(outgoing_vertexes);
     free(introverted_vertexes);
-    free(graph_weight[0]);
+    // free(graph_weight[0]);
     free(graph_weight);
     free(send_request);
     free(send_status);
