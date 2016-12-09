@@ -109,13 +109,13 @@ void my_collect()
     printf("rank: %d receive result, done\n",rank);
   }
 
-  int temp;
   printf("result:\n");
   for(i=0; i<vertexes_number; i++)
   {
     printf("%d %d\n",i,result_collect[i]);
   }
 
+  // int temp;
   // for(i=0; i<vertexes_number; i++)
   // {
   //   temp = i;
