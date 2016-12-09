@@ -208,7 +208,7 @@ void myWaitall(int count, MPI_Request array_of_requests[], MPI_Status array_of_s
     communication_time += end_time-start_time;
 }
 
-int myWait(MPI_Request *request,MPI_Status *status)
+void myWait(MPI_Request *request,MPI_Status *status)
 {
     double start_time;
     double end_time;
