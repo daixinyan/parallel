@@ -1,5 +1,5 @@
 #include "include.h"
-#define MESSAGE_SIZE 2
+#define MESSAGE_SIZE 3
 #define STATE 0
 #define LENGTH 1
 #define MESSAGE_TAG 1
