@@ -146,7 +146,7 @@ void my_mpi_execute()
     free_data();
     if(IF_PRINT)
     {
-      printf("rank: %d excute, done",rank);
+      printf("rank: %d excute, done\n",rank);
     }
 }
 
@@ -171,8 +171,8 @@ void malloc_data()
 
 void free_data()
 {
-  free(result_collect[0]);
+  // free(result_collect[0]);
   free(result_collect);
   free(recv_data[0]);
-  free(recv_data);
+  // free(recv_data);
 }
