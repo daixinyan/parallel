@@ -5,14 +5,15 @@
 #define MESSAGE_TAG 1
 #define RESULT_TAG 2
 #define RESULT_SIZE 2
-#define LAST_INDEX
+#define LAST_INDEX 3
 
 int message[MESSAGE_SIZE];
 int **recv_data;
 
 int **result_collect;
 
-
+void malloc_data();
+void free_data();
 void my_mpi_execute();
 
 int main(int argc,char *argv[])
@@ -72,7 +73,7 @@ void send_result()
   int result[2];
   result[0] = rank;
   result[1] = message[LAST_INDEX];
-  mySend(result, 2, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD);
+  mySend(result, 2, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 }
 
 void my_collect()
@@ -87,8 +88,6 @@ void my_collect()
 
 void my_mpi_execute()
 {
-
-    int i;
     int loop;
 
     malloc_data();
@@ -106,9 +105,9 @@ void my_mpi_execute()
     {
         wait_end();
     }
-    {
     else
-        int loop = 1;
+    {
+        loop = 1;
         while (loop)
         {
             notify_and_recv();
@@ -123,8 +122,8 @@ void my_mpi_execute()
 void malloc_data()
 {
     int i;
-    int temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
-    int temp_result_collect =(int*)malloc(sizeof(int) * vertexes_number * RESULT_SIZE);
+    int *temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
+    int *temp_result_collect =(int*)malloc(sizeof(int) * vertexes_number * RESULT_SIZE);
     recv_data = (int**)malloc(sizeof(int*) *introverted_number);
 
     result_collect = (int**)malloc(sizeof(int*) *introverted_number);
