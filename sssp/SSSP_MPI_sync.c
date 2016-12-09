@@ -188,6 +188,6 @@ void malloc_data()
 void free_data()
 {
   free(result_collect);
-  free(recv_data[0]);
+  // free(recv_data[0]);
   free(recv_data);
 }
