@@ -39,7 +39,7 @@ void notify_and_recv()
   int i;
   for(i=0; i<outgoing_number; i++)
   {
-    printf("%d\n",outgoing_vertexes[i] );
+    printf("%d\n", outgoing_vertexes[i] );
     printf("ready send to%d\n",i);
     MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
   }
@@ -91,6 +91,12 @@ void my_collect()
 void my_mpi_execute()
 {
     int loop;
+
+    int i;
+    for(i = 0; i<outgoing_number; i++)
+    {
+      printf("rank: %d %d %d\n",rank, i, outgoing_vertexes[i]);
+    }
 
     malloc_data();
 

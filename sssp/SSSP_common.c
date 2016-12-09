@@ -43,7 +43,6 @@ void init_neibors()
     {
         if(i!=source_vertex && i!=rank && graph_weight[rank][i])
         {
-            printf("%d\n", i);
             outgoing_vertexes[outgoing_number++] = i;
         }
         if(i!=source_vertex && i!=rank && graph_weight[i][rank])
@@ -121,15 +120,8 @@ void readGraph()
     }
     fscanf(fp, "%d", &vertexes_number);
     fscanf(fp, "%d", &edges_half_number);
-    if(IF_PRINT)
-    {
-        printf("rank: %d  malloc data, starting\n", rank);
-    }
+
     init_malloc();
-    if(IF_PRINT)
-    {
-        printf("rank: %d  malloc data, done\n", rank);
-    }
 
     for (i = 0; i < edges_half_number; i++)
     {
@@ -176,6 +168,12 @@ void  my_init(int argc,char *argv[])
         printf("init args, done\n");
     }
     readGraph();
+    int i;
+    for(i = 0; i<outgoing_number; i++)
+    {
+      printf("rank: %d %d %d\n",rank, i, outgoing_vertexes[i]);
+    }
+
 }
 
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
