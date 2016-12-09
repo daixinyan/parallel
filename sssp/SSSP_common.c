@@ -100,7 +100,10 @@ void readGraph()
     FILE *fp;
     int i;
     int from_index,to_index,distance;
-
+    if(IF_PRINT)
+    {
+        printf("rank: %d  open file ,start\n", rank);
+    }
     if((fp = fopen(input_file_name,"r"))==NULL)
     {
         printf("error to open %s!", input_file_name);
@@ -108,22 +111,28 @@ void readGraph()
     }
     fscanf(fp, "%d", &vertexes_number);
     fscanf(fp, "%d", &edges_half_number);
-
+    if(IF_PRINT)
+    {
+        printf("rank: %d  malloc data, starting\n", rank);
+    }
     init_malloc();
+    if(IF_PRINT)
+    {
+        printf("rank: %d  malloc data, done\n", rank);
+    }
 
     for (i = 0; i < edges_half_number; i++)
     {
         fscanf(fp, "%d", &from_index);
         fscanf(fp, "%d", &to_index);
         fscanf(fp, "%d", &distance);
-        if(IF_PRINT && rank==0)
-        {
-            printf("rank: %d, i:%d, j:%d,  distance:%d,\n", rank, from_index, to_index, distance);
-        }
         graph_weight[to_index-1][from_index-1] = distance;
         graph_weight[from_index-1][to_index-1] = distance;
     }
-
+    if(IF_PRINT)
+    {
+        printf("rank: %d, read data, done\n", rank);
+    }
     init_neibors();
 }
 
@@ -150,8 +159,11 @@ void  my_init(int argc,char *argv[])
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
-
         source_vertex = argc==3? 0:atoi(argv[4]);
+    }
+    if(IF_PRINT)
+    {
+        printf("init args, done\n");
     }
     readGraph();
 }
