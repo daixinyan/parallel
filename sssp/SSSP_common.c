@@ -166,11 +166,6 @@ void  my_init(int argc,char *argv[])
     }
 
     readGraph();
-    int i;
-    for(i = 0; i<outgoing_number; i++)
-    {
-      printf("rank: %d %d %d\n",rank, i, outgoing_vertexes[i]);
-    }
 
 }
 
