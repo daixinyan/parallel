@@ -43,6 +43,7 @@ void init_neibors()
     {
         if(i!=source_vertex && i!=rank && graph_weight[rank][i])
         {
+            printf("%d\n", i);
             outgoing_vertexes[outgoing_number++] = i;
         }
         if(i!=source_vertex && i!=rank && graph_weight[i][rank])
