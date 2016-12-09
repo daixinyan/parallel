@@ -165,7 +165,7 @@ void my_mpi_execute()
     {
       printf("rank: %d mpi done\n",rank);
     }
-    // free_data();
+    free_data();
     if(IF_PRINT)
     {
       printf("rank: %d excute, done\n",rank);
