@@ -93,15 +93,15 @@ void my_global_free()
 void my_mpi_finalize()
 {
     // my_global_free();
-    // total_end_time = MPI_Wtime();
-    // total_time = total_end_time - total_start_time;
-    // compution_time = total_time - communication_time;
+    total_end_time = MPI_Wtime();
+    total_time = total_end_time - total_start_time;
+    compution_time = total_time - communication_time;
 
-    // if(PRINT_TIME)
-    // {
-    //     printf("rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
-    //            rank, total_time, communication_time, compution_time );
-    // }
+    if(PRINT_TIME)
+    {
+        printf("rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
+               rank, total_time, communication_time, compution_time );
+    }
     printf("rank: %dend!\n", rank);
     MPI_Finalize();
 
