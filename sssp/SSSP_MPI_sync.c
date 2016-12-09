@@ -9,8 +9,10 @@
 
 int message[MESSAGE_SIZE+1];
 int **recv_data;
+int *recv_data_temp;
 
 int *result_collect;
+
 
 void malloc_data();
 void free_data();
@@ -175,13 +177,13 @@ void my_mpi_execute()
 void malloc_data()
 {
     int i;
-    int *temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
+    recv_data_temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
     recv_data = (int**)malloc(sizeof(int*) *introverted_number);
     result_collect = (int*)malloc(sizeof(int) *introverted_number);
 
     for(i=0; i<introverted_number; i++)
     {
-        recv_data[i] = temp + i*MESSAGE_SIZE;
+        recv_data[i] = recv_data_temp + i*MESSAGE_SIZE;
     }
 }
 
