@@ -110,6 +110,21 @@ void my_collect()
   {
     printf("rank: %d receive result, done\n",rank);
   }
+
+  int j,temp;
+  printf("result\n");
+  for(i=0; i<vertexes_number; i++)
+  {
+    if(i!=vertexes_number)
+    {
+      temp = i;
+      do{
+        printf("%d   ", temp);
+        temp = result_collect[i];
+      }while(temp!=vertexes_number);
+      printf("%d\n", vertexes_number);
+    }
+  }
 }
 
 
