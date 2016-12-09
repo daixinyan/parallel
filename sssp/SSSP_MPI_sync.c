@@ -5,7 +5,7 @@
 #define MESSAGE_TAG 1
 #define RESULT_TAG 2
 #define RESULT_SIZE 2
-#define LAST_INDEX 3
+#define LAST_INDEX 2
 
 int message[MESSAGE_SIZE];
 int **recv_data;
