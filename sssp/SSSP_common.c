@@ -71,6 +71,11 @@ void init_malloc()
             graph_weight[i][j] = INT_MAX;
         }
     }
+
+    send_request = malloc(sizeof(MPI_Request)*vertexes_number);
+    recv_request = malloc(sizeof(MPI_Request)*vertexes_number);
+    send_status = malloc(sizeof(MPI_Status)*vertexes_number);
+    recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
 }
 
 void my_mpi_finalize()
@@ -79,6 +84,10 @@ void my_mpi_finalize()
     free(introverted_vertexes);
     free(graph_weight[0]);
     free(graph_weight);
+    free(send_request);
+    free(send_status);
+    free(recv_request);
+    free(recv_status);
 
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
@@ -149,7 +158,7 @@ void  my_init(int argc,char *argv[])
 {
     total_start_time = MPI_Wtime();
 
-    if(argc<3)
+    if(argc<4)
     {
         printf("no enough args\n");
         exit(1);
@@ -159,7 +168,7 @@ void  my_init(int argc,char *argv[])
         threads_number = atoi(argv[1]);
         input_file_name = argv[2];
         output_file_name = argv[3];
-        source_vertex = argc==3? 0:atoi(argv[4]);
+        source_vertex = atoi(argv[4]);
     }
     if(IF_PRINT)
     {
