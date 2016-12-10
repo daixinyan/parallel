@@ -23,6 +23,8 @@ int main(int argc,char *argv[])
     my_mpi_init(argc, argv);
     my_mpi_execute();
     my_mpi_finalize();
+    // Finalize the MPI environment.
+    MPI_Finalize();
 }
 
 void wait_end()

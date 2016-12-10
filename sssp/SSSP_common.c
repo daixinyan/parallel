@@ -104,8 +104,6 @@ void my_mpi_finalize()
                rank, total_time, communication_time, compution_time );
     }
     printf("rank: %d end!\n", rank);
-    MPI_Finalize();
-
 }
 
 
