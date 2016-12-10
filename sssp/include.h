@@ -3,11 +3,11 @@
 #include <mpi.h>
 #include <string.h>
 #include <limits.h>
+#include "tool.h"
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
 #define CENTER_NODE 0
-
 
 extern int   vertexes_number;
 extern int   edges_half_number;
