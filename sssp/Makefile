@@ -23,4 +23,4 @@ SSSP_MPI_async.o: SSSP_MPI_async.c include.h
 	mpicc $(CCFLAGS) $(LDFLAGS) -c SSSP_MPI_async.c -o $@
 
 clean:
-	rm SSSP_MPI_async SSSP_MPI_sync SSSP_common.o SSSP_MPI_sync.o SSSP_MPI_async.o
+	rm SSSP_MPI_async SSSP_MPI_sync SSSP_common.o SSSP_MPI_sync.o SSSP_MPI_async.o tool.o
