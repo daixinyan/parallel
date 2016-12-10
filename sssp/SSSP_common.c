@@ -103,7 +103,8 @@ void my_mpi_finalize()
         printf("rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
                rank, total_time, communication_time, compution_time );
     }
-    printf("rank: %d end!\n", rank);
+    MPI_Finalize();
+    printf("Hello world out of MPI\n");
 }
 
 
