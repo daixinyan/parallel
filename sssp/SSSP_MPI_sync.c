@@ -129,8 +129,6 @@ void my_collect()
 
 void my_mpi_execute()
 {
-    // int loop;
-
     malloc_data();
 
     message[STATE] = graph_weight[source_vertex][rank]!=INT_MAX;
@@ -150,7 +148,7 @@ void my_mpi_execute()
     }
     else
     {
-        loop = 1;
+        int loop = 1;
         while (loop)
         {
             notify_and_recv();
