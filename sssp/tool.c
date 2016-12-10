@@ -1,5 +1,14 @@
 #include "include.h"
 
+int stackSize(Stack* stack)
+{
+  return stack->size;
+}
+
+void clear(Stack* stack)
+{
+  stack->size = 0;
+}
 
 Stack* createStack(int size)
 {
@@ -9,6 +18,7 @@ Stack* createStack(int size)
   stack->size = 0;
   return stack;
 }
+
 void freeStatck(Stack* stack)
 {
   free(stack->queue);
@@ -19,7 +29,7 @@ TYPE pop(Stack* stack)
   stack->size = stack->size - 1;
   return stack->queue[stack->size];
 }
-void push(Stack* stack, TYPE elem)
+TYPE push(Stack* stack, TYPE elem)
 {
   // if(stack->size==stack->max_size)
   // {
@@ -30,4 +40,5 @@ void push(Stack* stack, TYPE elem)
   // }
   stack->queue[stack->size] = elem;
   stack->size++;
+  return elem;
 }

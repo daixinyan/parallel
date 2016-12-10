@@ -8,4 +8,5 @@ typedef struct SizeLimitedStack{
 Stack* createStack(int size);
 void freeStatck(Stack* stack);
 TYPE pop(Stack* stack);
-void push(Stack* stack, TYPE elem);
+TYPE push(Stack* stack, TYPE elem);
+void clear(Stack* stack);

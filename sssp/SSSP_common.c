@@ -170,8 +170,7 @@ void  my_init(int argc,char *argv[])
 
 }
 
-
-void print_result(int *result)
+void print_result_console(int *result)
 {
   printf("result of %d :\n" ,vertexes_number);
   int temp;
@@ -185,6 +184,38 @@ void print_result(int *result)
     }while(temp!=source_vertex);
     printf("%d\n", source_vertex);
   }
+}
+
+void print_result_file(int *result)
+{
+  Stack* stack = createStack(vertexes_number);
+  FILE* output = fopen(output_file_name,"w");
+  int temp;
+  int i;
+  for(i=0; i<vertexes_number; i++)
+  {
+    temp = i;
+    do{
+      push(stack, temp);
+      temp = result[temp];
+    }while(temp!=source_vertex);
+    push(source_vertex);//can push source_vertex to source_vertex
+
+    do {
+      fprintf(output, "%d ", pop(stack));
+    } while(stack->size>1);
+    fprintf(output, "%d\n", pop(stack));
+  }
+  fclose(output);
+}
+
+void print_result(int *result)
+{
+  if(IF_PRINT)
+  {
+    print_result_console(result);
+  }
+  print_result_file(result);
 }
 
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
