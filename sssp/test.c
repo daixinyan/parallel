@@ -13,13 +13,16 @@ int main()
     {
       scanf("%d\n",&input);
       push(stack, input);
+      printf("push one data%d\n", input);
     }
-    if(command==0)
+    else if(command==0)
     {
       if(stack->size>0)
       {
-        printf("%d\n", pop(stack));
+        printf("pop one data%d\n", pop(stack));
       }
+    }else {
+      printf("no format\n");
     }
   }
 }
