@@ -126,6 +126,16 @@ void my_collect()
 
 }
 
+void my_collect_and_send()
+{
+  if(rank==source_vertex)
+  {
+    my_collect();
+  }else if(rank<vertexes_number)
+  {
+    send_result();
+  }
+}
 
 void my_mpi_execute()
 {
@@ -135,14 +145,7 @@ void my_mpi_execute()
     message[LENGTH] = graph_weight[source_vertex][rank];
     message[MESSAGE_LAST_INDEX] = source_vertex;
 
-    if(rank==source_vertex)
-    {
-        wait_end();
-        //end!
-        my_collect();
-
-    }
-    else if(rank>=vertexes_number)
+    if(rank==source_vertex || rank>=vertexes_number)
     {
         wait_end();
     }
@@ -155,8 +158,6 @@ void my_mpi_execute()
             claculate_and_update();
             myAllreduce(message, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
         }
-        //end
-        send_result();
     }
     // free_data();
     if(IF_PRINT)
