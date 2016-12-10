@@ -8,7 +8,6 @@ char* input_file_name;
 char* output_file_name;
 int   source_vertex;
 
-int*  temp_onedim_array;
 int** graph_weight;
 int*  outgoing_vertexes;
 int   outgoing_number;
@@ -57,7 +56,7 @@ void init_neibors()
 void init_malloc()
 {
     int i,j;
-    temp_onedim_array = (int*)malloc(sizeof(int)*vertexes_number*vertexes_number);
+    int *temp_onedim_array = (int*)malloc(sizeof(int)*vertexes_number*vertexes_number);
     outgoing_vertexes = (int*)malloc(sizeof(int)*vertexes_number);
     introverted_vertexes = (int*)malloc(sizeof(int)*vertexes_number);
     graph_weight = (int**)malloc(sizeof(int*)*vertexes_number);
@@ -83,7 +82,7 @@ void my_global_free()
 {
   free(outgoing_vertexes);
   free(introverted_vertexes);
-  free(temp_onedim_array);
+  free(graph_weight[0]);
   free(graph_weight);
   free(send_request);
   free(send_status);
