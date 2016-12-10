@@ -1,8 +1,11 @@
+typedef int TYPE
 typedef struct SizeLimitedStack{
   int size;
-  int max_size;
-  int* queue;
+  TYPE max_size;
+  TYPE* queue;
 }Stack;
-Stack* create(int size);
-int pop(Stack* stack);
-void push(Stack* stack, int elem);
+
+Stack* createStack(int size);
+void freeStatck(Stack* stack);
+TYPE pop(Stack* stack);
+void push(Stack* stack, TYPE elem);

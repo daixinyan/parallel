@@ -1,11 +1,5 @@
 #include "include.h"
 
-typedef int TYPE
-typedef struct SizeLimitedStack{
-  int size;
-  TYPE max_size;
-  TYPE* queue;
-}Stack;
 
 Stack* createStack(int size)
 {
