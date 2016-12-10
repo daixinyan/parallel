@@ -133,31 +133,33 @@ void my_mpi_execute()
 
     malloc_data();
 
-    // message[STATE] = graph_weight[source_vertex][rank]!=INT_MAX;
-    // message[LENGTH] = graph_weight[source_vertex][rank];
-    // message[MESSAGE_LAST_INDEX] = source_vertex;
-    //
-    // if(rank==source_vertex)
-    // {
-    //     wait_end();
-    //     my_collect();
-    //
-    // }
-    // else if(rank>=vertexes_number)
-    // {
-    //     wait_end();
-    // }
-    // else
-    // {
-    //     loop = 1;
-    //     while (loop)
-    //     {
-    //         notify_and_recv();
-    //         claculate_and_update();
-    //         myAllreduce(message, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
-    //     }
-    //     send_result();
-    // }
+    message[STATE] = graph_weight[source_vertex][rank]!=INT_MAX;
+    message[LENGTH] = graph_weight[source_vertex][rank];
+    message[MESSAGE_LAST_INDEX] = source_vertex;
+
+    if(rank==source_vertex)
+    {
+        wait_end();
+        //end!
+        my_collect();
+
+    }
+    else if(rank>=vertexes_number)
+    {
+        wait_end();
+    }
+    else
+    {
+        loop = 1;
+        while (loop)
+        {
+            notify_and_recv();
+            claculate_and_update();
+            myAllreduce(message, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
+        }
+        //end
+        send_result();
+    }
     // free_data();
     if(IF_PRINT)
     {
