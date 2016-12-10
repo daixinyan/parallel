@@ -170,6 +170,23 @@ void  my_init(int argc,char *argv[])
 
 }
 
+
+void print_result(int *result)
+{
+  printf("result of %d :\n" ,vertexes_number);
+  int temp;
+  int i;
+  for(i=0; i<vertexes_number; i++)
+  {
+    temp = i;
+    do{
+      printf("%d   ", temp);
+      temp = result[temp];
+    }while(temp!=source_vertex);
+    printf("%d\n", source_vertex);
+  }
+}
+
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
 {
     double start_time;

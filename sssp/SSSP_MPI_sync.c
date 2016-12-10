@@ -112,18 +112,6 @@ void my_collect()
     printf("rank: %d receive result, done\n",rank);
   }
 
-  printf("result of %d :\n" ,vertexes_number);
-  int temp;
-  for(i=0; i<vertexes_number; i++)
-  {
-    temp = i;
-    do{
-      printf("%d   ", temp);
-      temp = result_collect[temp];
-    }while(temp!=source_vertex);
-    printf("%d\n", source_vertex);
-  }
-
 }
 
 void my_collect_and_send()
@@ -159,6 +147,7 @@ void my_mpi_execute()
             myAllreduce(message, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
         }
     }
+    my_collect_and_send();
     // free_data();
     if(IF_PRINT)
     {
@@ -171,7 +160,7 @@ void malloc_data()
     int i;
     recv_data_temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
     recv_data = (int**)malloc(sizeof(int*) *introverted_number);
-    result_collect = (int*)malloc(sizeof(int) *introverted_number);
+    result_collect = (int*)malloc(sizeof(int) *vertexes_number);
 
     for(i=0; i<introverted_number; i++)
     {
