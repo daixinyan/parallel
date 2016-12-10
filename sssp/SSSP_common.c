@@ -133,6 +133,7 @@ void readGraph()
         graph_weight[to_index-1][from_index-1] = distance;
         graph_weight[from_index-1][to_index-1] = distance;
     }
+    fclose(fp);
     if(IF_PRINT)
     {
         printf("rank: %d, read data, done\n", rank);
