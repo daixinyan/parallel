@@ -9,6 +9,7 @@
 
 int message[MESSAGE_SIZE+1];
 int **recv_data;
+int *recv_data_temp;
 
 int *result_collect;
 
@@ -158,7 +159,7 @@ void my_mpi_execute()
 void malloc_data()
 {
     int i;
-    int* recv_data_temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
+    recv_data_temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
     recv_data = (int**)malloc(sizeof(int*) *introverted_number);
     result_collect = (int*)malloc(sizeof(int) *vertexes_number);
 
@@ -171,6 +172,6 @@ void malloc_data()
 void free_data()
 {
   free(result_collect);
-  free(recv_data[0]);
+  free(recv_data_temp);
   free(recv_data);
 }
