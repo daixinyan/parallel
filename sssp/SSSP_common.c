@@ -199,7 +199,7 @@ void print_result_file(int *result)
       push(stack, temp);
       temp = result[temp];
     }while(temp!=source_vertex);
-    push(source_vertex);//can push source_vertex to source_vertex
+    push(stack, source_vertex);//can push source_vertex to source_vertex
 
     do {
       fprintf(output, "%d ", pop(stack));
