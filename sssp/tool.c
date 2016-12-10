@@ -7,6 +7,7 @@ Stack* createStack(int size)
   stack->queue = (TYPE*)malloc(sizeof(TYPE)*size);
   stack->max_size = size;
   stack->size = 0;
+  return stack;
 }
 void freeStatck(Stack* stack)
 {
