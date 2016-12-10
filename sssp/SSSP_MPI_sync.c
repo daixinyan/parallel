@@ -119,6 +119,7 @@ void my_collect_and_send()
   if(rank==source_vertex)
   {
     my_collect();
+    print_result(result_collect);
   }else if(rank<vertexes_number)
   {
     send_result();
@@ -148,7 +149,7 @@ void my_mpi_execute()
         }
     }
     my_collect_and_send();
-    // free_data();
+    free_data();
     if(IF_PRINT)
     {
       printf("rank: %d excute, done\n",rank);
