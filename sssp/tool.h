@@ -1,4 +1,4 @@
-typedef int TYPE
+typedef int TYPE;
 typedef struct SizeLimitedStack{
   int size;
   TYPE max_size;
