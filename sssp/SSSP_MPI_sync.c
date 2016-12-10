@@ -158,10 +158,6 @@ void my_mpi_execute()
         }
         send_result();
     }
-    if(IF_PRINT)
-    {
-      printf("rank: %d mpi done\n",rank);
-    }
     // free_data();
     if(IF_PRINT)
     {
