@@ -167,7 +167,7 @@ void my_mpi_execute()
     {
       printf("rank: %d mpi done\n",rank);
     }
-    free_data();
+    // free_data();
     if(IF_PRINT)
     {
       printf("rank: %d excute, done\n",rank);
@@ -190,6 +190,6 @@ void malloc_data()
 void free_data()
 {
   free(result_collect);
-  // free(recv_data[0]);
+  free(recv_data_temp);
   free(recv_data);
 }
