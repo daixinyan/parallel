@@ -8,10 +8,10 @@ int main()
   while(1)
   {
     printf("input command 0 for pop 1 for push\n" );
-    scanf("%d\n", &command);
+    scanf("%d", &command);
     if(command==1)
     {
-      scanf("%d\n",&input);
+      scanf("%d",&input);
       push(stack, input);
       printf("push one data%d\n", input);
     }
