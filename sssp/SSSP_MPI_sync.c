@@ -129,7 +129,7 @@ void my_collect()
 
 void my_mpi_execute()
 {
-    int loop;
+    // int loop;
 
     malloc_data();
 
