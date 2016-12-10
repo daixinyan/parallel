@@ -179,10 +179,10 @@ void print_result_console(int *result)
   {
     temp = i;
     do{
-      printf("%d   ", temp);
+      printf("%d   ", temp+1);
       temp = result[temp];
     }while(temp!=source_vertex);
-    printf("%d\n", source_vertex);
+    printf("%d\n", source_vertex+1);
   }
 }
 
@@ -202,9 +202,9 @@ void print_result_file(int *result)
     push(stack, source_vertex);//can push source_vertex to source_vertex
 
     do {
-      fprintf(output, "%d ", pop(stack));
+      fprintf(output, "%d ", 1+pop(stack));
     } while(stack->size>1);
-    fprintf(output, "%d\n", pop(stack));
+    fprintf(output, "%d\n", 1+pop(stack));
   }
   fclose(output);
 }
