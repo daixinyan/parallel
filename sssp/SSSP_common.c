@@ -272,7 +272,7 @@ void print_result(int *result)
 
 int getNextNodeRank()
 {
-  int temp = rank+1；
+  int temp = rank+1;
   return temp==actual_size?0:temp;
 }
 
