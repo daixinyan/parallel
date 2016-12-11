@@ -4,14 +4,13 @@
 #define LENGTH 1
 #define MESSAGE_TAG 1
 #define MESSAGE_LAST_INDEX 2
-#define RESULT_TAG 2
-#define RESULT_SIZE 1
+
 
 int message[MESSAGE_SIZE+1];
 int **recv_data;
 int *recv_data_temp;
 
-int *result_collect;
+
 
 
 void malloc_data();
@@ -78,53 +77,13 @@ void claculate_and_update()
           message[STATE] = 1;
           message[LENGTH] = temp_new_length;
           message[MESSAGE_LAST_INDEX] = introverted_vertexes[i];
+          last_index = introverted_vertexes[i];
         }
       }
   }
 }
 
-void send_result()
-{
-  mySend(&message[MESSAGE_LAST_INDEX], RESULT_SIZE, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-  if(IF_PRINT)
-  {
-    printf("rank: %d send result\n",rank );
-  }
-}
 
-void my_collect()
-{
-  int i;
-  result_collect[source_vertex] = source_vertex;
-  for(i=0; i<vertexes_number; i++)
-  {
-    if(i!=source_vertex)
-    {
-      myRecv(&result_collect[i], RESULT_SIZE, MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      if(IF_PRINT)
-      {
-        printf("rank: %d receive result from rank: %d \n",rank, i);
-      }
-    }
-  }
-  if(IF_PRINT)
-  {
-    printf("rank: %d receive result, done\n",rank);
-  }
-
-}
-
-void my_collect_and_send()
-{
-  if(rank==source_vertex)
-  {
-    my_collect();
-    print_result(result_collect);
-  }else if(rank<vertexes_number)
-  {
-    send_result();
-  }
-}
 
 void my_mpi_execute()
 {
@@ -133,6 +92,7 @@ void my_mpi_execute()
     message[STATE] = graph_weight[source_vertex][rank]!=INT_MAX;
     message[LENGTH] = graph_weight[source_vertex][rank];
     message[MESSAGE_LAST_INDEX] = source_vertex;
+    last_index = source_vertex;
 
     if(rank==source_vertex || rank>=vertexes_number)
     {
@@ -161,7 +121,7 @@ void malloc_data()
     int i;
     recv_data_temp = (int*)malloc(sizeof(int) * introverted_number*MESSAGE_SIZE);
     recv_data = (int**)malloc(sizeof(int*) *introverted_number);
-    result_collect = (int*)malloc(sizeof(int) *vertexes_number);
+
 
     for(i=0; i<introverted_number; i++)
     {
@@ -171,7 +131,6 @@ void malloc_data()
 
 void free_data()
 {
-  free(result_collect);
   free(recv_data_temp);
   free(recv_data);
 }

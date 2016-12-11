@@ -7,7 +7,9 @@
 
 #define PRINT_TIME 1
 #define IF_PRINT   1
-#define CENTER_NODE 0
+
+#define RESULT_TAG 2
+#define RESULT_SIZE 1
 
 extern int   vertexes_number;
 extern int   edges_half_number;
@@ -38,6 +40,9 @@ extern MPI_Request *recv_request;
 extern MPI_Status  *send_status;
 extern MPI_Status  *recv_status;
 
+extern int *result_collect;
+extern int last_index;
+
 extern int size, rank, actual_size;
 
 /**function for init variables(@see my_mpi_init, init MPI.**/
@@ -52,6 +57,11 @@ void my_mpi_finalize();
 /**array result**/
 void print_result(int *result);
 
+/**when claculate_and_update, done, collect data to one CENTER_NODE**/
+void my_collect_and_send();
+
+/**return the rank of next node ,regard the threads as a circle**/
+int getNextNodeRank();
 /**@see MPI_Allreduce and comsumption time to barrier_time**/
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm);
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/

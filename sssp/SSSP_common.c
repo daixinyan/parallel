@@ -20,6 +20,9 @@ MPI_Request *recv_request;
 MPI_Status  *send_status;
 MPI_Status  *recv_status;
 
+int *result_collect;
+int last_index;
+
 /**record time**/
 double total_start_time;
 double total_end_time;
@@ -77,6 +80,8 @@ void init_malloc()
     recv_request = malloc(sizeof(MPI_Request)*vertexes_number);
     send_status = malloc(sizeof(MPI_Status)*vertexes_number);
     recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
+
+    result_collect = (int*)malloc(sizeof(int) *vertexes_number);
 }
 
 void my_global_free()
@@ -89,6 +94,7 @@ void my_global_free()
   free(send_status);
   free(recv_request);
   free(recv_status);
+  free(result_collect);
 }
 
 void my_mpi_finalize()
@@ -186,6 +192,52 @@ void print_result_console(int *result)
   }
 }
 
+
+
+void send_result()
+{
+  mySend(&last_index, RESULT_SIZE, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  if(IF_PRINT)
+  {
+    printf("rank: %d send result\n",rank );
+  }
+}
+
+void my_collect()
+{
+  int i;
+  result_collect[source_vertex] = source_vertex;
+  for(i=0; i<vertexes_number; i++)
+  {
+    if(i!=source_vertex)
+    {
+      myRecv(&result_collect[i], RESULT_SIZE, MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      if(IF_PRINT)
+      {
+        printf("rank: %d receive result from rank: %d \n",rank, i);
+      }
+    }
+  }
+  if(IF_PRINT)
+  {
+    printf("rank: %d receive result, done\n",rank);
+  }
+
+}
+
+void my_collect_and_send()
+{
+  if(rank==source_vertex)
+  {
+    my_collect();
+    print_result(result_collect);
+  }else if(rank<vertexes_number)
+  {
+    send_result();
+  }
+}
+
+
 void print_result_file(int *result)
 {
   Stack* stack = createStack(vertexes_number);
@@ -216,6 +268,12 @@ void print_result(int *result)
     print_result_console(result);
   }
   print_result_file(result);
+}
+
+int getNextNodeRank()
+{
+  int temp = rank+1；
+  return temp==actual_size?0:temp;
 }
 
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
