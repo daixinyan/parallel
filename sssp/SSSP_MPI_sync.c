@@ -1,12 +1,11 @@
 #include "include.h"
 #define MESSAGE_SIZE 2
-#define STATE 0
-#define LENGTH 1
+#define MESSAGE_TYPE 0
+#define MESSAGE_LENGTH 1
 #define MESSAGE_TAG 1
-#define MESSAGE_LAST_INDEX 2
 
 
-int message[MESSAGE_SIZE+1];
+int message[MESSAGE_SIZE];
 int **recv_data;
 int *recv_data_temp;
 
@@ -38,25 +37,22 @@ void wait_end()
 void notify_and_recv()
 {
   int i;
+  double start_time;
+  double end_time;
+  start_time = MPI_Wtime();
+
   for(i=0; i<outgoing_number; i++)
   {
-    if(IF_PRINT)
-    {
-      printf("rank: %d try to send to %d\n", rank, outgoing_vertexes[i]);
-    }
     MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
   }
   for(i=0; i<introverted_number; i++)
   {
-    if(IF_PRINT)
-    {
-      printf("rank: %d try to receive from %d\n", rank, outgoing_vertexes[i]);
-    }
     MPI_Irecv(recv_data[i], MESSAGE_SIZE, MPI_INT, introverted_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &recv_request[i]);
   }
   MPI_Waitall(outgoing_number, send_request, send_status);
   MPI_Waitall(introverted_number, recv_request, recv_status);
-  printf("rank: %d one iteration, done\n", rank);
+  end_time = MPI_Wtime();
+  communication_time += end_time-start_time;
 }
 
 
@@ -65,18 +61,16 @@ void claculate_and_update()
   int i;
   int temp_new_length;
 
-  message[STATE] = 0;
+  message[MESSAGE_TYPE] = 0;
   for(i = 0; i<introverted_number; i++)
   {
-      if(recv_data[i][STATE])
+      if(recv_data[i][MESSAGE_TYPE])
       {
-        temp_new_length = recv_data[i][LENGTH]+graph_weight[introverted_vertexes[i]][rank];
-        if( temp_new_length < message[LENGTH])
+        temp_new_length = recv_data[i][MESSAGE_LENGTH]+graph_weight[introverted_vertexes[i]][rank];
+        if( temp_new_length < message[MESSAGE_LENGTH])
         {
-          printf("%d from rank %d new length: %d old length: %d\n", rank, introverted_vertexes[i], temp_new_length, message[LENGTH]);
-          message[STATE] = 1;
-          message[LENGTH] = temp_new_length;
-          message[MESSAGE_LAST_INDEX] = introverted_vertexes[i];
+          message[MESSAGE_TYPE] = 1;
+          message[MESSAGE_LENGTH] = temp_new_length;
           last_index = introverted_vertexes[i];
         }
       }
@@ -89,9 +83,8 @@ void my_mpi_execute()
 {
     malloc_data();
 
-    message[STATE] = graph_weight[source_vertex][rank]!=INT_MAX;
-    message[LENGTH] = graph_weight[source_vertex][rank];
-    message[MESSAGE_LAST_INDEX] = source_vertex;
+    message[MESSAGE_TYPE] = graph_weight[source_vertex][rank]!=INT_MAX;
+    message[MESSAGE_LENGTH] = graph_weight[source_vertex][rank];
     last_index = source_vertex;
 
     if(rank==source_vertex || rank>=vertexes_number)
