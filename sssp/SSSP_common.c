@@ -152,12 +152,14 @@ void my_mpi_init(int argc,char *argv[])
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+    total_start_time = MPI_Wtime();
     my_init(argc, argv);
+
 }
 
 void  my_init(int argc,char *argv[])
 {
-    total_start_time = MPI_Wtime();
+
 
     if(argc<4)
     {
