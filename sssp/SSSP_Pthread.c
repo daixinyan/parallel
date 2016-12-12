@@ -20,7 +20,7 @@ void floyd(){
 int main(int argc,char *argv[])
 {
     my_init(argc, argv);
-    floyd();
+    // floyd();
     print_result(result_collect);
     my_global_free();
 
