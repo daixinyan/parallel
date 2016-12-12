@@ -91,7 +91,6 @@ void init_malloc()
             graph_weight[i][j] = INT_MAX;
         }
     }
-
     result_collect = (int*)malloc(sizeof(int) *vertexes_number);
 }
 
