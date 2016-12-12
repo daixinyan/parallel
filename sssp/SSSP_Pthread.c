@@ -1,7 +1,11 @@
 #include "include.h"
 
 void floyd(){
-    int k, j;
+    int i, k, j;
+    for(i = 0;k< vertexes_number; i++)
+    {
+      result_collect[i] = source_vertex;
+    }
     for(k = 0;k < vertexes_number;k++)
             for(j = 0;j < vertexes_number;j++){
                 if( graph_weight[source_vertex][k] + graph_weight[k][j] < graph_weight[source_vertex][j])
