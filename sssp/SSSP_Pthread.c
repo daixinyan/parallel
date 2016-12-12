@@ -1,15 +1,5 @@
 #include "include.h"
 
-
-int main(int argc,char *argv[])
-{
-    my_init(argc, argv);
-    my_global_free();
-    floyd();
-    print_result(result_collect);
-    return 0;
-}
-
 void floyd(){
     int k, j;
     for(k = 0;k < vertexes_number;k++)
@@ -20,4 +10,14 @@ void floyd(){
                     result_collect[j] = k;
                 }
             }
+}
+
+
+int main(int argc,char *argv[])
+{
+    my_init(argc, argv);
+    my_global_free();
+    floyd();
+    print_result(result_collect);
+    return 0;
 }
