@@ -57,6 +57,22 @@ void init_neibors()
 
 }
 
+void mpi_malloc()
+{
+  send_request = malloc(sizeof(MPI_Request)*vertexes_number);
+  recv_request = malloc(sizeof(MPI_Request)*vertexes_number);
+  send_status = malloc(sizeof(MPI_Status)*vertexes_number);
+  recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
+}
+
+void mpi_free()
+{
+  free(send_request);
+  free(send_status);
+  free(recv_request);
+  free(recv_status);
+}
+
 void init_malloc()
 {
     int i,j;
@@ -76,11 +92,6 @@ void init_malloc()
         }
     }
 
-    send_request = malloc(sizeof(MPI_Request)*vertexes_number);
-    recv_request = malloc(sizeof(MPI_Request)*vertexes_number);
-    send_status = malloc(sizeof(MPI_Status)*vertexes_number);
-    recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
-
     result_collect = (int*)malloc(sizeof(int) *vertexes_number);
 }
 
@@ -90,16 +101,14 @@ void my_global_free()
   free(introverted_vertexes);
   free(temp_onedim_array);
   free(graph_weight);
-  free(send_request);
-  free(send_status);
-  free(recv_request);
-  free(recv_status);
   free(result_collect);
+
 }
 
 void my_mpi_finalize()
 {
     my_global_free();
+    mpi_free();
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
     compution_time = total_time - communication_time;
@@ -154,6 +163,7 @@ void my_mpi_init(int argc,char *argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     total_start_time = MPI_Wtime();
     my_init(argc, argv);
+    mpi_malloc();
 
 }
 
@@ -173,7 +183,6 @@ void  my_init(int argc,char *argv[])
         output_file_name = argv[3];
         source_vertex = atoi(argv[4])-1;
     }
-
     readGraph();
 
 }
