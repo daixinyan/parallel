@@ -148,7 +148,6 @@ void readGraph()
         graph_weight[from_index-1][to_index-1] = distance;
     }
     fclose(fp);
-    init_neibors();
 }
 
 void my_mpi_init(int argc,char *argv[])
@@ -160,6 +159,7 @@ void my_mpi_init(int argc,char *argv[])
     total_start_time = MPI_Wtime();
     my_init(argc, argv);
     mpi_malloc();
+    init_neibors();
 
 }
 
