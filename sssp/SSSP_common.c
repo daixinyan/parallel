@@ -148,10 +148,6 @@ void readGraph()
         graph_weight[from_index-1][to_index-1] = distance;
     }
     fclose(fp);
-    if(IF_PRINT)
-    {
-        printf("rank: %d, read data, done\n", rank);
-    }
     init_neibors();
 }
 
