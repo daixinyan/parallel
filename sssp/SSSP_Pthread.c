@@ -16,8 +16,8 @@ void floyd(){
 int main(int argc,char *argv[])
 {
     my_init(argc, argv);
-    my_global_free();
     floyd();
+    my_global_free();
     print_result(result_collect);
     return 0;
 }
