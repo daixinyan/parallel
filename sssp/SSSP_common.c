@@ -189,7 +189,7 @@ void print_result_console(int *result)
   int i;
   for(i=0; i<vertexes_number; i++)
   {
-    if(result[temp]!=-1)
+    if(result[i]!=-1)
     {
       temp = i;
       do{
