@@ -189,12 +189,15 @@ void print_result_console(int *result)
   int i;
   for(i=0; i<vertexes_number; i++)
   {
-    temp = i;
-    do{
-      printf("%d   ", temp+1);
-      temp = result[temp];
-    }while(temp!=source_vertex);
-    printf("%d\n", source_vertex+1);
+    if(result[temp]!=-1)
+    {
+      temp = i;
+      do{
+        printf("%d   ", temp+1);
+        temp = result[temp];
+      }while(temp!=source_vertex);
+      printf("%d\n", source_vertex+1);
+    }
   }
 }
 

@@ -85,7 +85,7 @@ void my_mpi_execute()
 
     message[MESSAGE_TYPE] = graph_weight[source_vertex][rank]!=INT_MAX;
     message[MESSAGE_LENGTH] = graph_weight[source_vertex][rank];
-    last_index = source_vertex;
+    last_index = graph_weight[source_vertex][rank]==INT_MAX?-1:source_vertex;
 
     if(rank==source_vertex || rank>=vertexes_number)
     {

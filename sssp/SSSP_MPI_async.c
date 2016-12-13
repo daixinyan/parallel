@@ -39,7 +39,7 @@ void my_mpi_execute()
   malloc_data();
   message[MESSAGE_TYPE] = 0;
   message[MESSAGE_LENGTH] = graph_weight[source_vertex][rank];
-  last_index = source_vertex;
+  last_index = graph_weight[source_vertex][rank]==INT_MAX?-1:source_vertex;
   if(rank!=source_vertex)
   {
     int ring_state = RING_INITIAL;
