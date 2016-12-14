@@ -1,22 +1,21 @@
 
 # NOTICE: Please do not remove the '#' before 'PBS'
 
-# Select interactive queue for Xwindow
-#PBS -q interactive
-
 # Name of your job
-#PBS -N MY_JOB
+#PBS -N darxan
 
-# X11 Forwarding
-#PBS -X -I
+# Declaring job as not re-runnable
+#PBS -r n
 
 # Resource allocation (how many nodes? how many processes per node?)
-# For interactive queue, the only resources you can request is "nodes=1:ppn=12"
-#PBS -l nodes=1:ppn=12
+#PBS -l nodes=4:ppn=12
 
 # Max execution time of your job (hh:mm:ss)
+# Debug cluster max limit: 00:05:00 
+# Batch cluster max limit: 00:30:00
 # Your job may got killed if you exceed this limit
-# For interactive queue, the maximum execution time you can request is 30 min
-#PBS -l walltime=00:30:00
+#PBS -l walltime=00:01:00
 
-# Do not add anything below
+cd $PBS_O_WORKDIR
+mpiexec ./excutable3 12 In_48_65 shortest_path 11 # edit this line to fit your needs!
+

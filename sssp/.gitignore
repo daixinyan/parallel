@@ -1,6 +1,9 @@
 *.e*
 *.o*
 In_*
+Out_*
+out_*
+*.sh
 judge_*
 SSSP_MPI_sync
 SSSP_MPI_async
