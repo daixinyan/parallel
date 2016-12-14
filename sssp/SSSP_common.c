@@ -59,18 +59,18 @@ void init_neibors()
 
 void mpi_malloc()
 {
-  send_request = malloc(sizeof(MPI_Request)*vertexes_number);
-  recv_request = malloc(sizeof(MPI_Request)*vertexes_number);
-  send_status = malloc(sizeof(MPI_Status)*vertexes_number);
-  recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
+    send_request = malloc(sizeof(MPI_Request)*vertexes_number);
+    recv_request = malloc(sizeof(MPI_Request)*vertexes_number);
+    send_status = malloc(sizeof(MPI_Status)*vertexes_number);
+    recv_status = malloc(sizeof(MPI_Status)*vertexes_number);
 }
 
 void mpi_free()
 {
-  free(send_request);
-  free(send_status);
-  free(recv_request);
-  free(recv_status);
+    free(send_request);
+    free(send_status);
+    free(recv_request);
+    free(recv_status);
 }
 
 void init_malloc()
@@ -96,11 +96,11 @@ void init_malloc()
 
 void my_global_free()
 {
-  free(outgoing_vertexes);
-  free(introverted_vertexes);
-  free(temp_onedim_array);
-  free(graph_weight);
-  free(result_collect);
+    free(outgoing_vertexes);
+    free(introverted_vertexes);
+    free(temp_onedim_array);
+    free(graph_weight);
+    free(result_collect);
 
 }
 
@@ -184,105 +184,123 @@ void  my_init(int argc,char *argv[])
 
 void print_result_console(int *result)
 {
-  printf("result of %d :\n" ,vertexes_number);
-  int temp;
-  int i;
-  for(i=0; i<vertexes_number; i++)
-  {
-    if(result[i]!=-1)
+    printf("result of %d :\n" ,vertexes_number);
+    int temp;
+    int i;
+    for(i=0; i<vertexes_number; i++)
     {
-      temp = i;
-      do{
-        printf("%d   ", temp+1);
-        temp = result[temp];
-      }while(temp!=source_vertex);
-      printf("%d\n", source_vertex+1);
+        if(result[i]!=-1)
+        {
+            temp = i;
+            do{
+                printf("%d   ", temp+1);
+                temp = result[temp];
+            }while(temp!=source_vertex);
+            printf("%d\n", source_vertex+1);
+        }
     }
-  }
 }
 
 
 
 void send_result()
 {
-  mySend(&last_index, RESULT_SIZE, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-  if(IF_PRINT)
-  {
-    printf("rank: %d send result\n",rank );
-  }
+    mySend(&last_index, RESULT_SIZE, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    if(IF_PRINT)
+    {
+        printf("rank: %d send result\n",rank );
+    }
 }
 
 void my_collect()
 {
-  int i;
-  result_collect[source_vertex] = source_vertex;
-  for(i=0; i<vertexes_number; i++)
-  {
-    if(i!=source_vertex)
+    int i;
+    result_collect[source_vertex] = source_vertex;
+    for(i=0; i<vertexes_number; i++)
     {
-      myRecv(&result_collect[i], RESULT_SIZE, MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      if(IF_PRINT)
-      {
-        printf("rank: %d receive result from rank: %d \n",rank, i);
-      }
+        if(i!=source_vertex)
+        {
+            myRecv(&result_collect[i], RESULT_SIZE, MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            if(IF_PRINT)
+            {
+                printf("rank: %d receive result from rank: %d \n",rank, i);
+            }
+        }
     }
-  }
-  if(IF_PRINT)
-  {
-    printf("rank: %d receive result, done\n",rank);
-  }
+    if(IF_PRINT)
+    {
+        printf("rank: %d receive result, done\n",rank);
+    }
 
 }
 
 void my_collect_and_send()
 {
-  if(rank==source_vertex)
-  {
-    my_collect();
-    print_result(result_collect);
-  }else if(rank<vertexes_number)
-  {
-    send_result();
-  }
+    if(rank==source_vertex)
+    {
+        my_collect();
+        print_result(result_collect);
+    }else if(rank<vertexes_number)
+    {
+        send_result();
+    }
 }
 
 
 void print_result_file(int *result)
 {
-  Stack* stack = createStack(vertexes_number);
-  FILE* output = fopen(output_file_name,"w");
-  int temp;
-  int i;
-  for(i=0; i<vertexes_number; i++)
-  {
-    temp = i;
-    do{
-      push(stack, temp);
-      temp = result[temp];
-    }while(temp!=source_vertex);
-    push(stack, source_vertex);//can push source_vertex to source_vertex
+    Stack* stack = createStack(vertexes_number);
+    FILE* output = fopen(output_file_name,"w");
+    int temp;
+    int i;
+    for(i=0; i<vertexes_number; i++)
+    {
+        temp = i;
+        do{
+            push(stack, temp);
+            temp = result[temp];
+        }while(temp!=source_vertex);
+        push(stack, source_vertex);//can push source_vertex to source_vertex
 
-    do {
-      fprintf(output, "%d ", 1+pop(stack));
-    } while(stack->size>1);
-    fprintf(output, "%d\n", 1+pop(stack));
-  }
-  fclose(output);
+        do {
+            fprintf(output, "%d ", 1+pop(stack));
+        } while(stack->size>1);
+        fprintf(output, "%d\n", 1+pop(stack));
+    }
+    fclose(output);
 }
 
 void print_result(int *result)
 {
-  if(IF_PRINT)
-  {
-    print_result_console(result);
-  }
-  print_result_file(result);
+    if(IF_PRINT)
+    {
+        print_result_console(result);
+    }
+    print_result_file(result);
 }
 
 int getNextNodeRank()
 {
-  int temp = rank+1;
-  return temp==actual_size?0:temp;
+    int temp = rank+1;
+    return temp==actual_size?0:temp;
+}
+
+
+int isAfterVertex(int rank,int another)
+{
+//    if(rank>source_vertex && source_vertex>another)
+//        return 0;
+    if(rank>another && another>source_vertex)
+        return 1;
+//    if(another>rank && rank>source_vertex)
+//        return 0;
+    if(another>source_vertex && source_vertex>rank)
+        return 1;
+    if(source_vertex>rank && rank>another)
+        return 1;
+//    if(source_vertex>another && another>rank)
+//        return 0;
+    return 0;
 }
 
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
@@ -349,20 +367,20 @@ void myWait(MPI_Request *request,MPI_Status *status)
 
 void myIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request)
 {
-double start_time;
-double end_time;
-start_time = MPI_Wtime();
-MPI_Isend(buf, count, datatype, dest, tag, comm, request);
-end_time = MPI_Wtime();
-communication_time += end_time-start_time;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Isend(buf, count, datatype, dest, tag, comm, request);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
 }
 
 void myIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request)
 {
-double start_time;
-double end_time;
-start_time = MPI_Wtime();
-MPI_Irecv(buf, count, datatype, source, tag, comm, request);
-end_time = MPI_Wtime();
-communication_time += end_time-start_time;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Irecv(buf, count, datatype, source, tag, comm, request);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
 }

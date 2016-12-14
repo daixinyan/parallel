@@ -11,21 +11,21 @@
 #define CONTROLL_NODE 0
 
 /**start struct meta**/
-    int size,rank;
-    int actual_size;/*when the size=10, only 7 elements to allocate, so actual_size=7*/
-    char process_name[MPI_MAX_PROCESSOR_NAME];
-    int  name_len;
+int size,rank;
+int actual_size;/*when the size=10, only 7 elements to allocate, so actual_size=7*/
+char process_name[MPI_MAX_PROCESSOR_NAME];
+int  name_len;
 
-    int total_int_num;/*number of elements*/
-    char* input_file; /* input file_name*/
-    char* output_file;/*out_put file_name*/
+int total_int_num;/*number of elements*/
+char* input_file; /* input file_name*/
+char* output_file;/*out_put file_name*/
 
-    int current_process_int_num;    /*number of current process's elements*/
-    int current_process_start_index;/*actually equal to the number of left process elements*/
-    int current_process_end_index;/**/
-    int offset;/*offset in file*/
-    int* data;/*current process data*/
-    int  temp;/*for receive single integer data.*/
+int current_process_int_num;    /*number of current process's elements*/
+int current_process_start_index;/*actually equal to the number of left process elements*/
+int current_process_end_index;/**/
+int offset;/*offset in file*/
+int* data;/*current process data*/
+int  temp;/*for receive single integer data.*/
 /**end struct**/
 
 
@@ -87,22 +87,22 @@ void my_swap(int* a, int i, int j);
 
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/
 void mySendrecv(
-                const void *sendbuf, int sendcount, MPI_Datatype sendtype,
-                int dest, int sendtag,
-                void *recvbuf, int recvcount, MPI_Datatype recvtype,
-                int source, int recvtag,
-                MPI_Comm comm, MPI_Status *status
-                );
+        const void *sendbuf, int sendcount, MPI_Datatype sendtype,
+        int dest, int sendtag,
+        void *recvbuf, int recvcount, MPI_Datatype recvtype,
+        int source, int recvtag,
+        MPI_Comm comm, MPI_Status *status
+);
 
 /**@see MPI_Recv, add comsumption time to (double)communication_time**/
 void myRecv(void *buf, int count, MPI_Datatype type,
-                int source, int tag,
-                MPI_Comm comm, MPI_Status *status );
+            int source, int tag,
+            MPI_Comm comm, MPI_Status *status );
 
 /**@see MPI_Send, add comsumption time to (double)communication_time**/
 void mySend(const void *buf, int count, MPI_Datatype type,
-                int dest, int tag,
-                MPI_Comm comm, MPI_Status *status );
+            int dest, int tag,
+            MPI_Comm comm, MPI_Status *status );
 
 
 
@@ -118,39 +118,39 @@ int main(int argc,char *argv[])
 
 
     /**init mpi**/
-        MPI_Init(&argc, &argv);
-        MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-        MPI_Comm_size(MPI_COMM_WORLD, &size);
-        MPI_Get_processor_name(process_name,&name_len);
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    MPI_Get_processor_name(process_name,&name_len);
 
     total_start_time = MPI_Wtime();
 
 
     /**init excute parameters.**/
-        if(argc<3){
-            total_int_num = 4;
-            input_file = "testcase/testcase1";
-            output_file = "test_out_0";
-            if(PRINT_MESSAGE)
-                printf("too less parameters.from the node %d,\n total size is %d\n", rank,size);
-        }else
-        {
-            total_int_num = atoi(argv[1]);
-            input_file = argv[2];
-            output_file = argv[3];
-            if(PRINT_MESSAGE)
-                printf("complete parameters get. from the node %d,\n total size is %d\n", rank,size);
-        }
+    if(argc<3){
+        total_int_num = 4;
+        input_file = "testcase/testcase1";
+        output_file = "test_out_0";
         if(PRINT_MESSAGE)
-        {
-            printf("number: %d, input: %s, output: %s\n", total_int_num, input_file, output_file);
-        }
-        my_init();
+            printf("too less parameters.from the node %d,\n total size is %d\n", rank,size);
+    }else
+    {
+        total_int_num = atoi(argv[1]);
+        input_file = argv[2];
+        output_file = argv[3];
+        if(PRINT_MESSAGE)
+            printf("complete parameters get. from the node %d,\n total size is %d\n", rank,size);
+    }
+    if(PRINT_MESSAGE)
+    {
+        printf("number: %d, input: %s, output: %s\n", total_int_num, input_file, output_file);
+    }
+    my_init();
 
 
     /**read**/
     start_time = MPI_Wtime();
-        my_read();
+    my_read();
     end_time = MPI_Wtime();
     read_time = end_time-start_time;
 
@@ -177,7 +177,7 @@ int main(int argc,char *argv[])
 
     /**write**/
     start_time = MPI_Wtime();
-        my_write();
+    my_write();
     total_end_time = end_time = MPI_Wtime();
     write_time = end_time-start_time;
 
@@ -187,7 +187,7 @@ int main(int argc,char *argv[])
     if(PRINT_TIME)
     {
         printf("total_time: %f\n communication_time: %f\n compution_time: %f\n read_time: %f\n write_time: %f\n",
-            total_time, communication_time, compution_time, read_time, write_time );
+               total_time, communication_time, compution_time, read_time, write_time );
     }
 
     MPI_Finalize();
@@ -200,13 +200,13 @@ void my_write()
     MPI_Status status;
     MPI_File_open(MPI_COMM_WORLD, output_file,
                   MPI_MODE_CREATE|MPI_MODE_WRONLY,
-                   MPI_INFO_NULL,&mpi_file);
+                  MPI_INFO_NULL,&mpi_file);
 
     if(current_process_int_num!=0)
     {
         MPI_File_write_at(mpi_file,
-                      offset,data,current_process_int_num,
-                      MPI_INT,&status);
+                          offset,data,current_process_int_num,
+                          MPI_INT,&status);
         if(PRINT_MESSAGE)
             printf("write down. %d", rank);
     }
@@ -219,7 +219,7 @@ void my_write()
 void my_read()
 {
 
-	int i;
+    int i;
     MPI_File mpi_file;
     MPI_Status status;
 
@@ -286,35 +286,35 @@ void my_sort()
 
         /*2. determine if there is a need to send a element to the left and left process **/
         if(
-            (
-               ( (i&1) && (current_process_start_index&1) ) //0 12 34 56 78 9
-               ||
-               ( !(i&1) &&!(current_process_start_index&1) )//01 23 45 67 89
-             )
-          )
-          {
-              start=0;
-              send_to_down = 0;
-          }
-          else
-          {
-              start = 1;
-              send_to_down = rank!=0;
-          }
+                (
+                        ( (i&1) && (current_process_start_index&1) ) //0 12 34 56 78 9
+                        ||
+                        ( !(i&1) &&!(current_process_start_index&1) )//01 23 45 67 89
+                )
+                )
+        {
+            start=0;
+            send_to_down = 0;
+        }
+        else
+        {
+            start = 1;
+            send_to_down = rank!=0;
+        }
 
 
         if(
-           ( (i&1) && (current_process_end_index&1) ) //0 12 34 56 78 9
-           ||
-           ( !(i&1) &&!(current_process_end_index&1) )//01 23 45 67 89
-          )
-          {
-              send_to_up = (rank!=(size-1)) && current_process_end_index!=(total_int_num-1);
-          }
-          else
-          {
-              send_to_up = 0;
-          }
+                ( (i&1) && (current_process_end_index&1) ) //0 12 34 56 78 9
+                ||
+                ( !(i&1) &&!(current_process_end_index&1) )//01 23 45 67 89
+                )
+        {
+            send_to_up = (rank!=(size-1)) && current_process_end_index!=(total_int_num-1);
+        }
+        else
+        {
+            send_to_up = 0;
+        }
 
 
 
@@ -358,19 +358,19 @@ void my_sort()
         {
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, send to center.\n",rank, swaped);
             mySendrecv(
-                           &swaped, 1, MPI_INT,
-                           CONTROLL_NODE,TAG_NOSWAPED_FROM_NODES,
-                           &temp, 1, MPI_INT ,
-                           CONTROLL_NODE, TAG_NOSWAPED_FROM_CENTER,
-                           MPI_COMM_WORLD, MPI_STATUS_IGNORE
-                       );
+                    &swaped, 1, MPI_INT,
+                    CONTROLL_NODE,TAG_NOSWAPED_FROM_NODES,
+                    &temp, 1, MPI_INT ,
+                    CONTROLL_NODE, TAG_NOSWAPED_FROM_CENTER,
+                    MPI_COMM_WORLD, MPI_STATUS_IGNORE
+            );
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, received from center.\n",rank, swaped);
             if(temp==0)
             {
                 break;
             }
         }
-        /**if current process is controller: after receiving message from all others,determine if or not continue the loop and  inform others**/
+            /**if current process is controller: after receiving message from all others,determine if or not continue the loop and  inform others**/
         else
         {
             if(PRINT_MESSAGE)printf("at node %d, swaped %d, received from nodes\n",rank, swaped);
@@ -402,12 +402,12 @@ void my_sort()
 int sendToUp()
 {
     mySendrecv(
-                           &data[current_process_int_num-1], 1, MPI_INT,
-                           rank+1,TAG_NUMBER_FROM_DOWN,
-                           &temp, 1, MPI_INT ,
-                           rank+1, TAG_NUMBER_FROM_UP,
-                           MPI_COMM_WORLD, MPI_STATUS_IGNORE
-                );
+            &data[current_process_int_num-1], 1, MPI_INT,
+            rank+1,TAG_NUMBER_FROM_DOWN,
+            &temp, 1, MPI_INT ,
+            rank+1, TAG_NUMBER_FROM_UP,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE
+    );
     if(PRINT_MESSAGE)
     {
         printf("at node %d  communication with %d\n,get message %d\n",
@@ -426,12 +426,12 @@ int sendToUp()
 int sendToDown()
 {
     mySendrecv(
-                           &data[0], 1, MPI_INT,
-                           rank-1, TAG_NUMBER_FROM_UP,
-                           &temp, 1, MPI_INT ,
-                           rank-1, TAG_NUMBER_FROM_DOWN,
-                           MPI_COMM_WORLD, MPI_STATUS_IGNORE
-                );
+            &data[0], 1, MPI_INT,
+            rank-1, TAG_NUMBER_FROM_UP,
+            &temp, 1, MPI_INT ,
+            rank-1, TAG_NUMBER_FROM_DOWN,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE
+    );
     if(PRINT_MESSAGE)
     {
         printf("at node %d  communication with %d\nget message %d\n",
@@ -447,25 +447,25 @@ int sendToDown()
 }
 
 void mySendrecv(
-                const void *sendbuf, int sendcount, MPI_Datatype sendtype,
-                int dest, int sendtag,
-                void *recvbuf, int recvcount, MPI_Datatype recvtype,
-                int source, int recvtag,
-                MPI_Comm comm, MPI_Status *status
-                )
-                {
-                    double start_time;
-                    double end_time;
-                    start_time = MPI_Wtime();
-                    MPI_Sendrecv(sendbuf, sendcount, sendtype,dest, sendtag,
-                                 recvbuf, recvcount, recvtype,source, recvtag,
-                                 comm,  status);
-                    end_time = MPI_Wtime();
-                    communication_time += end_time-start_time;
-                }
+        const void *sendbuf, int sendcount, MPI_Datatype sendtype,
+        int dest, int sendtag,
+        void *recvbuf, int recvcount, MPI_Datatype recvtype,
+        int source, int recvtag,
+        MPI_Comm comm, MPI_Status *status
+)
+{
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
+    MPI_Sendrecv(sendbuf, sendcount, sendtype,dest, sendtag,
+                 recvbuf, recvcount, recvtype,source, recvtag,
+                 comm,  status);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
+}
 void myRecv(void *buf, int count, MPI_Datatype type,
-                int source, int tag,
-                MPI_Comm comm, MPI_Status *status )
+            int source, int tag,
+            MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
     double end_time;
@@ -474,8 +474,8 @@ void myRecv(void *buf, int count, MPI_Datatype type,
     communication_time += end_time-start_time;
 }
 void mySend(const void *buf, int count, MPI_Datatype type,
-                int dest, int tag,
-                MPI_Comm comm, MPI_Status *status )
+            int dest, int tag,
+            MPI_Comm comm, MPI_Status *status )
 {
     double start_time;
     double end_time;
@@ -498,20 +498,20 @@ void odd_even_sort(int* a, int head, int tail)
 
         if(i&1)/*odd pass*/
         {
-          if(PRINT_MESSAGE)
-          {
-              printf("odd pass %d\n",i);
-          }
-          /*if length is odd : 0 to length-1 or else 0 to length*/
-          for( start=0; start<odd_pass; start++)
-          {
-              my_compare_swap(a,start*2+head,start*2+1+head);
-          }
+            if(PRINT_MESSAGE)
+            {
+                printf("odd pass %d\n",i);
+            }
+            /*if length is odd : 0 to length-1 or else 0 to length*/
+            for( start=0; start<odd_pass; start++)
+            {
+                my_compare_swap(a,start*2+head,start*2+1+head);
+            }
         }else/*even pass*/
         {
             if(PRINT_MESSAGE)
             {
-              printf("even pass %d\n",i);
+                printf("even pass %d\n",i);
             }
             for( start=0; start<even_pass; start++)
             {

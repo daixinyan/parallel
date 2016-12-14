@@ -51,6 +51,8 @@ void my_mpi_init(int argc,char *argv[]);
 /**function for init variables**/
 void my_init(int argc,char *argv[]);
 
+/**free gloabl variables**/
+void my_global_free();
 /**function for finalize mpi**/
 void my_mpi_finalize();
 
@@ -62,6 +64,8 @@ void my_collect_and_send();
 
 /**return the rank of next node ,regard the threads as a circle**/
 int getNextNodeRank();
+/**return 1 if node (@rank point to) is after another node (@vertex_rank point to) else return 0**/
+int isAfterVertex(int rank,int vertex_rank);
 /**@see MPI_Allreduce and comsumption time to barrier_time**/
 void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm);
 /**@see MPI_Sendrecv, add comsumption time to (double)communication_time**/

@@ -26,55 +26,56 @@ int main(int argc,char *argv[])
 
 void wait_end()
 {
-  int hasMessage = 0;
-  int loop;
-  do{
-      myAllreduce(&hasMessage, &loop, 1, MPI_INT, MPI_LAND, MPI_COMM_WORLD);
-  }while (loop);
+
+    int hasMessage = 0;
+    int loop;
+    do{
+        myAllreduce(&hasMessage, &loop, 1, MPI_INT, MPI_LAND, MPI_COMM_WORLD);
+    }while (loop);
 }
 
 
 void notify_and_recv()
 {
-  int i;
-  double start_time;
-  double end_time;
-  start_time = MPI_Wtime();
+    int i;
+    double start_time;
+    double end_time;
+    start_time = MPI_Wtime();
 
-  for(i=0; i<outgoing_number; i++)
-  {
-    MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
-  }
-  for(i=0; i<introverted_number; i++)
-  {
-    MPI_Irecv(recv_data[i], MESSAGE_SIZE, MPI_INT, introverted_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &recv_request[i]);
-  }
-  MPI_Waitall(outgoing_number, send_request, send_status);
-  MPI_Waitall(introverted_number, recv_request, recv_status);
-  end_time = MPI_Wtime();
-  communication_time += end_time-start_time;
+    for(i=0; i<outgoing_number; i++)
+    {
+        MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
+    }
+    for(i=0; i<introverted_number; i++)
+    {
+        MPI_Irecv(recv_data[i], MESSAGE_SIZE, MPI_INT, introverted_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &recv_request[i]);
+    }
+    MPI_Waitall(outgoing_number, send_request, send_status);
+    MPI_Waitall(introverted_number, recv_request, recv_status);
+    end_time = MPI_Wtime();
+    communication_time += end_time-start_time;
 }
 
 
 void claculate_and_update()
 {
-  int i;
-  int temp_new_length;
+    int i;
+    int temp_new_length;
 
-  message[MESSAGE_TYPE] = 0;
-  for(i = 0; i<introverted_number; i++)
-  {
-      if(recv_data[i][MESSAGE_TYPE])
-      {
-        temp_new_length = recv_data[i][MESSAGE_LENGTH]+graph_weight[introverted_vertexes[i]][rank];
-        if( temp_new_length < message[MESSAGE_LENGTH])
+    message[MESSAGE_TYPE] = 0;
+    for(i = 0; i<introverted_number; i++)
+    {
+        if(recv_data[i][MESSAGE_TYPE])
         {
-          message[MESSAGE_TYPE] = 1;
-          message[MESSAGE_LENGTH] = temp_new_length;
-          last_index = introverted_vertexes[i];
+            temp_new_length = recv_data[i][MESSAGE_LENGTH]+graph_weight[introverted_vertexes[i]][rank];
+            if( temp_new_length < message[MESSAGE_LENGTH])
+            {
+                message[MESSAGE_TYPE] = 1;
+                message[MESSAGE_LENGTH] = temp_new_length;
+                last_index = introverted_vertexes[i];
+            }
         }
-      }
-  }
+    }
 }
 
 
@@ -105,7 +106,7 @@ void my_mpi_execute()
     free_data();
     if(IF_PRINT)
     {
-      printf("rank: %d excute, done\n",rank);
+        printf("rank: %d excute, done\n",rank);
     }
 }
 
@@ -124,6 +125,6 @@ void malloc_data()
 
 void free_data()
 {
-  free(recv_data_temp);
-  free(recv_data);
+    free(recv_data_temp);
+    free(recv_data);
 }

@@ -1,6 +1,6 @@
- /*
-   Sequential Mandelbort sort
- */
+/*
+  Sequential Mandelbort sort
+*/
 #include <X11/Xlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -38,7 +38,7 @@ int main(void)
 
 	/* create window */
 	window = XCreateSimpleWindow(display, RootWindow(display, screen), x, y, width, height, border_width,
-					BlackPixel(display, screen), WhitePixel(display, screen));
+								 BlackPixel(display, screen), WhitePixel(display, screen));
 
 	/* create graph */
 	GC gc;

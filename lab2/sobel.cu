@@ -34,7 +34,7 @@ unsigned char header[54] = {
 	0, 0, 0, 0,  // compression
 	0, 0, 0, 0,  // data size
 	0, 0, 0, 0,  // h resolution
-	0, 0, 0, 0,  // v resolution 
+	0, 0, 0, 0,  // v resolution
 	0, 0, 0, 0,  // used colors
 	0, 0, 0, 0   // important colors
 };
@@ -69,12 +69,12 @@ read_bmp (const char *fname_s) {
 	fread(&rgb_raw_data_offset, sizeof(unsigned int), 1, fp_s);
 
 	// move offset to 18 to get width & height;
-	fseek(fp_s, 18, SEEK_SET); 
+	fseek(fp_s, 18, SEEK_SET);
 	fread(&width,  sizeof(unsigned int), 1, fp_s);
 	fread(&height, sizeof(unsigned int), 1, fp_s);
 
 	// get bit per pixel
-	fseek(fp_s, 28, SEEK_SET); 
+	fseek(fp_s, 28, SEEK_SET);
 	fread(&bit_per_pixel, sizeof(unsigned short), 1, fp_s);
 	byte_per_pixel = bit_per_pixel / 8;
 
@@ -140,7 +140,7 @@ sobel () {
 							val[i*3+2] += R * mask[i][u + xBound][v + yBound];
 							val[i*3+1] += G * mask[i][u + xBound][v + yBound];
 							val[i*3+0] += B * mask[i][u + xBound][v + yBound];
-						}	
+						}
 					}
 				}
 			}
@@ -179,7 +179,7 @@ write_bmp (const char *fname_t) {
 		return -1;
 	}
 
-	// file size  
+	// file size
 	file_size = width * height * byte_per_pixel + rgb_raw_data_offset;
 	header[2] = (unsigned char)(file_size & 0x000000ff);
 	header[3] = (file_size >> 8)  & 0x000000ff;
@@ -247,7 +247,8 @@ main(int argc, char **argv) {
 	// Hint  : cudaFree ( ... )
 
 	write_bmp("out.bmp");
-
+	printf("%d\n", width);
+	printf("%d\n", height);
 	// Task 3: Free Pinned memory
 	// Hint  : replace free ( ... ) by cudaFreeHost ( ... )
 	free (image_s);
