@@ -256,7 +256,7 @@ void print_result_file(int *result)
     int i;
     for(i=0; i<vertexes_number; i++)
     {
-        if(result[i]==-1)
+        if(result[i]!=-1)
         {
             temp = i;
             do{
