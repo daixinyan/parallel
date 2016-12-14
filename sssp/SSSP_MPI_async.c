@@ -32,12 +32,14 @@ void message_send(int destination)
 {
     mySend(message, MESSAGE_SIZE, MPI_INT, destination, MESSAGE_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 }
-void message_receive()
+
+int message_receive()
 {
     MPI_Status status;
     myRecv(received, MESSAGE_SIZE, MPI_INT, MPI_ANY_SOURCE, MESSAGE_TAG, MPI_COMM_WORLD, &status);
     return status.MPI_SOURCE;
 }
+
 int main(int argc,char *argv[])
 {
     my_mpi_init(argc, argv);
@@ -47,45 +49,25 @@ int main(int argc,char *argv[])
 }
 
 
-void notify_and_recv()
-{
-    int i;
-    double start_time;
-    double end_time;
-    start_time = MPI_Wtime();
 
-    for(i=0; i<outgoing_number; i++)
-    {
-        MPI_Isend(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &send_request[i]);
-    }
-    for(i=0; i<introverted_number; i++)
-    {
-        MPI_Irecv(recv_data[i], MESSAGE_SIZE, MPI_INT, introverted_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &recv_request[i]);
-    }
-    MPI_Waitall(outgoing_number, send_request, send_status);
-    MPI_Waitall(introverted_number, recv_request, recv_status);
-    end_time = MPI_Wtime();
-    communication_time += end_time-start_time;
-}
 void nonSourceVertexCompute()
 {
 
     int ring_state = RING_INITIAL;
     int received_state;
     do {
-        int source = message_receive();
+        int sender_rank = message_receive();
         if(received[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
         {
-            MPI_Isend(&ring_state, RING_STATE_SIZE, MPI_INT, source, RING_STATE_TAG, MPI_COMM_WORLD, &send_request[0]);
+            MPI_Isend(&ring_state, RING_STATE_SIZE, MPI_INT, sender_rank, RING_STATE_TAG, MPI_COMM_WORLD, &send_request[0]);
 
-            int temp_new_length = received[MESSAGE_LENGTH]+graph_weight[source][rank];
+            int temp_new_length = received[MESSAGE_LENGTH]+graph_weight[sender_rank][rank];
             if( temp_new_length < message[MESSAGE_LENGTH])
             {
                 message[MESSAGE_LENGTH] = temp_new_length;
                 message[MESSAGE_TYPE] = MESSAGE_TYPE_UPDATE;
                 last_index = sender_rank;
 
-                notify_and_recv();
                 MPI_Wait(&send_request[0], &send_status[0]);
                 if(ring_state==WHITE_SENT)
                 {
