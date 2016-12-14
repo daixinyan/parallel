@@ -166,7 +166,7 @@ void  my_init(int argc,char *argv[])
 {
 
 
-    if(argc<4)
+    if(argc<5)
     {
         printf("no enough args\n");
         exit(1);
