@@ -42,6 +42,7 @@ void dijkstra(void* args)
             }
         S[u] = 1;
         synchronize();
+
         for(int j=current_process_start_index; j<=current_process_end_index; j++)
             if((!S[j]) && A[u][j]<INT_MAX)
             {

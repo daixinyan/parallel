@@ -182,24 +182,7 @@ void  my_init(int argc,char *argv[])
 
 }
 
-void print_result_console(int *result)
-{
-    printf("result of %d :\n" ,vertexes_number);
-    int temp;
-    int i;
-    for(i=0; i<vertexes_number; i++)
-    {
-        if(result[i]!=-1)
-        {
-            temp = i;
-            do{
-                printf("%d   ", temp+1);
-                temp = result[temp];
-            }while(temp!=source_vertex);
-            printf("%d\n", source_vertex+1);
-        }
-    }
-}
+
 
 
 
@@ -246,6 +229,24 @@ void my_collect_and_send()
     }
 }
 
+void print_result_console(int *result)
+{
+    printf("result of %d :\n" ,vertexes_number);
+    int temp;
+    int i;
+    for(i=0; i<vertexes_number; i++)
+    {
+        if(result[i]!=-1)
+        {
+            temp = i;
+            do{
+                printf("%d   ", temp+1);
+                temp = result[temp];
+            }while(temp!=source_vertex);
+            printf("%d\n", source_vertex+1);
+        }
+    }
+}
 
 void print_result_file(int *result)
 {
@@ -255,17 +256,20 @@ void print_result_file(int *result)
     int i;
     for(i=0; i<vertexes_number; i++)
     {
-        temp = i;
-        do{
-            push(stack, temp);
-            temp = result[temp];
-        }while(temp!=source_vertex);
-        push(stack, source_vertex);//can push source_vertex to source_vertex
+        if(result[i]=-1)
+        {
+            temp = i;
+            do{
+                push(stack, temp);
+                temp = result[temp];
+            }while(temp!=source_vertex);
+            push(stack, source_vertex);//can push source_vertex to source_vertex
 
-        do {
-            fprintf(output, "%d ", 1+pop(stack));
-        } while(stack->size>1);
-        fprintf(output, "%d\n", 1+pop(stack));
+            do {
+                fprintf(output, "%d ", 1+pop(stack));
+            } while(stack->size>1);
+            fprintf(output, "%d\n", 1+pop(stack));
+        }
     }
     fclose(output);
 }
