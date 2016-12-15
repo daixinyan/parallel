@@ -48,15 +48,18 @@ int main(int argc,char *argv[])
     return 0;
 }
 
-void update_message()
+void update_message(int exception)
 {
     int i;
     for (i = 0; i < outgoing_number; ++i)
     {
-        message_send(outgoing_vertexes[i]);
-        if(DEBUG)
+        if(outgoing_vertexes[i]!=exception)
         {
-            printf("rank: %d , send update message to the %d\n", rank, outgoing_vertexes[i]);
+            message_send(outgoing_vertexes[i]);
+            if(DEBUG)
+            {
+                printf("rank: %d , send update message to the %d\n", rank, outgoing_vertexes[i]);
+            }
         }
     }
 }
@@ -76,7 +79,7 @@ void nonSourceVertexCompute()
         {
             printf("rank: %d try to send first update message! \n",rank);
         }
-        update_message();
+        update_message(source_vertex);
         if(DEBUG)
         {
             printf("rank: %d send first update message, done  \n",rank);
@@ -107,7 +110,7 @@ void nonSourceVertexCompute()
                 {
                     is_reactive = 1;
                     ring_state = RING_INITIAL;
-                }update_message();
+                }update_message(sender_rank);
             }
         }else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_ASK_FOR_STATE)
         {
@@ -117,15 +120,15 @@ void nonSourceVertexCompute()
         {
             ring_state = WHITE_SENT;
             is_reactive = 0;
-            message[MESSAGE_TYPE] = MESSAGE_TYPE_WHITE;
+            message[MESSAGE_TYPE] = MESSAGE_TYPE_ASK_FOR_STATE;
             /**ask before vertex if there is anyone has been reactive**/
             for(temp_index=0; temp_index<outgoing_number; temp_index++)
             {
+                if(!isAfterVertex(rank, outgoing_vertexes[temp_index]))break;
                 if(DEBUG)
                 {
-                    printf("rank: %d , to the outgoing : %d\n", rank , outgoing_vertexes[temp_index]);
+                    printf("rank: %d ,verify to the outgoing : %d\n", rank , outgoing_vertexes[temp_index]);
                 }
-                if(!isAfterVertex(rank, outgoing_vertexes[temp_index]))break;
                 mySendrecv(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[temp_index], MESSAGE_TAG,
                            &received_is_reactive, 1, MPI_INT, outgoing_vertexes[temp_index], RING_STATE_TAG,
                            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -133,9 +136,13 @@ void nonSourceVertexCompute()
                 {
                     message[MESSAGE_TYPE] = MESSAGE_TYPE_BLACK;
                     ring_state = BLACK_SENT;
+                    break;
                 }
             }
-
+            if(message[MESSAGE_TYPE]!=MESSAGE_TYPE_BLACK)
+            {
+                message[MESSAGE_TYPE] = MESSAGE_TYPE_WHITE;
+            }
             if(DEBUG)
             {
                 printf("rank: %d , send white or black message to next: %d\n", rank , next_rank);
