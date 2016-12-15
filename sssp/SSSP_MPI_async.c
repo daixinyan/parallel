@@ -127,6 +127,11 @@ void nonSourceVertexCompute()
                     ring_state = BLACK_SENT;
                 }
             }
+
+            if(DEBUG)
+            {
+                printf("rank: %d , send message to: %d\n", rank , next_rank);
+            }
             message_send(next_rank);
         }
         else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_BLACK)
