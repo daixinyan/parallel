@@ -113,6 +113,10 @@ void nonSourceVertexCompute()
             /**ask before vertex if there is anyone has been reactive**/
             for(temp_index=0; temp_index<outgoing_number; temp_index++)
             {
+                if(DEBUG)
+                {
+                    printf("rank: %d , to the outgoing : %d\n", rank , outgoing_vertexes[temp_index]);
+                }
                 if(!isAfterVertex(rank, outgoing_vertexes[temp_index]))break;
                 mySendrecv(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[temp_index], MESSAGE_TAG,
                            &received_is_reactive, 1, MPI_INT, outgoing_vertexes[temp_index], RING_STATE_TAG,
