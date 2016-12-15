@@ -54,6 +54,10 @@ void update_message()
     for (i = 0; i < outgoing_number; ++i)
     {
         message_send(outgoing_vertexes[i]);
+        if(DEBUG)
+        {
+            printf("rank: %d , send update message to the %d\n", rank, outgoing_vertexes[i]);
+        }
     }
 }
 
@@ -92,6 +96,10 @@ void nonSourceVertexCompute()
             int temp_new_length = received[MESSAGE_LENGTH]+graph_weight[sender_rank][rank];
             if( temp_new_length < message[MESSAGE_LENGTH])
             {
+                if(DEBUG)
+                {
+                    printf("rank: %d , update!!\n", rank );
+                }
                 message[MESSAGE_LENGTH] = temp_new_length;
                 message[MESSAGE_TYPE] = MESSAGE_TYPE_UPDATE;
                 last_index = sender_rank;
