@@ -46,18 +46,21 @@ void dijkstra(void* args)
             }
 
         synchronize();
-
-        int u = source_vertex;
-        int minist = INT_MAX;
-        for(int j=0; j<threads_number; j++)
-        {
-            if(min_distance[j]<minist)
-            {
-                u = j;
-                minist = min_distance[j];
-            }
-        }
+        int minist = min_distance[thread_rank];
+        int u = min_vertex[thread_rank];
         S[u] = 1;
+
+//        int u = source_vertex;
+//        int minist = INT_MAX;
+//        for(int j=0; j<threads_number; j++)
+//        {
+//            if(min_distance[j]<minist)
+//            {
+//                u = j;
+//                minist = min_distance[j];
+//            }
+//        }
+//        S[u] = 1;
 
         for(int j=current_process_start_index; j<=current_process_end_index; j++)
             if((!S[j]) && A[u][j]<INT_MAX)
