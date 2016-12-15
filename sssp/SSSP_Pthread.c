@@ -33,12 +33,12 @@ void dijkstra(void* args)
         current_process_int_num = quotient+1;
     }
     current_process_end_index = current_process_start_index+current_process_int_num-1;
-    printf("rank: %ld, start: %d, end: %d\n", thread_rank, current_process_start_index, current_process_end_index);
+
     for(int i=0; i<vertexes_number; i++)
     {
         min_distance[thread_rank] = INT_MAX;
         min_vertex[thread_rank] = source_vertex;                   // 找出当前未使用的点j的dist[j]最小值
-        for(int j=current_process_start_index; j<=current_process_end_index; ++j)
+        for(int j=0; j<vertexes_number; ++j)
             if((!S[j]) && dist[j]<min_distance[thread_rank])
             {
                 min_vertex[thread_rank] = j;                             // u保存当前邻接点中距离最小的点的号码
