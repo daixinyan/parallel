@@ -38,7 +38,7 @@ void dijkstra(void* args)
     {
         min_distance[thread_rank] = INT_MAX;
         min_vertex[thread_rank] = source_vertex;                   // 找出当前未使用的点j的dist[j]最小值
-        for(int j=0; j<vertexes_number; ++j)
+        for(int j=current_process_start_index; j<=current_process_end_index; ++j)
             if((!S[j]) && dist[j]<min_distance[thread_rank])
             {
                 min_vertex[thread_rank] = j;                             // u保存当前邻接点中距离最小的点的号码
@@ -46,21 +46,18 @@ void dijkstra(void* args)
             }
 
         synchronize();
-        int minist = min_distance[thread_rank];
-        int u = min_vertex[thread_rank];
-        S[u] = 1;
 
-//        int u = source_vertex;
-//        int minist = INT_MAX;
-//        for(int j=0; j<threads_number; j++)
-//        {
-//            if(min_distance[j]<minist)
-//            {
-//                u = j;
-//                minist = min_distance[j];
-//            }
-//        }
-//        S[u] = 1;
+        int u = source_vertex;
+        int minist = INT_MAX;
+        for(int j=0; j<threads_number; j++)
+        {
+            if(min_distance[j]<minist)
+            {
+                u = min_vertex[j];
+                minist = min_distance[j];
+            }
+        }
+        S[u] = 1;
 
         for(int j=current_process_start_index; j<=current_process_end_index; j++)
             if((!S[j]) && A[u][j]<INT_MAX)
