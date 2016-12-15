@@ -138,7 +138,7 @@ void nonSourceVertexCompute()
 
             if(DEBUG)
             {
-                printf("rank: %d , send message to: %d\n", rank , next_rank);
+                printf("rank: %d , send white or black message to next: %d\n", rank , next_rank);
             }
             message_send(next_rank);
         }
@@ -147,6 +147,10 @@ void nonSourceVertexCompute()
             is_reactive = 0;
             ring_state = BLACK_SENT;
             message[MESSAGE_TYPE] = MESSAGE_TYPE_BLACK;
+            if(DEBUG)
+            {
+                printf("rank: %d , send black message to next: %d\n", rank , next_rank);
+            }
             message_send(next_rank);
         }
         else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_TERMINATE)
