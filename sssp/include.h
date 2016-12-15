@@ -7,7 +7,7 @@
 
 #define PRINT_TIME 0
 #define IF_PRINT   0
-#define DEBUG      (rank==1)
+#define DEBUG      (1||rank==5)
 
 #define RESULT_TAG 2
 #define RESULT_SIZE 1
