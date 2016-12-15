@@ -286,7 +286,7 @@ void print_result(int *result)
 int getNextNodeRank()
 {
     int temp = rank+1;
-    return temp==actual_size?0:temp;
+    return temp==vertexes_number?0:temp;
 }
 
 
