@@ -79,12 +79,13 @@ void nonSourceVertexCompute()
         }
     }
 
+    int i = 0;
     do {
-
+        i++;
         int sender_rank = message_receive();
         if(DEBUG)
         {
-            printf("rank: %d received first message from %d type: %d \n", rank, sender_rank, message[MESSAGE_TYPE]);
+            printf("rank: %d received message from %d type: %d \n", rank, sender_rank, message[MESSAGE_TYPE]);
         }
         if(received[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
         {
