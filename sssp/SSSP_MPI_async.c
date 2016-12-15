@@ -68,11 +68,24 @@ void nonSourceVertexCompute()
 
     if(message[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
     {
-      update_message();
+        if(DEBUG)
+        {
+            printf("rank: %d try to send first update message! \n",rank);
+        }
+        update_message();
+        if(DEBUG)
+        {
+            printf("rank: %d send first update message, done  \n",rank);
+        }
     }
 
     do {
+
         int sender_rank = message_receive();
+        if(DEBUG)
+        {
+            printf("rank: %d received first message from %d type: %d \n", rank, sender_rank, message[MESSAGE_TYPE]);
+        }
         if(received[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
         {
             int temp_new_length = received[MESSAGE_LENGTH]+graph_weight[sender_rank][rank];

@@ -6,7 +6,8 @@
 #include "tool.h"
 
 #define PRINT_TIME 0
-#define IF_PRINT   1
+#define IF_PRINT   0
+#define DEBUG      1
 
 #define RESULT_TAG 2
 #define RESULT_SIZE 1
