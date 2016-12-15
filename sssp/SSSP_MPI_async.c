@@ -48,7 +48,14 @@ int main(int argc,char *argv[])
     return 0;
 }
 
-
+void update_message()
+{
+    int i;
+    for (i = 0; i < outgoing_number; ++i)
+    {
+        message_send(outgoing_vertexes[i]);
+    }
+}
 
 void nonSourceVertexCompute()
 {
@@ -59,9 +66,9 @@ void nonSourceVertexCompute()
     int received_is_reactive;
     int temp_index;
 
-    if(message[MESSAGE_TYPE]!=MESSAGE_TYPE_NO_MESSAGE)
+    if(message[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
     {
-      message_send();
+      update_message();
     }
 
     do {
@@ -74,12 +81,11 @@ void nonSourceVertexCompute()
                 message[MESSAGE_LENGTH] = temp_new_length;
                 message[MESSAGE_TYPE] = MESSAGE_TYPE_UPDATE;
                 last_index = sender_rank;
-
                 if(ring_state==WHITE_SENT)
                 {
                     is_reactive = 1;
                     ring_state = RING_INITIAL;
-                }
+                }update_message();
             }
         }else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_ASK_FOR_STATE)
         {
@@ -94,8 +100,8 @@ void nonSourceVertexCompute()
             for(temp_index=0; temp_index<outgoing_number; temp_index++)
             {
                 if(!isAfterVertex(rank, outgoing_vertexes[temp_index]))break;
-                mySendrecv(message, MESSAGE_SIZE, MPI_INT, outgoing_number[temp_index], MESSAGE_TAG,
-                           &received_is_reactive, 1, MPI_INT, outgoing_number[temp_index], RING_STATE_TAG,
+                mySendrecv(message, MESSAGE_SIZE, MPI_INT, outgoing_vertexes[temp_index], MESSAGE_TAG,
+                           &received_is_reactive, 1, MPI_INT, outgoing_vertexes[temp_index], RING_STATE_TAG,
                            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 if(received_is_reactive)
                 {
