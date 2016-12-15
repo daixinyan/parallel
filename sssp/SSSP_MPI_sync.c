@@ -30,7 +30,7 @@ void wait_end()
     int hasMessage = 0;
     int loop;
     do{
-        myAllreduce(&hasMessage, &loop, 1, MPI_INT, MPI_LAND, MPI_COMM_WORLD);
+        myAllreduce(&hasMessage, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
     }while (loop);
 }
 
@@ -50,6 +50,7 @@ void notify_and_recv()
     {
         MPI_Irecv(recv_data[i], MESSAGE_SIZE, MPI_INT, introverted_vertexes[i], MESSAGE_TAG, MPI_COMM_WORLD, &recv_request[i]);
     }
+
     MPI_Waitall(outgoing_number, send_request, send_status);
     MPI_Waitall(introverted_number, recv_request, recv_status);
     end_time = MPI_Wtime();
@@ -68,7 +69,7 @@ void claculate_and_update()
         if(recv_data[i][MESSAGE_TYPE])
         {
             temp_new_length = recv_data[i][MESSAGE_LENGTH]+graph_weight[introverted_vertexes[i]][rank];
-            if( temp_new_length < message[MESSAGE_LENGTH])
+            if( temp_new_length < message[MESSAGE_LENGTH] || last_index==-1)
             {
                 message[MESSAGE_TYPE] = 1;
                 message[MESSAGE_LENGTH] = temp_new_length;
@@ -86,6 +87,7 @@ void my_mpi_execute()
 
     message[MESSAGE_TYPE] = graph_weight[source_vertex][rank]!=INT_MAX;
     message[MESSAGE_LENGTH] = graph_weight[source_vertex][rank];
+
     last_index = graph_weight[source_vertex][rank]==INT_MAX?-1:source_vertex;
 
     if(rank==source_vertex || rank>=vertexes_number)
@@ -99,15 +101,13 @@ void my_mpi_execute()
         {
             notify_and_recv();
             claculate_and_update();
-            myAllreduce(message, &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
+            printf("rank: %d message: %d\n", rank, message[MESSAGE_TYPE]);
+            myAllreduce(&message[MESSAGE_TYPE], &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
+            printf("rank:%d loop %d\n", rank, loop);
         }
     }
     my_collect_and_send();
     free_data();
-    if(IF_PRINT)
-    {
-        printf("rank: %d excute, done\n",rank);
-    }
 }
 
 void malloc_data()

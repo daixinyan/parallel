@@ -8,11 +8,14 @@ int *dist;
 int *prev;
 int **A ;
 
+int *min_distance;
+int *min_vertex;
+
 void synchronize();
 
 void dijkstra(void* args)
 {
-    long thread_rank = (long)args;
+    int thread_rank = (long)args;
 
     int reminder,quotient;
     int current_process_start_index;
@@ -32,16 +35,28 @@ void dijkstra(void* args)
     current_process_end_index = current_process_start_index+current_process_int_num-1;
     for(int i=0; i<vertexes_number; i++)
     {
-        int mindist = INT_MAX;
-        int u = source_vertex;                   // 找出当前未使用的点j的dist[j]最小值
-        for(int j=0; j<vertexes_number; ++j)
-            if((!S[j]) && dist[j]<mindist)
+        min_distance[thread_rank] = INT_MAX;
+        min_vertex[thread_rank] = source_vertex;                   // 找出当前未使用的点j的dist[j]最小值
+        for(int j=current_process_start_index; j<=current_process_end_index; ++j)
+            if((!S[j]) && dist[j]<min_distance[thread_rank])
             {
-                u = j;                             // u保存当前邻接点中距离最小的点的号码
-                mindist = dist[j];
+                min_vertex[thread_rank] = j;                             // u保存当前邻接点中距离最小的点的号码
+                min_distance[thread_rank] = dist[j];
             }
-        S[u] = 1;
+
         synchronize();
+
+        int u = source_vertex;
+        int minist = INT_MAX;
+        for(int j=0; j<threads_number; j++)
+        {
+            if(min_distance[j]<minist)
+            {
+                u = j;
+                minist = min_distance[j];
+            }
+        }
+        S[u] = 1;
 
         for(int j=current_process_start_index; j<=current_process_end_index; j++)
             if((!S[j]) && A[u][j]<INT_MAX)
@@ -63,6 +78,8 @@ void init_dijkstra()
     S = (int*)malloc(sizeof(int)*vertexes_number);
     dist = (int*)malloc(sizeof(int)*vertexes_number);
     thread_handles = malloc(threads_number * sizeof(pthread_t));
+    min_distance = malloc(threads_number * sizeof(int));
+    min_vertex = malloc(threads_number * sizeof(int));
 
     prev = result_collect;
     A = graph_weight;
@@ -86,6 +103,8 @@ void finalize_dijkstra()
     free(S);
     free(dist);
     free(thread_handles);
+    free(min_distance);
+    free(min_vertex);
 }
 
 void synchronize()
@@ -93,7 +112,7 @@ void synchronize()
     pthread_barrier_wait(&barrier);
 }
 
-void my_pthread_excute()
+void my_pthread_execute()
 {
     long thread;
 
@@ -112,7 +131,7 @@ void my_pthread_excute()
 int main(int argc,char *argv[])
 {
     my_init(argc, argv);
-    my_pthread_excute();
+    my_pthread_execute();
     print_result(result_collect);
     my_global_free();
 

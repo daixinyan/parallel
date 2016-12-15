@@ -1,10 +1,12 @@
 #include "include.h"
 
+#define MESSAGE_TYPE_NO_MESSAGE 0
 #define MESSAGE_TYPE_WHITE 1
 #define MESSAGE_TYPE_BLACK 2
 
 #define MESSAGE_TYPE_UPDATE 16
 #define MESSAGE_TYPE_TERMINATE 8
+#define MESSAGE_TYPE_ASK_FOR_STATE 32
 
 #define MESSAGE_TYPE 0
 #define MESSAGE_LENGTH 1
@@ -12,10 +14,8 @@
 #define MESSAGE_TAG 1
 
 #define RING_INITIAL 0
-#define BLACK_ARRIVAL 1
-#define WHITE_ARRIVAL 2
-#define BLACK_SENT 3
-#define WHITE_SENT 4
+#define BLACK_SENT 1
+#define WHITE_SENT 2
 
 #define RING_STATE_SIZE 1
 #define RING_STATE_TAG 2
@@ -54,13 +54,20 @@ void nonSourceVertexCompute()
 {
 
     int ring_state = RING_INITIAL;
-    int received_state;
+    int next_rank = getNextNodeRank();
+    int is_reactive = 0;
+    int received_is_reactive;
+    int temp_index;
+
+    if(message[MESSAGE_TYPE]!=MESSAGE_TYPE_NO_MESSAGE)
+    {
+      message_send();
+    }
+
     do {
         int sender_rank = message_receive();
         if(received[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
         {
-            MPI_Isend(&ring_state, RING_STATE_SIZE, MPI_INT, sender_rank, RING_STATE_TAG, MPI_COMM_WORLD, &send_request[0]);
-
             int temp_new_length = received[MESSAGE_LENGTH]+graph_weight[sender_rank][rank];
             if( temp_new_length < message[MESSAGE_LENGTH])
             {
@@ -68,20 +75,40 @@ void nonSourceVertexCompute()
                 message[MESSAGE_TYPE] = MESSAGE_TYPE_UPDATE;
                 last_index = sender_rank;
 
-                MPI_Wait(&send_request[0], &send_status[0]);
                 if(ring_state==WHITE_SENT)
                 {
+                    is_reactive = 1;
                     ring_state = RING_INITIAL;
                 }
             }
-        }
-        else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_BLACK)
+        }else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_ASK_FOR_STATE)
         {
-            ring_state = BLACK_ARRIVAL;
+            mySend(&is_reactive, 1, MPI_INT, sender_rank, RING_STATE_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
         else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_WHITE)
         {
-            ring_state = WHITE_ARRIVAL;
+            ring_state = WHITE_SENT;
+            is_reactive = 0;
+            message[MESSAGE_TYPE] = MESSAGE_TYPE_WHITE;
+            /**ask before vertex if there is anyone has been reactive**/
+            for(temp_index=0; temp_index<outgoing_number; temp_index++)
+            {
+                if(!isAfterVertex(rank, outgoing_vertexes[temp_index]))break;
+                mySendrecv(message, MESSAGE_SIZE, MPI_INT, outgoing_number[temp_index], MESSAGE_TAG,
+                           &received_is_reactive, 1, MPI_INT, outgoing_number[temp_index], RING_STATE_TAG,
+                           MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                if(received_is_reactive)
+                {
+                    message[MESSAGE_TYPE] = MESSAGE_TYPE_BLACK;
+                    ring_state = BLACK_SENT;
+                }
+            }
+            message_send(next_rank);
+        }
+        else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_BLACK)
+        {
+            message_send(next_rank);
+            ring_state = BLACK_SENT;
         }
         else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_TERMINATE)
         {
@@ -123,7 +150,7 @@ void sourceVertexCompute()
 void my_mpi_execute()
 {
     malloc_data();
-    message[MESSAGE_TYPE] = 0;
+    message[MESSAGE_TYPE] = graph_weight[source_vertex][rank]==INT_MAX?MESSAGE_TYPE_NO_MESSAGE:MESSAGE_TYPE_UPDATE;
     message[MESSAGE_LENGTH] = graph_weight[source_vertex][rank];
     last_index = graph_weight[source_vertex][rank]==INT_MAX?-1:source_vertex;
     if(rank!=source_vertex)

@@ -36,6 +36,19 @@ int size, rank, actual_size;
 void readGraph();
 void init_malloc();
 
+void printGraphd()
+{
+  int i,j;
+  for(i=0; i<vertexes_number; i++)
+  {
+    for(j=0; j<vertexes_number; j++)
+    {
+      if(graph_weight[i][j]!=INT_MAX)
+            printf("rank:%d %d %d %d\n",rank, i+1, j+1, graph_weight[i][j]);
+    }
+  }
+}
+
 void init_neibors()
 {
     int i;
@@ -118,7 +131,6 @@ void my_mpi_finalize()
                rank, total_time, communication_time, compution_time );
     }
     MPI_Finalize();
-    printf("Hello world out of MPI\n");
 }
 
 
@@ -159,7 +171,6 @@ void my_mpi_init(int argc,char *argv[])
     my_init(argc, argv);
     mpi_malloc();
     init_neibors();
-
 }
 
 void  my_init(int argc,char *argv[])
@@ -189,10 +200,6 @@ void  my_init(int argc,char *argv[])
 void send_result()
 {
     mySend(&last_index, RESULT_SIZE, MPI_INT, source_vertex, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    if(IF_PRINT)
-    {
-        printf("rank: %d send result\n",rank );
-    }
 }
 
 void my_collect()
@@ -204,15 +211,7 @@ void my_collect()
         if(i!=source_vertex)
         {
             myRecv(&result_collect[i], RESULT_SIZE, MPI_INT, i, RESULT_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            if(IF_PRINT)
-            {
-                printf("rank: %d receive result from rank: %d \n",rank, i);
-            }
         }
-    }
-    if(IF_PRINT)
-    {
-        printf("rank: %d receive result, done\n",rank);
     }
 
 }
@@ -236,7 +235,7 @@ void print_result_console(int *result)
     int i;
     for(i=0; i<vertexes_number; i++)
     {
-//        if(result[i]!=-1)
+       if(result[i]!=-1)
         {
             temp = i;
             do{
@@ -256,7 +255,7 @@ void print_result_file(int *result)
     int i;
     for(i=0; i<vertexes_number; i++)
     {
-//        if(result[i]!=-1)
+       if(result[i]!=-1)
         {
             temp = i;
             do{
@@ -276,6 +275,7 @@ void print_result_file(int *result)
 
 void print_result(int *result)
 {
+    result_collect[source_vertex] = source_vertex;
     if(IF_PRINT)
     {
         print_result_console(result);

@@ -20,4 +20,4 @@ SSSP_common.o: SSSP_common.c include.h
 	mpicc $(CCFLAGS) $(LDFLAGS) -c SSSP_common.c -o $@
 
 clean:
-	rm SSSP_MPI_async SSSP_MPI_sync SSSP_common.o tool.o
+	rm SSSP_Pthread SSSP_MPI_async SSSP_MPI_sync SSSP_common.o tool.o
