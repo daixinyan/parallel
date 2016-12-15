@@ -15,7 +15,7 @@ void synchronize();
 
 void dijkstra(void* args)
 {
-    int thread_rank = (long)args;
+    long thread_rank = (long)args;
 
     int reminder,quotient;
     int current_process_start_index;
@@ -33,6 +33,7 @@ void dijkstra(void* args)
         current_process_int_num = quotient+1;
     }
     current_process_end_index = current_process_start_index+current_process_int_num-1;
+    printf("rank: %d, start: %d, end: %d\n", thread_rank, current_process_start_index, current_process_end_index);
     for(int i=0; i<vertexes_number; i++)
     {
         min_distance[thread_rank] = INT_MAX;
