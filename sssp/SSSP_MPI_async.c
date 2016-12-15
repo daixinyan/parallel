@@ -127,8 +127,10 @@ void nonSourceVertexCompute()
         }
         else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_BLACK)
         {
-            message_send(next_rank);
+            is_reactive = 0;
             ring_state = BLACK_SENT;
+            message[MESSAGE_TYPE] = MESSAGE_TYPE_BLACK;
+            message_send(next_rank);
         }
         else if(received[MESSAGE_TYPE]==MESSAGE_TYPE_TERMINATE)
         {
