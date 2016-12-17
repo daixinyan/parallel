@@ -35,7 +35,7 @@ extern double total_end_time;
 extern double communication_time;
 extern double compution_time;
 extern double barrier_time;
-extern double total_time0;
+extern double total_time;
 extern double fileio_time;
 /**end struct time**/
 

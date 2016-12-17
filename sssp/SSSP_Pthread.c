@@ -21,7 +21,7 @@ void dijkstra(void* args)
     double thread_synchronize_time;
     double thread_computing_time;
 
-    long thread_rank = (long)args;
+    int thread_rank = (long)args;
     int reminder,quotient;
     int current_process_start_index;
     int current_process_int_num;
@@ -82,7 +82,7 @@ void dijkstra(void* args)
     thread_computing_time = thread_time - thread_synchronize_time;
     if(PRINT_TIME)
     {
-      printf("thread %d\n thread_time %d\n thread_computing_time: %f\n thread_synchronize_time: %f\n",
+      printf("thread %d\n thread_time %f\n thread_computing_time: %f\n thread_synchronize_time: %f\n",
               thread_rank, thread_time, thread_computing_time, thread_synchronize_time);
     }
 }
