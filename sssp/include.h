@@ -36,6 +36,7 @@ extern double communication_time;
 extern double compution_time;
 extern double barrier_time;
 extern double total_time0;
+extern double fileio_time;
 /**end struct time**/
 
 extern MPI_Request *send_request;
