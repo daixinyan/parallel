@@ -50,7 +50,7 @@ void dijkstra(void* args)
                 min_distance[thread_rank] = dist[j];
             }
 
-        synchronize(&barrier_time);
+        synchronize(&thread_synchronize_time);
 
         int u = source_vertex;
         int minist = INT_MAX;
@@ -73,7 +73,7 @@ void dijkstra(void* args)
                     prev[j] = u;                    //记录前驱顶点
                 }
             }
-        synchronize(&barrier_time);
+        synchronize(&thread_synchronize_time);
     }
 
     gettimeofday(&end, NULL );
