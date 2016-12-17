@@ -29,8 +29,9 @@ double total_end_time;
 /**start struct time**/
 double communication_time = .0;
 double compution_time = .0;
-double barrier_time = .0;
+double fileio_time = .0;
 double total_time = .0;
+
 /**end struct time**/
 int size, rank, actual_size;
 void readGraph();
@@ -123,12 +124,12 @@ void my_mpi_finalize()
     mpi_free();
     total_end_time = MPI_Wtime();
     total_time = total_end_time - total_start_time;
-    compution_time = total_time - communication_time;
+    compution_time = total_time - communication_time -fileio_time;
 
     if(PRINT_TIME)
     {
-        printf("rank: %d\n total_time: %f\n communication_time: %f\n compution_time: %f\n",
-               rank, total_time, communication_time, compution_time );
+        printf("rank: %d\n  total_time: %f\n  communication_time: %f\n  compution_time: %f\n  fileio_time: %f\n",
+               rank, total_time, communication_time, compution_time, fileio_time);
     }
     MPI_Finalize();
 }
@@ -139,6 +140,9 @@ void readGraph()
     FILE *fp;
     int i;
     int from_index,to_index,distance;
+
+    struct timeval start,end;
+    gettimeofday(&start, NULL );
 
     if((fp = fopen(input_file_name,"r"))==NULL)
     {
@@ -159,6 +163,11 @@ void readGraph()
         graph_weight[from_index-1][to_index-1] = distance;
     }
     fclose(fp);
+
+  	gettimeofday(&end, NULL );
+  	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
+    fileio_time = ((double)timeuse)/1000.0;
+
 }
 
 void my_mpi_init(int argc,char *argv[])
@@ -314,7 +323,7 @@ void myAllreduce(const void* sendbuf, void* recv_data, int count, MPI_Datatype d
     start_time = MPI_Wtime();
     MPI_Allreduce(sendbuf, recv_data, count, datatype, op, comm);
     end_time = MPI_Wtime();
-    barrier_time += end_time-start_time;
+    communication_time += end_time-start_time;
 }
 
 void mySendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,

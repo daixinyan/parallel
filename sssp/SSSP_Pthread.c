@@ -11,12 +11,17 @@ int **A ;
 int *min_distance;
 int *min_vertex;
 
-void synchronize();
+void synchronize(double* barrier_time);
 
 void dijkstra(void* args)
 {
-    long thread_rank = (long)args;
+    struct timeval start,end;
+    gettimeofday(&start, NULL );
+    double thread_time;
+    double thread_synchronize_time;
+    double thread_computing_time;
 
+    long thread_rank = (long)args;
     int reminder,quotient;
     int current_process_start_index;
     int current_process_int_num;
@@ -45,7 +50,7 @@ void dijkstra(void* args)
                 min_distance[thread_rank] = dist[j];
             }
 
-        synchronize();
+        synchronize(&barrier_time);
 
         int u = source_vertex;
         int minist = INT_MAX;
@@ -68,9 +73,18 @@ void dijkstra(void* args)
                     prev[j] = u;                    //记录前驱顶点
                 }
             }
-        synchronize();
+        synchronize(&barrier_time);
     }
 
+    gettimeofday(&end, NULL );
+  	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
+    thread_time = ((double)timeuse)/1000.0;
+    thread_computing_time = thread_time - thread_synchronize_time;
+    if(PRINT_TIME)
+    {
+      printf("thread %d\n thread_time %d\n thread_computing_time: %f\n thread_synchronize_time: %f\n",
+              thread_rank, thread_time, thread_computing_time, thread_synchronize_time);
+    }
 }
 
 
@@ -108,9 +122,14 @@ void finalize_dijkstra()
     free(min_vertex);
 }
 
-void synchronize()
+void synchronize(double* barrier_time)
 {
+    struct timeval start,end;
+    gettimeofday(&start, NULL );
     pthread_barrier_wait(&barrier);
+    gettimeofday(&end, NULL );
+  	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
+    *barrier_time += ((double)timeuse)/1000.0;
 }
 
 void my_pthread_execute()
@@ -129,12 +148,24 @@ void my_pthread_execute()
     finalize_dijkstra();
 }
 
+
 int main(int argc,char *argv[])
 {
+    struct timeval start,end;
+    gettimeofday(&start, NULL );
+
     my_init(argc, argv);
     my_pthread_execute();
     print_result(result_collect);
     my_global_free();
 
+    gettimeofday(&end, NULL );
+  	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
+    total_time = ((double)timeuse)/1000.0;
+    if(PRINT_TIME)
+    {
+        printf("process : \n total_time: %f\n fileio_time: %f\n",
+                total_time, fileio_time);
+    }
     return 0;
 }

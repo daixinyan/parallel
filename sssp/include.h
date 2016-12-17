@@ -3,6 +3,8 @@
 #include <mpi.h>
 #include <string.h>
 #include <limits.h>
+#include <time.h>
+#include <sys/time.h>
 #include "tool.h"
 
 #define PRINT_TIME 0
