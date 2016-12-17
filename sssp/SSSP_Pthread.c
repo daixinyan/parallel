@@ -141,7 +141,7 @@ void my_pthread_execute()
     pthread_barrier_init(&barrier,NULL, (threads_number+1));
     for(thread=0 ; thread<threads_number; thread++)
         pthread_create(&thread_handles[thread], NULL, (void*)dijkstra, (void *)thread);
-    dijkstra((void*)threads_number);
+    dijkstra((void*)((long)threads_number));
 
     for(thread=0; thread<threads_number; thread++)
         pthread_join(thread_handles[thread], NULL);
