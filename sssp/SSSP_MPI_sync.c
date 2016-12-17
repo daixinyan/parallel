@@ -101,9 +101,7 @@ void my_mpi_execute()
         {
             notify_and_recv();
             claculate_and_update();
-            printf("rank: %d message: %d\n", rank, message[MESSAGE_TYPE]);
             myAllreduce(&message[MESSAGE_TYPE], &loop, 1, MPI_INT, MPI_LOR, MPI_COMM_WORLD);
-            printf("rank:%d loop %d\n", rank, loop);
         }
     }
     my_collect_and_send();

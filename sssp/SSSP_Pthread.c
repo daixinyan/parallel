@@ -78,7 +78,7 @@ void dijkstra(void* args)
 
     gettimeofday(&end, NULL );
   	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
-    thread_time = ((double)timeuse)/1000.0;
+    thread_time = ((double)timeuse)/1000000.0;
     thread_computing_time = thread_time - thread_synchronize_time;
     if(PRINT_TIME)
     {
@@ -129,7 +129,7 @@ void synchronize(double* barrier_time)
     pthread_barrier_wait(&barrier);
     gettimeofday(&end, NULL );
   	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
-    *barrier_time += ((double)timeuse)/1000.0;
+    *barrier_time += ((double)timeuse)/1000000.0;
 }
 
 void my_pthread_execute()
@@ -162,7 +162,7 @@ int main(int argc,char *argv[])
 
     gettimeofday(&end, NULL );
   	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
-    total_time = ((double)timeuse)/1000.0;
+    total_time = ((double)timeuse)/1000000.0;
     if(PRINT_TIME)
     {
         printf("process : \n total_time: %f\n fileio_time: %f\n",
