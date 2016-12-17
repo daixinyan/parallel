@@ -17,5 +17,5 @@
 #PBS -l walltime=00:01:00
 
 cd $PBS_O_WORKDIR
-mpiexec ./excutable3 12 In_48_65 shortest_path 11 # edit this line to fit your needs!
+mpiexec ./ex22 48 In_48_65 shortest_path 11 # edit this line to fit your needs!
 

@@ -1,3 +1,5 @@
 CMakeLists.txt
 .idea
+.idea*
+.idea/
 .idea/*
