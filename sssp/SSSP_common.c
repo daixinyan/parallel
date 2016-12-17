@@ -166,7 +166,7 @@ void readGraph()
 
   	gettimeofday(&end, NULL );
   	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
-    fileio_time = ((double)timeuse)/1000.0;
+    fileio_time = ((double)timeuse)/1000000.0;
 
 }
 

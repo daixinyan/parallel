@@ -26,8 +26,8 @@ void dijkstra(void* args)
     int current_process_start_index;
     int current_process_int_num;
     int current_process_end_index;
-    reminder = vertexes_number%threads_number;
-    quotient = vertexes_number/threads_number;
+    reminder = vertexes_number%(threads_number+1);
+    quotient = vertexes_number/(threads_number+1);
     if(thread_rank>=reminder)
     {
         current_process_start_index = quotient*thread_rank + reminder;
@@ -54,7 +54,7 @@ void dijkstra(void* args)
 
         int u = source_vertex;
         int minist = INT_MAX;
-        for(int j=0; j<threads_number; j++)
+        for(int j=0; j<(threads_number+1); j++)
         {
             if(min_distance[j]<minist)
             {
@@ -92,9 +92,9 @@ void init_dijkstra()
 {
     S = (int*)malloc(sizeof(int)*vertexes_number);
     dist = (int*)malloc(sizeof(int)*vertexes_number);
-    thread_handles = malloc(threads_number * sizeof(pthread_t));
-    min_distance = malloc(threads_number * sizeof(int));
-    min_vertex = malloc(threads_number * sizeof(int));
+    thread_handles = malloc((threads_number+1) * sizeof(pthread_t));
+    min_distance = malloc((threads_number+1) * sizeof(int));
+    min_vertex = malloc((threads_number+1) * sizeof(int));
 
     prev = result_collect;
     A = graph_weight;
@@ -138,9 +138,10 @@ void my_pthread_execute()
 
     init_dijkstra();
 
-    pthread_barrier_init(&barrier,NULL, threads_number);
+    pthread_barrier_init(&barrier,NULL, (threads_number+1));
     for(thread=0 ; thread<threads_number; thread++)
         pthread_create(&thread_handles[thread], NULL, (void*)dijkstra, (void *)thread);
+    dijkstra((void*)threads_number);
 
     for(thread=0; thread<threads_number; thread++)
         pthread_join(thread_handles[thread], NULL);
