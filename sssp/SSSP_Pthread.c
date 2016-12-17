@@ -17,9 +17,9 @@ void dijkstra(void* args)
 {
     struct timeval start,end;
     gettimeofday(&start, NULL );
-    double thread_time;
-    double thread_synchronize_time;
-    double thread_computing_time;
+    double thread_time = .0;
+    double thread_synchronize_time = .0;
+    double thread_computing_time = .0;
 
     int thread_rank = (long)args;
     int reminder,quotient;
