@@ -229,9 +229,9 @@ void malloc_data()
 
 void free_data()
 {
-  IF(IF_PRINT_NUMBERS)
+  if(IF_PRINT_NUMBERS)
   {
-    printf("number_of_message: %d\nnumber_of_calculate\nnumber_of_update: %d\n",
-            number_of_message, number_of_calculate, number_of_update);
+    printf("rank: %d\n number_of_message: %d\n number_of_calculate: %d\n number_of_update: %d\n",
+            rank, number_of_message, number_of_calculate, number_of_update);
   }
 }

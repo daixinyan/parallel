@@ -1,0 +1,804 @@
+rank: 37 message: 0
+rank: 22 message: 0
+rank: 42 message: 0
+rank: 14 message: 0
+rank: 39 message: 1
+rank: 25 message: 0
+rank: 47 message: 0
+rank: 4 message: 0
+rank: 11 message: 0
+rank: 24 message: 0
+rank: 32 message: 0
+rank: 45 message: 0
+rank: 3 message: 0
+rank: 18 message: 0
+rank: 21 message: 0
+rank: 2 message: 0
+rank: 12 message: 0
+rank: 27 message: 0
+rank: 33 message: 0
+rank: 44 message: 0
+rank: 0 message: 0
+rank: 13 message: 0
+rank: 20 message: 0
+rank: 29 message: 0
+rank: 34 message: 0
+rank: 35 message: 0
+rank: 46 message: 0
+rank: 6 message: 0
+rank: 28 message: 1
+rank: 41 message: 0
+rank: 7 message: 0
+rank: 15 message: 0
+rank: 38 message: 1
+rank: 26 message: 0
+rank: 5 message: 1
+rank: 19 message: 1
+rank: 36 message: 0
+rank: 40 message: 1
+rank: 43 message: 0
+rank: 23 message: 1
+rank: 9 message: 0
+rank: 16 message: 0
+rank: 8 message: 0
+rank: 1 message: 0
+rank: 30 message: 0
+rank: 17 message: 1
+rank: 31 message: 1
+rank:0 loop 1
+rank:1 loop 1
+rank:2 loop 1
+rank:3 loop 1
+rank:4 loop 1
+rank:5 loop 1
+rank:6 loop 1
+rank:7 loop 1
+rank:8 loop 1
+rank:9 loop 1
+rank:11 loop 1
+rank:12 loop 1
+rank:13 loop 1
+rank:14 loop 1
+rank:15 loop 1
+rank: 0 message: 1
+rank:16 loop 1
+rank: 16 message: 0
+rank:17 loop 1
+rank: 14 message: 0
+rank:18 loop 1
+rank:19 loop 1
+rank: 15 message: 1
+rank: 18 message: 1
+rank:20 loop 1
+rank:21 loop 1
+rank:22 loop 1
+rank: 3 message: 1
+rank: 4 message: 1
+rank:23 loop 1
+rank: 23 message: 0
+rank:24 loop 1
+rank:25 loop 1
+rank: 25 message: 0
+rank:26 loop 1
+rank:27 loop 1
+rank: 21 message: 1
+rank: 5 message: 0
+rank: 20 message: 1
+rank: 6 message: 1
+rank:28 loop 1
+rank:29 loop 1
+rank:30 loop 1
+rank:31 loop 1
+rank: 2 message: 1
+rank:32 loop 1
+rank:33 loop 1
+rank: 33 message: 0
+rank:34 loop 1
+rank:35 loop 1
+rank: 8 message: 0
+rank: 12 message: 1
+rank: 30 message: 0
+rank: 32 message: 0
+rank:36 loop 1
+rank:37 loop 1
+rank:38 loop 1
+rank: 38 message: 0
+rank: 7 message: 0
+rank:39 loop 1
+rank: 39 message: 0
+rank:40 loop 1
+rank: 40 message: 0
+rank: 1 message: 1
+rank: 13 message: 1
+rank: 17 message: 0
+rank: 22 message: 0
+rank: 26 message: 0
+rank: 28 message: 0
+rank: 29 message: 1
+rank: 34 message: 0
+rank: 36 message: 1
+rank:41 loop 1
+rank:42 loop 1
+rank: 42 message: 1
+rank:43 loop 1
+rank:44 loop 1
+rank: 44 message: 0
+rank:45 loop 1
+rank: 45 message: 0
+rank: 9 message: 0
+rank: 11 message: 0
+rank: 27 message: 0
+rank: 35 message: 0
+rank: 41 message: 0
+rank:46 loop 1
+rank:47 loop 1
+rank: 47 message: 0
+rank: 19 message: 0
+rank: 24 message: 0
+rank: 37 message: 0
+rank: 43 message: 1
+rank: 46 message: 0
+rank: 31 message: 0
+rank:0 loop 1
+rank:1 loop 1
+rank:2 loop 1
+rank:3 loop 1
+rank:4 loop 1
+rank:5 loop 1
+rank:6 loop 1
+rank:7 loop 1
+rank:8 loop 1
+rank:9 loop 1
+rank:11 loop 1
+rank:12 loop 1
+rank:13 loop 1
+rank:14 loop 1
+rank: 0 message: 1
+rank:15 loop 1
+rank:16 loop 1
+rank: 16 message: 1
+rank:17 loop 1
+rank:18 loop 1
+rank: 14 message: 1
+rank:19 loop 1
+rank:20 loop 1
+rank: 20 message: 1
+rank: 3 message: 0
+rank: 4 message: 0
+rank:21 loop 1
+rank: 21 message: 1
+rank:22 loop 1
+rank:23 loop 1
+rank: 23 message: 0
+rank:24 loop 1
+rank:25 loop 1
+rank: 25 message: 0
+rank:26 loop 1
+rank:27 loop 1
+rank:28 loop 1
+rank: 5 message: 0
+rank: 6 message: 0
+rank:29 loop 1
+rank:30 loop 1
+rank:31 loop 1
+rank:32 loop 1
+rank:33 loop 1
+rank: 8 message: 1
+rank: 30 message: 1
+rank:34 loop 1
+rank: 34 message: 1
+rank:35 loop 1
+rank:36 loop 1
+rank:37 loop 1
+rank:38 loop 1
+rank: 38 message: 0
+rank:39 loop 1
+rank: 39 message: 0
+rank:40 loop 1
+rank: 40 message: 0
+rank: 1 message: 0
+rank: 13 message: 0
+rank: 17 message: 0
+rank: 26 message: 0
+rank: 28 message: 0
+rank: 32 message: 0
+rank:41 loop 1
+rank:42 loop 1
+rank: 7 message: 1
+rank: 36 message: 0
+rank: 15 message: 0
+rank: 18 message: 0
+rank: 29 message: 0
+rank: 33 message: 0
+rank: 2 message: 0
+rank: 9 message: 0
+rank: 11 message: 0
+rank: 12 message: 0
+rank: 22 message: 0
+rank: 24 message: 1
+rank: 27 message: 1
+rank: 31 message: 0
+rank: 35 message: 1
+rank: 37 message: 1
+rank: 41 message: 1
+rank:43 loop 1
+rank:44 loop 1
+rank: 44 message: 0
+rank:45 loop 1
+rank: 45 message: 0
+rank:46 loop 1
+rank: 46 message: 1
+rank:47 loop 1
+rank: 47 message: 0
+rank: 42 message: 0
+rank: 43 message: 0
+rank: 19 message: 0
+rank:0 loop 1
+rank:1 loop 1
+rank:2 loop 1
+rank:3 loop 1
+rank:4 loop 1
+rank:5 loop 1
+rank:6 loop 1
+rank:7 loop 1
+rank:8 loop 1
+rank:9 loop 1
+rank:11 loop 1
+rank:12 loop 1
+rank:13 loop 1
+rank:14 loop 1
+rank:15 loop 1
+rank:16 loop 1
+rank: 16 message: 1
+rank:17 loop 1
+rank:18 loop 1
+rank: 0 message: 0
+rank: 14 message: 0
+rank:19 loop 1
+rank:20 loop 1
+rank: 20 message: 0
+rank:21 loop 1
+rank:22 loop 1
+rank: 3 message: 0
+rank: 4 message: 0
+rank: 5 message: 0
+rank: 6 message: 0
+rank: 21 message: 0
+rank:23 loop 1
+rank: 23 message: 0
+rank:24 loop 1
+rank:25 loop 1
+rank: 25 message: 0
+rank:26 loop 1
+rank:27 loop 1
+rank:28 loop 1
+rank:29 loop 1
+rank:30 loop 1
+rank:31 loop 1
+rank:32 loop 1
+rank: 8 message: 0
+rank: 13 message: 0
+rank: 30 message: 0
+rank:33 loop 1
+rank:34 loop 1
+rank: 34 message: 0
+rank:35 loop 1
+rank:36 loop 1
+rank:37 loop 1
+rank:38 loop 1
+rank: 38 message: 0
+rank:39 loop 1
+rank: 39 message: 0
+rank:40 loop 1
+rank: 40 message: 0
+rank:41 loop 1
+rank: 1 message: 0
+rank: 17 message: 0
+rank: 26 message: 0
+rank: 28 message: 0
+rank: 32 message: 1
+rank:42 loop 1
+rank: 7 message: 0
+rank: 36 message: 0
+rank: 2 message: 0
+rank: 12 message: 0
+rank: 22 message: 0
+rank: 42 message: 0
+rank:43 loop 1
+rank: 9 message: 0
+rank: 11 message: 0
+rank: 15 message: 0
+rank: 18 message: 0
+rank: 19 message: 0
+rank: 24 message: 0
+rank: 29 message: 0
+rank: 33 message: 0
+rank: 35 message: 0
+rank: 37 message: 0
+rank: 41 message: 0
+rank:44 loop 1
+rank: 44 message: 1
+rank:45 loop 1
+rank: 45 message: 1
+rank:46 loop 1
+rank:47 loop 1
+rank: 47 message: 1
+rank: 27 message: 0
+rank: 31 message: 0
+rank: 43 message: 0
+rank: 46 message: 0
+rank:0 loop 1
+rank:1 loop 1
+rank:2 loop 1
+rank:3 loop 1
+rank:4 loop 1
+rank:5 loop 1
+rank:6 loop 1
+rank:7 loop 1
+rank:8 loop 1
+rank:9 loop 1
+rank:11 loop 1
+rank:12 loop 1
+rank:13 loop 1
+rank:14 loop 1
+rank:15 loop 1
+rank:16 loop 1
+rank: 16 message: 0
+rank:17 loop 1
+rank: 0 message: 0
+rank: 14 message: 0
+rank:18 loop 1
+rank:19 loop 1
+rank:20 loop 1
+rank: 20 message: 0
+rank: 3 message: 0
+rank: 4 message: 0
+rank: 5 message: 0
+rank:21 loop 1
+rank: 21 message: 0
+rank:22 loop 1
+rank:23 loop 1
+rank: 23 message: 0
+rank:24 loop 1
+rank:25 loop 1
+rank: 25 message: 0
+rank:26 loop 1
+rank:27 loop 1
+rank: 6 message: 0
+rank:28 loop 1
+rank:29 loop 1
+rank:30 loop 1
+rank:31 loop 1
+rank:32 loop 1
+rank:33 loop 1
+rank:34 loop 1
+rank: 34 message: 0
+rank: 8 message: 0
+rank: 13 message: 0
+rank: 26 message: 0
+rank: 30 message: 0
+rank: 32 message: 0
+rank:35 loop 1
+rank:36 loop 1
+rank: 36 message: 0
+rank:37 loop 1
+rank:38 loop 1
+rank: 38 message: 0
+rank:39 loop 1
+rank: 39 message: 0
+rank:40 loop 1
+rank: 40 message: 0
+rank:41 loop 1
+rank: 1 message: 0
+rank: 17 message: 0
+rank: 28 message: 0
+rank:42 loop 1
+rank:43 loop 1
+rank:44 loop 1
+rank: 44 message: 0
+rank: 9 message: 1
+rank: 11 message: 1
+rank: 27 message: 0
+rank: 35 message: 0
+rank: 41 message: 0
+rank:45 loop 1
+rank: 45 message: 0
+rank:46 loop 1
+rank:47 loop 1
+rank: 47 message: 0
+rank: 15 message: 0
+rank: 18 message: 0
+rank: 29 message: 0
+rank: 33 message: 0
+rank: 2 message: 0
+rank: 7 message: 0
+rank: 12 message: 0
+rank: 22 message: 0
+rank: 24 message: 0
+rank: 37 message: 0
+rank: 42 message: 0
+rank: 46 message: 0
+rank: 31 message: 0
+rank: 43 message: 0
+rank: 19 message: 0
+rank:0 loop 1
+rank:1 loop 1
+rank:2 loop 1
+rank:3 loop 1
+rank:4 loop 1
+rank:5 loop 1
+rank:6 loop 1
+rank:7 loop 1
+rank:8 loop 1
+rank:9 loop 1
+rank:11 loop 1
+rank:12 loop 1
+rank:13 loop 1
+rank:14 loop 1
+rank:15 loop 1
+rank: 0 message: 0
+rank: 14 message: 0
+rank:16 loop 1
+rank: 16 message: 0
+rank:17 loop 1
+rank:18 loop 1
+rank:19 loop 1
+rank:20 loop 1
+rank: 20 message: 0
+rank:21 loop 1
+rank:22 loop 1
+rank: 3 message: 0
+rank: 4 message: 0
+rank: 5 message: 0
+rank: 6 message: 0
+rank:23 loop 1
+rank: 23 message: 0
+rank:24 loop 1
+rank:25 loop 1
+rank: 25 message: 0
+rank:26 loop 1
+rank:27 loop 1
+rank:28 loop 1
+rank:29 loop 1
+rank: 21 message: 0
+rank:30 loop 1
+rank:31 loop 1
+rank:32 loop 1
+rank: 8 message: 0
+rank: 30 message: 0
+rank:33 loop 1
+rank:34 loop 1
+rank: 34 message: 0
+rank:35 loop 1
+rank:36 loop 1
+rank:37 loop 1
+rank:38 loop 1
+rank: 38 message: 0
+rank:39 loop 1
+rank: 39 message: 0
+rank: 1 message: 0
+rank: 13 message: 0
+rank: 17 message: 0
+rank: 26 message: 0
+rank: 28 message: 0
+rank: 32 message: 0
+rank:40 loop 1
+rank: 40 message: 0
+rank:41 loop 1
+rank:42 loop 1
+rank: 7 message: 0
+rank: 36 message: 0
+rank: 2 message: 0
+rank: 12 message: 0
+rank: 22 message: 0
+rank: 24 message: 0
+rank: 42 message: 0
+rank:43 loop 1
+rank: 43 message: 0
+rank:44 loop 1
+rank: 44 message: 0
+rank:45 loop 1
+rank: 45 message: 0
+rank:46 loop 1
+rank: 46 message: 0
+rank: 9 message: 0
+rank: 11 message: 0
+rank: 15 message: 0
+rank: 18 message: 0
+rank: 19 message: 0
+rank: 27 message: 0
+rank: 29 message: 0
+rank: 31 message: 0
+rank: 33 message: 0
+rank: 35 message: 0
+rank: 37 message: 0
+rank: 41 message: 0
+rank:47 loop 1
+rank: 47 message: 0
+rank:0 loop 0
+rank:1 loop 0
+rank: 1
+  total_time: 0.035473
+  communication_time: 0.034960
+  compution_time: 0.000047
+  fileio_time: 0.000466
+rank: 0
+  total_time: 0.035220
+  communication_time: 0.028200
+  compution_time: 0.000056
+  fileio_time: 0.006964
+rank:2 loop 0
+rank:3 loop 0
+rank: 3
+  total_time: 0.035165
+  communication_time: 0.028115
+  compution_time: 0.000045
+  fileio_time: 0.007005
+rank:4 loop 0
+rank: 4
+  total_time: 0.035270
+  communication_time: 0.028171
+  compution_time: 0.000046
+  fileio_time: 0.007053
+rank:5 loop 0
+rank: 5
+  total_time: 0.035345
+  communication_time: 0.027985
+  compution_time: 0.000365
+  fileio_time: 0.006995
+rank:6 loop 0
+rank: 6
+  total_time: 0.035142
+  communication_time: 0.027704
+  compution_time: 0.000288
+  fileio_time: 0.007150
+rank:7 loop 0
+rank:8 loop 0
+rank: 8
+  total_time: 0.035560
+  communication_time: 0.034859
+  compution_time: 0.000201
+  fileio_time: 0.000499
+rank:9 loop 0
+rank: 9
+  total_time: 0.035562
+  communication_time: 0.034981
+  compution_time: 0.000045
+  fileio_time: 0.000536
+rank: 2
+  total_time: 0.035250
+  communication_time: 0.027554
+  compution_time: 0.000573
+  fileio_time: 0.007123
+rank: 7
+  total_time: 0.035147
+  communication_time: 0.025071
+  compution_time: 0.002936
+  fileio_time: 0.007140
+rank:11 loop 0
+rank:12 loop 0
+rank: 12
+  total_time: 0.035748
+  communication_time: 0.028572
+  compution_time: 0.000048
+  fileio_time: 0.007128
+rank:13 loop 0
+rank: 13
+  total_time: 0.035748
+  communication_time: 0.028584
+  compution_time: 0.000043
+  fileio_time: 0.007121
+rank:14 loop 0
+rank: 14
+  total_time: 0.035938
+  communication_time: 0.028831
+  compution_time: 0.000117
+  fileio_time: 0.006990
+rank:15 loop 0
+rank: 15
+  total_time: 0.036036
+  communication_time: 0.029045
+  compution_time: 0.000047
+  fileio_time: 0.006944
+rank:16 loop 0
+rank: 16
+  total_time: 0.036150
+  communication_time: 0.035649
+  compution_time: 0.000137
+  fileio_time: 0.000364
+rank:17 loop 0
+rank: 17
+  total_time: 0.036079
+  communication_time: 0.035525
+  compution_time: 0.000042
+  fileio_time: 0.000512
+rank:18 loop 0
+rank: 18
+  total_time: 0.035869
+  communication_time: 0.028485
+  compution_time: 0.000303
+  fileio_time: 0.007081
+rank:19 loop 0
+rank: 19
+  total_time: 0.035882
+  communication_time: 0.026709
+  compution_time: 0.002103
+  fileio_time: 0.007070
+rank:20 loop 0
+rank: 20
+  total_time: 0.035762
+  communication_time: 0.028471
+  compution_time: 0.000161
+  fileio_time: 0.007130
+rank:21 loop 0
+rank: 21
+  total_time: 0.036015
+  communication_time: 0.029051
+  compution_time: 0.000038
+  fileio_time: 0.006926
+rank:22 loop 0
+rank: 22
+  total_time: 0.036015
+  communication_time: 0.028850
+  compution_time: 0.000233
+  fileio_time: 0.006932
+rank:23 loop 0
+rank:24 loop 0
+rank: 24
+  total_time: 0.035984
+  communication_time: 0.028883
+  compution_time: 0.000047
+  fileio_time: 0.007054
+rank:25 loop 0
+rank: 25
+  total_time: 0.035994
+  communication_time: 0.028907
+  compution_time: 0.000035
+  fileio_time: 0.007052
+rank:26 loop 0
+rank: 26
+  total_time: 0.036188
+  communication_time: 0.029233
+  compution_time: 0.000042
+  fileio_time: 0.006913
+rank:27 loop 0
+rank: 27
+  total_time: 0.036012
+  communication_time: 0.028926
+  compution_time: 0.000042
+  fileio_time: 0.007044
+rank:28 loop 0
+rank: 28
+  total_time: 0.035767
+  communication_time: 0.028652
+  compution_time: 0.000035
+  fileio_time: 0.007080
+rank:29 loop 0
+rank: 29
+  total_time: 0.035821
+  communication_time: 0.028528
+  compution_time: 0.000172
+  fileio_time: 0.007121
+rank:30 loop 0
+rank: 30
+  total_time: 0.036278
+  communication_time: 0.035740
+  compution_time: 0.000039
+  fileio_time: 0.000499
+rank:31 loop 0
+rank:32 loop 0
+rank: 32
+  total_time: 0.036139
+  communication_time: 0.029178
+  compution_time: 0.000039
+  fileio_time: 0.006922
+rank:33 loop 0
+rank: 33
+  total_time: 0.035890
+  communication_time: 0.028618
+  compution_time: 0.000143
+  fileio_time: 0.007129
+rank:34 loop 0
+rank: 34
+  total_time: 0.036029
+  communication_time: 0.028923
+  compution_time: 0.000031
+  fileio_time: 0.007075
+rank:35 loop 0
+rank:36 loop 0
+rank: 36
+  total_time: 0.036256
+  communication_time: 0.029294
+  compution_time: 0.000046
+  fileio_time: 0.006916
+rank:37 loop 0
+rank: 37
+  total_time: 0.036205
+  communication_time: 0.029128
+  compution_time: 0.000176
+  fileio_time: 0.006901
+rank:38 loop 0
+rank: 38
+  total_time: 0.029236
+  communication_time: 0.028610
+  compution_time: 0.000035
+  fileio_time: 0.000591
+rank:39 loop 0
+rank: 39
+  total_time: 0.036127
+  communication_time: 0.029121
+  compution_time: 0.000035
+  fileio_time: 0.006971
+rank:40 loop 0
+rank: 40
+  total_time: 0.036215
+  communication_time: 0.029219
+  compution_time: 0.000097
+  fileio_time: 0.006899
+rank:41 loop 0
+rank: 41
+  total_time: 0.036042
+  communication_time: 0.028947
+  compution_time: 0.000044
+  fileio_time: 0.007051
+rank:42 loop 0
+rank: 42
+  total_time: 0.036216
+  communication_time: 0.029178
+  compution_time: 0.000094
+  fileio_time: 0.006944
+rank:43 loop 0
+rank:44 loop 0
+rank: 44
+  total_time: 0.036113
+  communication_time: 0.029016
+  compution_time: 0.000036
+  fileio_time: 0.007061
+rank:45 loop 0
+rank: 45
+  total_time: 0.036110
+  communication_time: 0.028998
+  compution_time: 0.000037
+  fileio_time: 0.007075
+rank:46 loop 0
+rank: 46
+  total_time: 0.035988
+  communication_time: 0.028665
+  compution_time: 0.000177
+  fileio_time: 0.007146
+rank: 11
+  total_time: 0.036189
+  communication_time: 0.028788
+  compution_time: 0.000355
+  fileio_time: 0.007046
+rank: 31
+  total_time: 0.036359
+  communication_time: 0.034286
+  compution_time: 0.001556
+  fileio_time: 0.000517
+rank: 23
+  total_time: 0.036494
+  communication_time: 0.035548
+  compution_time: 0.000368
+  fileio_time: 0.000578
+rank: 35
+  total_time: 0.036132
+  communication_time: 0.028761
+  compution_time: 0.000228
+  fileio_time: 0.007143
+rank:47 loop 0
+rank: 43
+  total_time: 0.036441
+  communication_time: 0.028720
+  compution_time: 0.000814
+  fileio_time: 0.006907
+rank: 47
+  total_time: 0.036512
+  communication_time: 0.029494
+  compution_time: 0.000104
+  fileio_time: 0.006914
+rank: 10
+  total_time: 0.088104
+  communication_time: 0.036357
+  compution_time: 0.051241
+  fileio_time: 0.000506

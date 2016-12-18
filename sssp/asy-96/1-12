@@ -1,0 +1,480 @@
+rank: 0
+  total_time: 0.016255
+  communication_time: 0.013858
+  compution_time: 0.000012
+  fileio_time: 0.002385
+rank: 1
+  total_time: 0.016408
+  communication_time: 0.014018
+  compution_time: 0.000013
+  fileio_time: 0.002377
+rank: 3
+  total_time: 0.016489
+  communication_time: 0.013978
+  compution_time: 0.000011
+  fileio_time: 0.002500
+rank: 4
+  total_time: 0.016272
+  communication_time: 0.013882
+  compution_time: 0.000016
+  fileio_time: 0.002374
+rank: 5
+  total_time: 0.016400
+  communication_time: 0.014011
+  compution_time: 0.000014
+  fileio_time: 0.002375
+rank: 6
+  total_time: 0.015877
+  communication_time: 0.013336
+  compution_time: 0.000013
+  fileio_time: 0.002528
+rank: 7
+  total_time: 0.015998
+  communication_time: 0.013468
+  compution_time: 0.000012
+  fileio_time: 0.002518
+rank: 8
+  total_time: 0.016379
+  communication_time: 0.014189
+  compution_time: 0.000013
+  fileio_time: 0.002177
+rank: 14
+  total_time: 0.016513
+  communication_time: 0.014016
+  compution_time: 0.000015
+  fileio_time: 0.002482
+rank: 21
+  total_time: 0.016383
+  communication_time: 0.014318
+  compution_time: 0.000016
+  fileio_time: 0.002049
+rank: 23
+  total_time: 0.015547
+  communication_time: 0.014111
+  compution_time: 0.000013
+  fileio_time: 0.001423
+rank: 2
+  total_time: 0.016398
+  communication_time: 0.013999
+  compution_time: 0.000014
+  fileio_time: 0.002385
+rank: 9
+  total_time: 0.015972
+  communication_time: 0.012766
+  compution_time: 0.000014
+  fileio_time: 0.003192
+rank: 11
+  total_time: 0.016690
+  communication_time: 0.013519
+  compution_time: 0.000017
+  fileio_time: 0.003154
+rank: 15
+  total_time: 0.015868
+  communication_time: 0.012747
+  compution_time: 0.000016
+  fileio_time: 0.003105
+rank: 18
+  total_time: 0.016392
+  communication_time: 0.013978
+  compution_time: 0.000012
+  fileio_time: 0.002402
+rank: 27
+  total_time: 0.016517
+  communication_time: 0.014246
+  compution_time: 0.000015
+  fileio_time: 0.002256
+rank: 31
+  total_time: 0.016344
+  communication_time: 0.013936
+  compution_time: 0.000014
+  fileio_time: 0.002394
+rank: 32
+  total_time: 0.016059
+  communication_time: 0.013561
+  compution_time: 0.000017
+  fileio_time: 0.002481
+rank: 33
+  total_time: 0.016235
+  communication_time: 0.013836
+  compution_time: 0.000011
+  fileio_time: 0.002388
+rank: 38
+  total_time: 0.015732
+  communication_time: 0.014220
+  compution_time: 0.000011
+  fileio_time: 0.001501
+rank: 40
+  total_time: 0.015801
+  communication_time: 0.014350
+  compution_time: 0.000013
+  fileio_time: 0.001438
+rank: 48
+  total_time: 0.015694
+  communication_time: 0.013724
+  compution_time: 0.000015
+  fileio_time: 0.001955
+rank: 65
+  total_time: 0.016324
+  communication_time: 0.013928
+  compution_time: 0.000012
+  fileio_time: 0.002384
+rank: 68
+  total_time: 0.016609
+  communication_time: 0.014477
+  compution_time: 0.000014
+  fileio_time: 0.002118
+rank: 72
+  total_time: 0.015782
+  communication_time: 0.014513
+  compution_time: 0.000016
+  fileio_time: 0.001253
+rank: 76
+  total_time: 0.016222
+  communication_time: 0.013839
+  compution_time: 0.000012
+  fileio_time: 0.002371
+rank: 77
+  total_time: 0.016142
+  communication_time: 0.013659
+  compution_time: 0.000013
+  fileio_time: 0.002470
+rank: 83
+  total_time: 0.015808
+  communication_time: 0.014838
+  compution_time: 0.000020
+  fileio_time: 0.000950
+rank: 90
+  total_time: 0.016197
+  communication_time: 0.013759
+  compution_time: 0.000015
+  fileio_time: 0.002423
+rank: 20
+  total_time: 0.016353
+  communication_time: 0.013959
+  compution_time: 0.000015
+  fileio_time: 0.002379
+rank: 24
+  total_time: 0.016344
+  communication_time: 0.013917
+  compution_time: 0.000012
+  fileio_time: 0.002415
+rank: 30
+  total_time: 0.016263
+  communication_time: 0.013722
+  compution_time: 0.000011
+  fileio_time: 0.002530
+rank: 35
+  total_time: 0.016600
+  communication_time: 0.014574
+  compution_time: 0.000012
+  fileio_time: 0.002014
+rank: 39
+  total_time: 0.016197
+  communication_time: 0.013651
+  compution_time: 0.000012
+  fileio_time: 0.002534
+rank: 41
+  total_time: 0.016013
+  communication_time: 0.013290
+  compution_time: 0.000017
+  fileio_time: 0.002706
+rank: 44
+  total_time: 0.016525
+  communication_time: 0.014136
+  compution_time: 0.000017
+  fileio_time: 0.002372
+rank: 50
+  total_time: 0.016032
+  communication_time: 0.012903
+  compution_time: 0.000012
+  fileio_time: 0.003117
+rank: 52
+  total_time: 0.016290
+  communication_time: 0.013819
+  compution_time: 0.000011
+  fileio_time: 0.002460
+rank: 54
+  total_time: 0.015747
+  communication_time: 0.013781
+  compution_time: 0.000011
+  fileio_time: 0.001955
+rank: 62
+  total_time: 0.016211
+  communication_time: 0.013740
+  compution_time: 0.000011
+  fileio_time: 0.002460
+rank: 81
+  total_time: 0.016007
+  communication_time: 0.012876
+  compution_time: 0.000011
+  fileio_time: 0.003120
+rank: 87
+  total_time: 0.016508
+  communication_time: 0.014105
+  compution_time: 0.000015
+  fileio_time: 0.002388
+rank: 88
+  total_time: 0.015706
+  communication_time: 0.013435
+  compution_time: 0.000014
+  fileio_time: 0.002257
+rank: 89
+  total_time: 0.016205
+  communication_time: 0.013680
+  compution_time: 0.000011
+  fileio_time: 0.002514
+rank: 12
+  total_time: 0.016686
+  communication_time: 0.014301
+  compution_time: 0.000014
+  fileio_time: 0.002371
+rank: 17
+  total_time: 0.016003
+  communication_time: 0.014817
+  compution_time: 0.000014
+  fileio_time: 0.001172
+rank: 42
+  total_time: 0.016837
+  communication_time: 0.013557
+  compution_time: 0.000014
+  fileio_time: 0.003266
+rank: 47
+  total_time: 0.016534
+  communication_time: 0.014147
+  compution_time: 0.000015
+  fileio_time: 0.002372
+rank: 51
+  total_time: 0.016190
+  communication_time: 0.013538
+  compution_time: 0.000012
+  fileio_time: 0.002640
+rank: 57
+  total_time: 0.016297
+  communication_time: 0.013831
+  compution_time: 0.000011
+  fileio_time: 0.002455
+rank: 60
+  total_time: 0.016144
+  communication_time: 0.013038
+  compution_time: 0.000013
+  fileio_time: 0.003093
+rank: 64
+  total_time: 0.016713
+  communication_time: 0.014664
+  compution_time: 0.000012
+  fileio_time: 0.002037
+rank: 69
+  total_time: 0.016851
+  communication_time: 0.014439
+  compution_time: 0.000016
+  fileio_time: 0.002396
+rank: 71
+  total_time: 0.016467
+  communication_time: 0.014057
+  compution_time: 0.000011
+  fileio_time: 0.002399
+rank: 74
+  total_time: 0.016689
+  communication_time: 0.014558
+  compution_time: 0.000012
+  fileio_time: 0.002119
+rank: 92
+  total_time: 0.015994
+  communication_time: 0.014617
+  compution_time: 0.000013
+  fileio_time: 0.001364
+rank: 16
+  total_time: 0.016055
+  communication_time: 0.014844
+  compution_time: 0.000013
+  fileio_time: 0.001198
+rank: 53
+  total_time: 0.016658
+  communication_time: 0.014267
+  compution_time: 0.000012
+  fileio_time: 0.002379
+rank: 59
+  total_time: 0.016405
+  communication_time: 0.015048
+  compution_time: 0.000011
+  fileio_time: 0.001346
+rank: 63
+  total_time: 0.016478
+  communication_time: 0.013966
+  compution_time: 0.000014
+  fileio_time: 0.002498
+rank: 78
+  total_time: 0.016139
+  communication_time: 0.013009
+  compution_time: 0.000012
+  fileio_time: 0.003118
+rank: 80
+  total_time: 0.016402
+  communication_time: 0.013931
+  compution_time: 0.000011
+  fileio_time: 0.002460
+rank: 84
+  total_time: 0.016051
+  communication_time: 0.014598
+  compution_time: 0.000013
+  fileio_time: 0.001440
+rank: 86
+  total_time: 0.016505
+  communication_time: 0.014102
+  compution_time: 0.000009
+  fileio_time: 0.002394
+rank: 93
+  total_time: 0.016068
+  communication_time: 0.014606
+  compution_time: 0.000015
+  fileio_time: 0.001447
+rank: 26
+  total_time: 0.016314
+  communication_time: 0.013823
+  compution_time: 0.000011
+  fileio_time: 0.002480
+rank: 28
+  total_time: 0.016238
+  communication_time: 0.013540
+  compution_time: 0.000011
+  fileio_time: 0.002687
+rank: 29
+  total_time: 0.016243
+  communication_time: 0.013631
+  compution_time: 0.000011
+  fileio_time: 0.002601
+rank: 36
+  total_time: 0.016447
+  communication_time: 0.013896
+  compution_time: 0.000012
+  fileio_time: 0.002539
+rank: 45
+  total_time: 0.016717
+  communication_time: 0.014339
+  compution_time: 0.000013
+  fileio_time: 0.002365
+rank: 56
+  total_time: 0.016221
+  communication_time: 0.013118
+  compution_time: 0.000012
+  fileio_time: 0.003091
+rank: 66
+  total_time: 0.016801
+  communication_time: 0.014539
+  compution_time: 0.000016
+  fileio_time: 0.002246
+rank: 75
+  total_time: 0.015970
+  communication_time: 0.014147
+  compution_time: 0.000011
+  fileio_time: 0.001812
+rank: 95
+  total_time: 0.016235
+  communication_time: 0.013124
+  compution_time: 0.000011
+  fileio_time: 0.003100
+rank: 94
+  total_time: 0.016213
+  communication_time: 0.012663
+  compution_time: 0.000016
+  fileio_time: 0.003534
+rank: 22
+  total_time: 0.016074
+  communication_time: 0.014665
+  compution_time: 0.000011
+  fileio_time: 0.001398
+rank: 70
+  total_time: 0.017112
+  communication_time: 0.015346
+  compution_time: 0.000018
+  fileio_time: 0.001748
+rank: 91
+  total_time: 0.016008
+  communication_time: 0.014221
+  compution_time: 0.000452
+  fileio_time: 0.001335
+rank: 34
+  total_time: 0.016736
+  communication_time: 0.014227
+  compution_time: 0.000013
+  fileio_time: 0.002496
+rank: 55
+  total_time: 0.016230
+  communication_time: 0.014259
+  compution_time: 0.000027
+  fileio_time: 0.001944
+rank: 82
+  total_time: 0.016668
+  communication_time: 0.014115
+  compution_time: 0.000015
+  fileio_time: 0.002538
+rank: 46
+  total_time: 0.016966
+  communication_time: 0.014572
+  compution_time: 0.000016
+  fileio_time: 0.002378
+rank: 19
+  total_time: 0.017151
+  communication_time: 0.014952
+  compution_time: 0.000012
+  fileio_time: 0.002187
+rank: 58
+  total_time: 0.016648
+  communication_time: 0.014009
+  compution_time: 0.000014
+  fileio_time: 0.002625
+rank: 43
+  total_time: 0.017390
+  communication_time: 0.014205
+  compution_time: 0.000036
+  fileio_time: 0.003149
+rank: 67
+  total_time: 0.016823
+  communication_time: 0.014175
+  compution_time: 0.000014
+  fileio_time: 0.002634
+rank: 13
+  total_time: 0.016799
+  communication_time: 0.013184
+  compution_time: 0.000015
+  fileio_time: 0.003600
+rank: 85
+  total_time: 0.016999
+  communication_time: 0.014478
+  compution_time: 0.000010
+  fileio_time: 0.002511
+rank: 61
+  total_time: 0.016938
+  communication_time: 0.014230
+  compution_time: 0.000015
+  fileio_time: 0.002693
+rank: 37
+  total_time: 0.017228
+  communication_time: 0.014749
+  compution_time: 0.000011
+  fileio_time: 0.002468
+rank: 73
+  total_time: 0.017525
+  communication_time: 0.015122
+  compution_time: 0.000016
+  fileio_time: 0.002387
+rank: 49
+  total_time: 0.016973
+  communication_time: 0.015689
+  compution_time: 0.000013
+  fileio_time: 0.001271
+rank: 25
+  total_time: 0.017513
+  communication_time: 0.015116
+  compution_time: 0.000011
+  fileio_time: 0.002386
+rank: 79
+  total_time: 0.017653
+  communication_time: 0.015234
+  compution_time: 0.000015
+  fileio_time: 0.002404
+rank: 10
+  total_time: 0.066668
+  communication_time: 0.017941
+  compution_time: 0.046414
+  fileio_time: 0.002313

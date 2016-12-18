@@ -13,12 +13,7 @@ int *min_vertex;
 
 void dijkstra()
 {
-    struct timeval start,end;
-    gettimeofday(&start, NULL );
-    double thread_time = .0;
-    double thread_synchronize_time = .0;
-    double thread_computing_time = .0;
-
+    
     for(int i=0; i<vertexes_number; i++)
     {
 
@@ -65,15 +60,7 @@ void dijkstra()
             }
     }
 
-    gettimeofday(&end, NULL );
-  	long timeuse =1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec - start.tv_usec;
-    thread_time = ((double)timeuse)/1000000.0;
-    thread_computing_time = thread_time - thread_synchronize_time;
-    if(PRINT_TIME)
-    {
-      printf("thread %d\n thread_time %f\n thread_computing_time: %f\n thread_synchronize_time: %f\n",
-              thread_rank, thread_time, thread_computing_time, thread_synchronize_time);
-    }
+
 }
 
 
@@ -113,8 +100,6 @@ void finalize_dijkstra()
 
 void my_pthread_execute()
 {
-    long thread;
-
     init_dijkstra();
     dijkstra();
     finalize_dijkstra();
