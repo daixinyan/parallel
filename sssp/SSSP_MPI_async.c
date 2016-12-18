@@ -13,6 +13,8 @@
 #define MESSAGE_SIZE 2
 #define MESSAGE_TAG 1
 
+#define IF_PRINT_NUMBERS 1
+
 #define RING_INITIAL 0
 #define BLACK_SENT 1
 #define WHITE_SENT 2
@@ -23,6 +25,9 @@
 int message[MESSAGE_SIZE];
 int received[MESSAGE_SIZE];
 
+int number_of_calculate = 0;
+int number_of_update = 0;
+int number_of_message = 0;
 
 void malloc_data();
 void free_data();
@@ -90,6 +95,7 @@ void nonSourceVertexCompute()
     do {
         i++;
         int sender_rank = message_receive();
+        number_of_message++;
         if(DEBUG)
         {
             printf("rank: %d received message from %d type: %d \n", rank, sender_rank, received[MESSAGE_TYPE]);
@@ -97,8 +103,10 @@ void nonSourceVertexCompute()
         if(received[MESSAGE_TYPE]==MESSAGE_TYPE_UPDATE)
         {
             int temp_new_length = received[MESSAGE_LENGTH]+graph_weight[sender_rank][rank];
+            number_of_calculate++;
             if( temp_new_length < message[MESSAGE_LENGTH])
             {
+                number_of_update++;
                 if(DEBUG)
                 {
                     printf("rank: %d , update!!\n", rank );
@@ -220,4 +228,10 @@ void malloc_data()
 {}
 
 void free_data()
-{}
+{
+  IF(IF_PRINT_NUMBERS)
+  {
+    printf("number_of_message: %d\nnumber_of_calculate\nnumber_of_update: %d\n",
+            number_of_message, number_of_calculate, number_of_update);
+  }
+}

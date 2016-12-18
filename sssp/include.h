@@ -7,7 +7,7 @@
 #include <sys/time.h>
 #include "tool.h"
 
-#define PRINT_TIME 1
+#define PRINT_TIME 0
 #define IF_PRINT   0
 #define DEBUG      (0)
 
