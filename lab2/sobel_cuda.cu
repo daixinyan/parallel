@@ -251,7 +251,7 @@ main(int argc, char **argv) {
 
 	cudaMemcpy(cuda_image_s, image_s, image_size, cudaMemcpyHostToDevice);
 	// free (image_s);
-	cudaFreeHost(image_s);
+	// cudaFreeHost(image_s);
 	cudaMemcpy(global_cuda_mask,(int*)mask, mask_size, cudaMemcpyHostToDevice);
 	cudaMemcpy(cuda_width, &width, 1*sizeof(unsigned int), cudaMemcpyHostToDevice);
 	cudaMemcpy(cuda_height, &height, 1*sizeof(unsigned int), cudaMemcpyHostToDevice);
@@ -270,12 +270,12 @@ main(int argc, char **argv) {
 	write_bmp("result.bmp");
 
 	// free (image_t);
-	cudaFreeHost(image_t);
-	cudaFree(cuda_image_t);
-	cudaFree(cuda_image_s);
-	cudaFree(global_cuda_mask);
-	cudaFree(cuda_width);
-	cudaFree(cuda_width);
-	cudaFree(cuda_byte_per_pixel);
+	// cudaFreeHost(image_t);
+	// cudaFree(cuda_image_t);
+	// cudaFree(cuda_image_s);
+	// cudaFree(global_cuda_mask);
+	// cudaFree(cuda_width);
+	// cudaFree(cuda_width);
+	// cudaFree(cuda_byte_per_pixel);
 
 }
