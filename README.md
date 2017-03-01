@@ -1,4 +1,4 @@
-#PARALLEL PROGRAMING
+# PARALLEL PROGRAMING
 
 * 1.1
 使用了MPI完成了一个odd-even排序的实现；并统计了不同的数据量、不同的IO状况下的，scalability时间效率，load balance情况。
