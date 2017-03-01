@@ -8,6 +8,5 @@
 使用X11 绘制Mandelbrot Set，分别使用openmp/mpi，static调度动态调度绘制。并统计了不同的数据量、不同的IO状况下的，scalability时间效率，load balance情况。
 * 2.2
 分别使用Pthread与openMP实现了最短路径算法。并统计了不同的数据量、不同的IO状况下的，scalability时间效率，load balance情况。
-
 * 3.1
 使用cuda做了一个图片的EdgeDetection的实现。
