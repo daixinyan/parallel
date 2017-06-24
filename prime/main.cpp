@@ -1,7 +1,6 @@
 #include <iostream>
-#include <windows.h>          // for HANDLE
-#include <process.h>          // for _beginthread(
 #include <stdio.h>
+#include <stdlib.h>
 #include "prime.h"
 #include <time.h>
 #include <pthread.h>
@@ -9,34 +8,39 @@
 
 using namespace std;
 
-static int threadNum = 6;
-static const long MAX_NUM = 50 * 1000  ;
+static int threadNum = 1;
+static long MAX_NUM = 1000 * 1000  ;
 
-static pthread_barrier_t barrier;
 
 void pthread_execute(void* p) {
     int num = threadNum;
-    int threadIndex = (int)p;
+    int threadIndex = (long)p;
 
     for(long i=threadIndex*2+3; i<=MAX_NUM; i += num*2 ) {
         isPrime(i);
     }
-
-    pthread_barrier_wait(&barrier);
 }
 
-int main() {
+int main(int argc, char ** args) {
+
+    if(argc>1) {
+        threadNum = atoi(args[1]);
+    }
+    if(argc>2) {
+        MAX_NUM = atol(args[2]);
+    }
 
     struct timeval start,end;
     gettimeofday(&start, NULL );
 
     pthread_t* pthread_handles = new pthread_t[threadNum];
 
-    pthread_barrier_init(&barrier, NULL, threadNum);
 
     for (long thread = 0; thread < threadNum ; ++thread) {
-        pthread_create(&pthread_handles[thread], NULL, pthread_execute, (void*)thread);
+        pthread_create(&pthread_handles[thread], NULL,(void* (*)(void*))pthread_execute, (void*)thread);
     }
+    for(long thread=0; thread<threadNum; thread++)
+        pthread_join(pthread_handles[thread], NULL);
 
     gettimeofday(&end, NULL);
 
