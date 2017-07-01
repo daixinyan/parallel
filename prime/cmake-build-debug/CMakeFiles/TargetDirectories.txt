@@ -1,0 +1,2 @@
+/home/darxan/CLionProjects/parallel/prime/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/darxan/CLionProjects/parallel/prime/cmake-build-debug/CMakeFiles/edit_cache.dir
